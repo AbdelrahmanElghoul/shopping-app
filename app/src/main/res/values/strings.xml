@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">shopping app</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="offer_banner">Offer</string>
+    <string name="your_previous_order">Your previous Order</string>
+    <string name="see_all">See All</string>
+    <string name="category">category</string>
+    <string name="discover">Discover</string>
+</resources>
