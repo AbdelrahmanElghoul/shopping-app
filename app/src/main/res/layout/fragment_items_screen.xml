@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:layout_margin="@dimen/low_margin_padding"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.ItemsScreen">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:scaleType="fitCenter"
+        android:padding="@dimen/average_margin_padding"
+        app:layout_constraintTop_toTopOf="@id/search_layout"
+        app:layout_constraintBottom_toBottomOf="@id/search_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/back_img"
+        android:id="@+id/img_back"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/img_back"
+        android:id="@+id/search_layout"
+        android:gravity="center"
+        android:paddingStart="@dimen/high_margin_padding"
+        android:paddingEnd="@dimen/high_margin_padding"
+        android:paddingTop="@dimen/low_margin_padding"
+        android:paddingBottom="@dimen/low_margin_padding"
+        android:background="@drawable/image_frame"
+        android:layout_height="?android:actionBarSize">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/default_img"
+            android:id="@+id/search_img"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:id="@+id/search_txt"
+            />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/average_margin_padding"
+        app:layout_constraintTop_toBottomOf="@id/search_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/items_recycler_view"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

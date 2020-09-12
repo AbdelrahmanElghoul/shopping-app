@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.example.shoppingapp.adapters.ViewPagerAdapter;
 import com.example.shoppingapp.fragments.HomeScreen;
+import com.example.shoppingapp.fragments.ItemsScreen;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.addList(new HomeScreen(),R.drawable.home_img);
         adapter.addList(new HomeScreen(),R.drawable.shopping_card_img);
         adapter.addList(new HomeScreen(),R.drawable.bookmark_img);
-        adapter.addList(new HomeScreen(),R.drawable.avatar_img);
+        adapter.addList(new ItemsScreen(),R.drawable.avatar_img);
         pager.setAdapter(adapter);
 //        tabs.setupWithViewPager(pages);
         new TabLayoutMediator(tabLayout, pager,
