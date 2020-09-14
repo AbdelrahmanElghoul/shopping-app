@@ -1,6 +1,12 @@
 package com.example.shoppingapp.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.transition.Scene;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +16,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.TransitionRes;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.shoppingapp.Animation;
 import com.example.shoppingapp.Category;
+import com.example.shoppingapp.MainActivity2;
 import com.example.shoppingapp.R;
 
 import java.util.List;
@@ -34,7 +46,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         this.context = context;
     }
 
-
     @NonNull
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -45,12 +56,27 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
+        holder.category_layout.setOnClickListener(v ->  {
+
+//            Animation.ContextSceneTransition(
+//                    holder.category_layout,
+//                    context.getString(R.string.layout_transition),
+//                    context,
+//                    new Intent(context, MainActivity2.class));
+
+            Pair<View, String> p1 = Pair.create(holder.category_layout,  context.getString(R.string.layout_transition));
+            Pair<View, String> p2 = Pair.create(holder.categoryImg,  context.getString(R.string.image_transition));
+            Pair<View, String> p3 = Pair.create(holder.categoryName,  context.getString(R.string.text_transition));
+
+            Animation.MultipleSharedElementTransition(
+                    context,
+                    new Intent(context, MainActivity2.class),
+                    p1,p2,p3);
+        });
+
         if(categoryList==null) return;
         holder.categoryImg.setImageAlpha(categoryList.get(position).getIcon());
         holder.categoryName.setText(categoryList.get(position).getName());
-        holder.category_layout.setOnClickListener(v -> {
-            Toast.makeText(context,String.valueOf(categoryList.get(position).getItemList().size()), Toast.LENGTH_SHORT).show();
-        });
 
     }
 
@@ -59,7 +85,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         return 10;
     }
 
-    class CategoryViewHolder extends RecyclerView.ViewHolder{
+    static class CategoryViewHolder extends RecyclerView.ViewHolder{
 
         @BindView(R.id.category_img)
         ImageView categoryImg;
@@ -73,4 +99,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             ButterKnife.bind(this,itemView);
         }
     }
+
+
 }

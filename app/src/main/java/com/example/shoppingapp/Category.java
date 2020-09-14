@@ -1,5 +1,6 @@
 package com.example.shoppingapp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Category{
@@ -24,7 +25,8 @@ public class Category{
   }
 
   public List<Item> getItemList() {
-    return itemList;
+
+    return itemList==null? new ArrayList<>():itemList;
   }
 
   public void setItemList(List<Item> itemList) {

@@ -7,4 +7,12 @@
     <string name="see_all">See All</string>
     <string name="category">category</string>
     <string name="discover">Discover</string>
+    <string name="layout_transition">layout_transition</string>
+    <string name="image_transition">image_transition</string>
+    <string name="text_transition">text_transition</string>
+    <string name="back_txt">back</string>
+    <string name="description">Description</string>
+    <string name="manufacture_details">Manufacture Details</string>
+    <string name="quantity_transition">quantity transition</string>
+    <string name="price_transition">price transition</string>
 </resources>

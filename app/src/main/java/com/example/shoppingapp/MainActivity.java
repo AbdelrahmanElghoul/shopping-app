@@ -2,17 +2,21 @@ package com.example.shoppingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
+
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.transition.Fade;
 import android.view.View;
 
 import com.example.shoppingapp.adapters.ViewPagerAdapter;
+import com.example.shoppingapp.fragments.DescriptionScreen;
 import com.example.shoppingapp.fragments.HomeScreen;
 import com.example.shoppingapp.fragments.ItemsScreen;
 import com.google.android.material.tabs.TabLayout;
@@ -34,28 +38,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        Animation.FadeTransition(this,true,false);
 
         ViewPagerAdapter adapter=new ViewPagerAdapter(this);
         adapter.addList(new HomeScreen(),R.drawable.home_img);
-        adapter.addList(new HomeScreen(),R.drawable.shopping_card_img);
+        adapter.addList(new HomeScreen(),R.drawable.shopping_cart_img);
         adapter.addList(new HomeScreen(),R.drawable.bookmark_img);
-        adapter.addList(new ItemsScreen(),R.drawable.avatar_img);
+        adapter.addList(new DescriptionScreen(),R.drawable.avatar_img);
+
         pager.setAdapter(adapter);
-//        tabs.setupWithViewPager(pages);
         new TabLayoutMediator(tabLayout, pager,
                 (tab, position) -> tab.setIcon(adapter.getIcon(position))
         ).attach();
 
-
-      /* pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-           @Override
-           public void onPageSelected(int position) {
-               super.onPageSelected(position);
-               Drawable unwrappedDrawable = AppCompatResources.getDrawable(MainActivity.this, adapter.getIcon(position));
-               Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
-               DrawableCompat.setTint(wrappedDrawable, Color.alpha(R.color.selectedIcon));
-           }
-       });*/
 
     }
 }

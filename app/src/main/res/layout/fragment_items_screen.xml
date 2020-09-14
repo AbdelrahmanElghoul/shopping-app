@@ -24,6 +24,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/img_back"
         android:id="@+id/search_layout"
+        android:transitionName="@string/layout_transition"
         android:gravity="center"
         android:paddingStart="@dimen/high_margin_padding"
         android:paddingEnd="@dimen/high_margin_padding"
@@ -33,15 +34,17 @@
         android:layout_height="?android:actionBarSize">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/default_img"
             android:id="@+id/search_img"
-            />
+            android:layout_width="wrap_content"
+            android:transitionName="@string/image_transition"
+            android:layout_height="match_parent"
+            android:src="@drawable/default_img" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name"
+            android:text="name"
+            android:transitionName="@string/text_transition"
             android:id="@+id/search_txt"
             />
     </LinearLayout>
