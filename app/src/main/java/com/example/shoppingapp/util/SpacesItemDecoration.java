@@ -1,11 +1,13 @@
-package com.example.shoppingapp;
+package com.example.shoppingapp.util;
 
 import android.graphics.Rect;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
+/**
+ * recyclerview item decoration to add space before 1st item to make columns uneven
+ * */
 public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
     private int space;
 

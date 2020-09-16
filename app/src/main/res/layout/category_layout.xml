@@ -4,7 +4,7 @@
     android:layout_margin="5dp"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:transitionName="@string/layout_transition"
+    android:transitionName="@string/CATEGORY_Layout_TRANSITION_TAG"
     android:id="@+id/category_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
@@ -13,7 +13,7 @@
             android:background="@drawable/image_frame"
             android:elevation="3dp"
             android:padding="10dp"
-            android:transitionName="@string/image_transition"
+            android:transitionName="@string/CATEGORY_IMG_TRANSITION_TAG"
             android:layout_marginBottom="5dp"
             android:id="@+id/category_img"
             android:scaleType="fitCenter"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/category_txt"
         android:text="name"
-        android:transitionName="@string/text_transition"
+        android:transitionName="@string/CATEGORY_NAME_TRANSITION_TAG"
         android:textColor="#000"/>
 
 

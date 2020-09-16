@@ -1,28 +1,20 @@
 package com.example.shoppingapp.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.transition.Scene;
-import android.transition.Transition;
-import android.transition.TransitionInflater;
-import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.TransitionRes;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
-import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.shoppingapp.Animation;
+import com.example.shoppingapp.fragments.ItemsScreen;
+import com.example.shoppingapp.util.Animation;
 import com.example.shoppingapp.Category;
 import com.example.shoppingapp.MainActivity2;
 import com.example.shoppingapp.R;
@@ -58,20 +50,18 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         holder.category_layout.setOnClickListener(v ->  {
 
-//            Animation.ContextSceneTransition(
-//                    holder.category_layout,
-//                    context.getString(R.string.layout_transition),
-//                    context,
-//                    new Intent(context, MainActivity2.class));
 
-            Pair<View, String> p1 = Pair.create(holder.category_layout,  context.getString(R.string.layout_transition));
-            Pair<View, String> p2 = Pair.create(holder.categoryImg,  context.getString(R.string.image_transition));
-            Pair<View, String> p3 = Pair.create(holder.categoryName,  context.getString(R.string.text_transition));
+            Pair<View, String> p1 = Pair.create(holder.categoryImg,  context.getString(R.string.CATEGORY_IMG_TRANSITION_TAG));
+            Pair<View, String> p2 = Pair.create(holder.categoryName,  context.getString(R.string.CATEGORY_NAME_TRANSITION_TAG));
+            Pair<View, String> p3 = Pair.create(holder.category_layout,  context.getString(R.string.CATEGORY_Layout_TRANSITION_TAG));
+
+            Intent intent=new Intent(context, MainActivity2.class);
+            intent.putExtra(context.getString(R.string.FRAGMENT_NAME_TAG), ItemsScreen.class.getSimpleName());
 
             Animation.MultipleSharedElementTransition(
                     context,
-                    new Intent(context, MainActivity2.class),
-                    p1,p2,p3);
+                    intent,
+                    p3,p2,p1);
         });
 
         if(categoryList==null) return;

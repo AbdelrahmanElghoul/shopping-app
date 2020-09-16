@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:layout_margin="@dimen/low_margin_padding"
+    android:layout_marginTop="@dimen/low_margin_padding"
+    android:layout_marginStart="@dimen/low_margin_padding"
+    android:layout_marginEnd="@dimen/low_margin_padding"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.ItemsScreen">
 
@@ -24,7 +26,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/img_back"
         android:id="@+id/search_layout"
-        android:transitionName="@string/layout_transition"
+        android:transitionName="@string/CATEGORY_Layout_TRANSITION_TAG"
         android:gravity="center"
         android:paddingStart="@dimen/high_margin_padding"
         android:paddingEnd="@dimen/high_margin_padding"
@@ -36,7 +38,7 @@
         <ImageView
             android:id="@+id/search_img"
             android:layout_width="wrap_content"
-            android:transitionName="@string/image_transition"
+            android:transitionName="@string/CATEGORY_IMG_TRANSITION_TAG"
             android:layout_height="match_parent"
             android:src="@drawable/default_img" />
 
@@ -44,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="name"
-            android:transitionName="@string/text_transition"
+            android:transitionName="@string/CATEGORY_NAME_TRANSITION_TAG"
             android:id="@+id/search_txt"
             />
     </LinearLayout>

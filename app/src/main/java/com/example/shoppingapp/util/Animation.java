@@ -1,4 +1,4 @@
-package com.example.shoppingapp;
+package com.example.shoppingapp.util;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,6 +9,9 @@ import android.view.View;
 
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
+import androidx.transition.TransitionInflater;
+
+import com.example.shoppingapp.R;
 
 public abstract class Animation {
 
@@ -30,14 +33,7 @@ public abstract class Animation {
                         sharedElements);
         context.startActivity(intent,compat.toBundle());
     }
-    public static void FadeTransition(Activity context,boolean enterTransition,boolean existTransition){
-
-        Transition animation=new Fade();
-        if(existTransition) context.getWindow().setExitTransition(animation);
-        if(enterTransition) context.getWindow().setEnterTransition(animation);
 
 
-
-    }
 
 }

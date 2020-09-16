@@ -1,32 +1,32 @@
 package com.example.shoppingapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoppingapp.Item;
+import com.example.shoppingapp.MainActivity2;
+import com.example.shoppingapp.util.Animation;
 import com.example.shoppingapp.R;
+import com.example.shoppingapp.fragments.DescriptionScreen;
 
-import org.w3c.dom.Text;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.SearchItemViewHolder> {
 
@@ -56,14 +56,30 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
     public void onBindViewHolder(@NonNull SearchItemViewHolder holder, int position)
     {
 
-        int color=Color.argb(255, rnd.nextInt(maxValue), rnd.nextInt(maxValue), rnd.nextInt(maxValue));
-//        holder.itemLayout.setBackgroundColor(R.drawable.round_corner);
-//        Toast.makeText(context, String.valueOf(color), Toast.LENGTH_SHORT).show();
-        Drawable unwrappedDrawable = AppCompatResources.getDrawable(context, R.drawable.round_corner);
-        Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
-        DrawableCompat.setTint(wrappedDrawable, color);
+
+        int color=Color.argb(180, rnd.nextInt(maxValue), rnd.nextInt(maxValue), rnd.nextInt(maxValue));
+        Timber.e(String.valueOf(color));
+        holder.itemLayout.getBackground().setTint(color);
 
 
+        holder.itemLayout.setOnClickListener(v-> {
+            Pair<View, String> p1 = Pair.create(holder.itemImg,  context.getString(R.string.DESCRIPTION_IMG_TRANSITION_TAG));
+            Pair<View, String> p2 = Pair.create(holder.itemNameTxt,  context.getString(R.string.DESCRIPTION_NAME_TRANSITION_TAG));
+            Pair<View, String> p3 = Pair.create(holder.itemPriceTxt,  context.getString(R.string.DESCRIPTION_PRICE_TRANSITION_TAG));
+            Pair<View, String> p4 = Pair.create(holder.itemQuantityTxt,  context.getString(R.string.DESCRIPTION_QUANTITY_TRANSITION_TAG));
+            Pair<View, String> p5 = Pair.create(holder.itemLayout,  context.getString(R.string.DESCRIPTION_LAYOUT_TRANSITION_TAG));
+
+            Intent intent=new Intent(context, MainActivity2.class);
+            intent.putExtra(context.getString(R.string.FRAGMENT_NAME_TAG), DescriptionScreen.class.getSimpleName());
+            intent.putExtra(context.getString(R.string.COLOR_TAG),color);
+//            intent.putExtra(context.getString(R.string.OBJECT_TAG), itemList.get(position));
+
+            Animation.MultipleSharedElementTransition(
+                    context,
+                    intent,
+                    p1,p2,p3,p4,p5);
+
+        });
     }
 
     @Override

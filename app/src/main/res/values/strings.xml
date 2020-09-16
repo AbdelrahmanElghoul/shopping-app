@@ -7,12 +7,26 @@
     <string name="see_all">See All</string>
     <string name="category">category</string>
     <string name="discover">Discover</string>
-    <string name="layout_transition">layout_transition</string>
-    <string name="image_transition">image_transition</string>
-    <string name="text_transition">text_transition</string>
+
     <string name="back_txt">back</string>
     <string name="description">Description</string>
     <string name="manufacture_details">Manufacture Details</string>
-    <string name="quantity_transition">quantity transition</string>
-    <string name="price_transition">price transition</string>
+
+
+    <string name="backstack_tag">FragmentBackStackTag</string>
+
+    <string name="FRAGMENT_NAME_TAG">Fragment_Name</string>
+
+    <string name="COLOR_TAG">color_tag</string>
+    <string name="OBJECT_TAG">object_tag</string>
+
+    <string name="DESCRIPTION_IMG_TRANSITION_TAG">description_screen_img_transition_TAG</string>
+    <string name="DESCRIPTION_NAME_TRANSITION_TAG">description_screen_name_transition_TAG</string>
+    <string name="DESCRIPTION_QUANTITY_TRANSITION_TAG">description_screen_quantity_transition_TAG</string>
+    <string name="DESCRIPTION_PRICE_TRANSITION_TAG">description_screen_price_transition_TAG</string>
+    <string name="DESCRIPTION_LAYOUT_TRANSITION_TAG">description_screen_layout_transition_TAG</string>
+
+    <string name="CATEGORY_IMG_TRANSITION_TAG">category_img_transition</string>
+    <string name="CATEGORY_NAME_TRANSITION_TAG">category_name_transition</string>
+    <string name="CATEGORY_Layout_TRANSITION_TAG">category_layout_transition</string>
 </resources>
