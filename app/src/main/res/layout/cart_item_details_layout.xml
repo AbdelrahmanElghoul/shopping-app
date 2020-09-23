@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="@dimen/low_margin_padding"
+    android:shape="oval"
+    app:cardCornerRadius="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/low_margin_padding"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guide_line"
+            android:id="@+id/cart_item_img"
+            android:layout_margin="@dimen/high_margin_padding"
+            android:src="@drawable/default_img"
+            android:scaleType="fitCenter"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/average_margin_padding"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guide_line"
+            android:id="@+id/cart_item_name_txt"
+            android:text="Item name"
+            style="@style/Text"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2 KG"
+            android:layout_marginVertical="@dimen/average_margin_padding"
+            app:layout_constraintTop_toBottomOf="@id/cart_item_name_txt"
+            android:textSize="@dimen/text_size"
+            android:id="@+id/cart_item_quantity_txt"
+            app:layout_constraintStart_toStartOf="@id/cart_item_name_txt"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/average_margin_padding"
+            android:text="$ 500"
+            android:textSize="@dimen/text_size"
+            android:id="@+id/cart_item_price_txt"
+            app:layout_constraintStart_toStartOf="@id/cart_item_name_txt"
+            app:layout_constraintTop_toBottomOf="@id/cart_item_quantity_txt"
+            />
+
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_percent="0.5"
+            android:orientation="vertical"
+            android:id="@+id/guide_line"/>
+
+        <ImageView
+            android:layout_width="@dimen/average_icon_width_height"
+            android:layout_height="@dimen/average_icon_width_height"
+
+            app:layout_constraintBottom_toBottomOf="@id/cart_item_counter_txt"
+            app:layout_constraintTop_toTopOf="@id/cart_item_counter_txt"
+            app:layout_constraintStart_toStartOf="@id/cart_item_name_txt"
+            android:src="@drawable/remove_icon"
+            android:background="@color/green_40"
+            android:id="@+id/decrement_img"
+            />
+        <TextView
+            android:layout_width="@dimen/average_icon_width_height"
+            android:layout_height="@dimen/average_icon_width_height"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginVertical="@dimen/average_margin_padding"
+            app:layout_constraintTop_toBottomOf="@id/cart_item_price_txt"
+            app:layout_constraintStart_toEndOf="@id/decrement_img"
+            android:text="1"
+            android:id="@+id/cart_item_counter_txt"
+            android:background="@color/green_60"/>
+        <ImageView
+            android:layout_width="@dimen/average_icon_width_height"
+            android:layout_height="@dimen/average_icon_width_height"
+            app:layout_constraintBottom_toBottomOf="@id/decrement_img"
+            app:layout_constraintStart_toEndOf="@id/cart_item_counter_txt"
+            android:src="@drawable/add_icon"
+            android:background="@color/green_40"
+            android:id="@+id/increment_img"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

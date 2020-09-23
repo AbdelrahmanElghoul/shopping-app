@@ -11,12 +11,12 @@
     android:paddingStart="@dimen/high_margin_padding"
     android:paddingEnd="@dimen/high_margin_padding"
     android:id="@+id/search_item_layout"
-    android:background="@drawable/round_corner"
+    android:background="@drawable/half_round_corner"
     >
 
        <ImageView
            android:layout_width="0dp"
-           android:layout_height="@dimen/large_icon_width_height"
+           android:layout_height="@dimen/Extra_large_icon_width_height"
            android:transitionName="@string/DESCRIPTION_IMG_TRANSITION_TAG"
            app:layout_constraintEnd_toStartOf="@id/search_item_cart_img"
            android:scaleType="fitCenter"

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.transition.Transition;
 
 import com.example.shoppingapp.adapters.ViewPagerAdapter;
+import com.example.shoppingapp.fragments.CartScreen;
 import com.example.shoppingapp.fragments.DescriptionScreen;
 import com.example.shoppingapp.fragments.HomeScreen;
 import com.example.shoppingapp.util.Animation;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         ViewPagerAdapter adapter=new ViewPagerAdapter(this);
         adapter.addList(new HomeScreen(),R.drawable.home_img);
-        adapter.addList(new HomeScreen(),R.drawable.shopping_cart_img);
+        adapter.addList(new CartScreen(),R.drawable.shopping_cart_img);
         adapter.addList(new HomeScreen(),R.drawable.bookmark_img);
         adapter.addList(new HomeScreen(),R.drawable.avatar_img);
 

@@ -30,13 +30,13 @@
             android:layout_height="0dp"
             android:src="@drawable/back_img"
             app:tint="@color/white"
-            android:id="@+id/bacK_img"
+            android:id="@+id/back_img"
             android:contentDescription="@string/back_txt" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="?actionBarSize"
-            app:layout_constraintStart_toEndOf="@id/bacK_img"
+            app:layout_constraintStart_toEndOf="@id/back_img"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/item_name_txt"
@@ -57,7 +57,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bacK_img"
+            app:layout_constraintTop_toBottomOf="@id/back_img"
              />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

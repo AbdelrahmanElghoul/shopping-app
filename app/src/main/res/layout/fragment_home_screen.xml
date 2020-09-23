@@ -74,21 +74,13 @@
             />
 
         <TextView
-            android:layout_marginTop="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/round_green_view"
+
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+
             app:layout_constraintTop_toBottomOf="@id/home_screen_appbar"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="@string/see_all"
-            android:textColor="#fff"
-            android:paddingStart="10dp"
-            android:padding="5dp"
-            android:paddingEnd="10dp"
-            android:elevation="20dp"
-            android:textAllCaps="false"
-            android:textSize="10sp"
-            android:textStyle="bold"
+           style="@style/round_corner_button"
             android:id="@+id/txt_see_all_category"
             />
 
@@ -132,21 +124,12 @@
             />
 
         <TextView
-            android:layout_marginTop="20dp"
+            style="@style/round_corner_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/round_green_view"
             app:layout_constraintTop_toBottomOf="@id/offer_card1"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="@string/see_all"
-            android:textColor="#fff"
-            android:paddingStart="10dp"
-            android:padding="5dp"
-            android:paddingEnd="10dp"
-            android:elevation="20dp"
-            android:textAllCaps="false"
-            android:textSize="10sp"
-            android:textStyle="bold"
             android:id="@+id/txt_see_all_previous_order"
             />
 

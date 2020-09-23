@@ -1,20 +1,11 @@
 package com.example.shoppingapp.fragments;
 
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.SharedElementCallback;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
-import androidx.transition.Transition;
-import androidx.transition.TransitionInflater;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,9 +16,6 @@ import com.example.shoppingapp.Item;
 import com.example.shoppingapp.util.Navigation;
 import com.example.shoppingapp.R;
 
-import java.util.List;
-import java.util.Map;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
@@ -35,7 +23,7 @@ import timber.log.Timber;
 
 public class DescriptionScreen extends Fragment {
 
-    @BindView(R.id.bacK_img)
+    @BindView(R.id.back_img)
     ImageView backImg;
     Navigation navigation;
     @BindView(R.id.item_img)
