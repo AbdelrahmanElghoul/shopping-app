@@ -121,6 +121,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="@dimen/high_margin_padding"
+        android:padding="@dimen/low_margin_padding"
+        android:background="@color/white"
         android:id="@+id/map"
         app:layout_constraintBottom_toTopOf="@id/proceed_txt"
         app:layout_constraintEnd_toEndOf="parent"
@@ -135,6 +137,6 @@
         android:id="@+id/get_location_img"
         app:layout_constraintBottom_toBottomOf="@id/map"
         app:layout_constraintEnd_toEndOf="@id/map"
-        android:layout_margin="@dimen/average_margin_padding"
+        android:layout_margin="@dimen/extra_margin_padding"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
