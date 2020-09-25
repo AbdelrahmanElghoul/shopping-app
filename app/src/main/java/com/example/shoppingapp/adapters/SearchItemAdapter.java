@@ -55,9 +55,7 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
     @Override
     public void onBindViewHolder(@NonNull SearchItemViewHolder holder, int position)
     {
-
-
-        int color=Color.argb(180, rnd.nextInt(maxValue), rnd.nextInt(maxValue), rnd.nextInt(maxValue));
+        int color=Color.argb(130, rnd.nextInt(maxValue), rnd.nextInt(maxValue), rnd.nextInt(maxValue));
         Timber.e(String.valueOf(color));
         holder.itemLayout.getBackground().setTint(color);
 

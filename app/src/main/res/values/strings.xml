@@ -30,11 +30,18 @@
     <string name="CATEGORY_NAME_TRANSITION_TAG">category_name_transition</string>
     <string name="CATEGORY_Layout_TRANSITION_TAG">category_layout_transition</string>
 
-
     <string name="your_cart">Your Cart</string>
     <string name="remove_all">Remove all</string>
     <string name="continue_shopping">Continue Shopping</string>
     <string name="total_item">Total Item</string>
     <string name="total_price">Total Price</string>
     <string name="proceed_to_checkout">Proceed to checkout</string>
+
+    <string name="checkout">Checkout</string>
+    <string name="home">Home</string>
+    <string name="change">Change</string>
+    <string name="add_address">Add Address</string>
+    <string name="proceed">Proceed</string>
+
+
 </resources>

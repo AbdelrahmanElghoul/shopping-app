@@ -9,6 +9,7 @@ import android.transition.Transition;
 
 import com.example.shoppingapp.adapters.ViewPagerAdapter;
 import com.example.shoppingapp.fragments.CartScreen;
+import com.example.shoppingapp.fragments.CheckoutScreen;
 import com.example.shoppingapp.fragments.DescriptionScreen;
 import com.example.shoppingapp.fragments.HomeScreen;
 import com.example.shoppingapp.util.Animation;

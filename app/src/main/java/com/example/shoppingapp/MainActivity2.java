@@ -10,6 +10,7 @@ import android.transition.Transition;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.shoppingapp.fragments.CheckoutScreen;
 import com.example.shoppingapp.fragments.DescriptionScreen;
 import com.example.shoppingapp.fragments.ItemsScreen;
 import com.example.shoppingapp.util.Animation;
@@ -43,10 +44,21 @@ public class MainActivity2 extends AppCompatActivity implements Navigation, Open
                     R.string.COLOR_TAG),color);
 //            bundle.putParcelable(getString(R.string.OBJECT_TAG), getIntent().getParcelableExtra(getString(R.string.OBJECT_TAG)));
             Timber.d(String.valueOf(color));
-            openFragment(fragment,bundle);
+            fragment.setArguments(bundle);
+            openFragment(fragment);
+        }
+        else if (CheckoutScreen.class.getSimpleName().equals(fragName)) {
+            Fragment fragment=new CheckoutScreen();
+//            Bundle bundle=new Bundle();
+//            int color=getIntent().getIntExtra(getString(R.string.COLOR_TAG),getColor(R.color.light_blue));
+//            bundle.putInt(getString(
+//                    R.string.COLOR_TAG),color);
+//            bundle.putParcelable(getString(R.string.OBJECT_TAG), getIntent().getParcelableExtra(getString(R.string.OBJECT_TAG)));
+            Timber.d(String.valueOf(fragName));
+            openFragment(fragment);
         }
         else {
-            openFragment(new ItemsScreen(), new Bundle());
+            openFragment(new ItemsScreen());
         }
 
 
@@ -59,10 +71,7 @@ public class MainActivity2 extends AppCompatActivity implements Navigation, Open
     }
 
     @Override
-    public void openFragment(Fragment fragment, Bundle bundle) {
-
-        fragment.setArguments(bundle);
-
+    public void openFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.activity2_frame, fragment)

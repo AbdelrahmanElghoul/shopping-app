@@ -5,5 +5,5 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 public interface OpenFragment{
-    void openFragment(Fragment fragment, Bundle bundle);
+    void openFragment(Fragment fragment);
 }

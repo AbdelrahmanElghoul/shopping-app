@@ -1,5 +1,6 @@
 package com.example.shoppingapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.shoppingapp.MainActivity2;
 import com.example.shoppingapp.R;
 import com.example.shoppingapp.adapters.CartAdapter;
 
@@ -32,10 +34,10 @@ public class CartScreen extends Fragment {
     @BindView(R.id.remove_all_txt) TextView txt_remove_all;
     @BindView(R.id.continue_shopping_txt) TextView txt_continue_shopping;
     @BindView(R.id.cart_proceed_checkout) TextView txt_proceed_checkout;
-    @BindView(R.id.cart_recycler_view)
-    RecyclerView rv_cart;
+    @BindView(R.id.cart_recycler_view) RecyclerView rv_cart;
 
     CartAdapter cartAdapter;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,6 +50,12 @@ public class CartScreen extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setUI();
+
+        txt_proceed_checkout.setOnClickListener(v->{
+            Intent intent=new Intent(getContext(), MainActivity2.class);
+            intent.putExtra(getContext().getString(R.string.FRAGMENT_NAME_TAG), CheckoutScreen.class.getSimpleName());
+            startActivity(intent);
+        });
     }
 
     void setUI(){
