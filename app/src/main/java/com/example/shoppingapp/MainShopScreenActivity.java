@@ -9,10 +9,7 @@ import android.transition.Transition;
 
 import com.example.shoppingapp.adapters.ViewPagerAdapter;
 import com.example.shoppingapp.fragments.CartScreen;
-import com.example.shoppingapp.fragments.CheckoutScreen;
-import com.example.shoppingapp.fragments.DescriptionScreen;
 import com.example.shoppingapp.fragments.HomeScreen;
-import com.example.shoppingapp.util.Animation;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.android.material.transition.platform.MaterialFade;
@@ -21,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class MainActivity extends AppCompatActivity {
+public class MainShopScreenActivity extends AppCompatActivity {
 
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
@@ -35,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         Transition transition=new MaterialFade();
         getWindow().setExitTransition(transition);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_shop_screen);
         Timber.plant(new Timber.DebugTree());
         ButterKnife.bind(this);
 
@@ -49,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         new TabLayoutMediator(tabLayout, pager,
                 (tab, position) -> tab.setIcon(adapter.getIcon(position))
         ).attach();
-
 
     }
 }

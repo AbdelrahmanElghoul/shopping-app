@@ -42,6 +42,7 @@
     <string name="change">Change</string>
     <string name="add_address">Add Address</string>
     <string name="proceed">Proceed</string>
+    <string name="loading">loading</string>
 
 
 </resources>

@@ -19,4 +19,8 @@
     <color name="green_40">#A4D6A7</color>
     <color name="green_80">#3D4E3E</color>
     <color name="green_100">#1D251E</color>
+
+    <color name="app_icon_background">#D5C1EFF9</color>
+    <color name="app_icon1_color">#033C47</color>
+    <color name="app_icon2_color">#013F4D</color>
 </resources>
