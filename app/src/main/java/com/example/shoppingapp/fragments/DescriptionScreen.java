@@ -16,19 +16,15 @@ import com.example.shoppingapp.Item;
 import com.example.shoppingapp.util.Navigation;
 import com.example.shoppingapp.R;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
 import timber.log.Timber;
 
 
 public class DescriptionScreen extends Fragment {
 
-    @BindView(R.id.back_img)
     ImageView backImg;
     Navigation navigation;
-    @BindView(R.id.item_img)
     ImageView itemImg;
-    @BindView(R.id.description_layout)
     ConstraintLayout layout;
     int color;
     Item item;
@@ -38,7 +34,6 @@ public class DescriptionScreen extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v= inflater.inflate(R.layout.fragment_description_screen,container,false);
-        ButterKnife.bind(this,v);
         color=getArguments().getInt(getString(R.string.COLOR_TAG));
 
         return v;
@@ -51,8 +46,14 @@ public class DescriptionScreen extends Fragment {
 
 
     }
-
+void BindView() {
+    backImg = getView().findViewById(R.id.back_img);
+    itemImg = getView().findViewById(R.id.item_img);
+    layout = getView().findViewById(R.id.description_layout);
+}
     void setUI(){
+        BindView();
+
         navigation=(Navigation)getContext();
         backImg.setOnClickListener(v-> navigation.goBack());
 

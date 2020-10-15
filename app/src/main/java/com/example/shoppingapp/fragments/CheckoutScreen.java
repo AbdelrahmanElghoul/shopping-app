@@ -24,8 +24,6 @@ import com.example.shoppingapp.util.UpdateUI;
 import com.here.sdk.core.GeoCoordinates;
 import com.here.sdk.mapviewlite.MapViewLite;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 import static android.content.Context.LOCATION_SERVICE;
@@ -35,32 +33,35 @@ import static com.example.shoppingapp.fragments.Permissions.REQUEST_LOCATION;
 
 public class CheckoutScreen extends Fragment implements UpdateUI {
 
-    @BindView(R.id.location_change_txt)
     TextView txt_location_change;
-    @BindView(R.id.get_location_img)
     ImageView imgLocate;
-    @BindView(R.id.txt_address)
     TextView txt_address;
-    @BindView(R.id.map)
     MapViewLite mapView;
     Map map;
     LocationManager locationManager;
     LocationListener locationListener;
-   GeoCoordinates geoCoordinates;
+    GeoCoordinates geoCoordinates;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Map.setMapCredentials(getContext());
         View v = inflater.inflate(R.layout.fragment_checkout_screen, container, false);
-        ButterKnife.bind(this, v);
         return v;
     }
 
+    void BindView(){
+         txt_location_change  =getView().findViewById(R.id.location_change_txt);
+         imgLocate =getView().findViewById(R.id.get_location_img);
+         txt_address   =getView().findViewById(R.id.txt_address);
+         mapView  =getView().findViewById(R.id.map);
+    }
 
     @SuppressLint("MissingPermission")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        BindView();
+
         mapView.onCreate(savedInstanceState);
         map = new Map(getContext(), mapView,this);
         map.loadMapScene();

@@ -17,8 +17,6 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
 
@@ -53,17 +51,25 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     class CartViewHolder extends RecyclerView.ViewHolder{
 
-        @BindView(R.id.cart_item_img) ImageView img_item;
-        @BindView(R.id.cart_item_name_txt) TextView txt_itemName;
-        @BindView(R.id.cart_item_quantity_txt) TextView txt_quantity;
-        @BindView(R.id.cart_item_price_txt)    TextView txt_price;
-        @BindView(R.id.decrement_img) ImageView img_decrement;
-        @BindView(R.id.cart_item_counter_txt) TextView txt_counter;
-        @BindView(R.id.increment_img) ImageView img_increment;
+        ImageView img_item;
+        TextView txt_itemName;
+        TextView txt_quantity;
+        TextView txt_price;
+        ImageView img_decrement;
+        TextView txt_counter;
+        ImageView img_increment;
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+
+            img_item = itemView.findViewById(R.id.cart_item_img);
+            txt_itemName = itemView.findViewById(R.id.cart_item_name_txt);
+            txt_quantity = itemView.findViewById(R.id.cart_item_quantity_txt);
+            txt_price = itemView.findViewById(R.id.cart_item_price_txt);
+            img_decrement = itemView.findViewById(R.id.decrement_img);
+            txt_counter = itemView.findViewById(R.id.cart_item_counter_txt);
+            img_increment = itemView.findViewById(R.id.increment_img);
+
         }
     }
 }

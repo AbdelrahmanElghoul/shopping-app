@@ -19,22 +19,19 @@ import com.example.shoppingapp.MainActivity2;
 import com.example.shoppingapp.R;
 import com.example.shoppingapp.adapters.CartAdapter;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
 import timber.log.Timber;
 
 public class CartScreen extends Fragment {
 
-    @BindView(R.id.back_img)
     ImageView img_back;
-    @BindView(R.id.cart_item_count_txt)
     TextView txt_item_count;
-    @BindView(R.id.item_count_txt) TextView txt_item_count2;
-    @BindView(R.id.item_price_txt) TextView txt_item_price;
-    @BindView(R.id.remove_all_txt) TextView txt_remove_all;
-    @BindView(R.id.continue_shopping_txt) TextView txt_continue_shopping;
-    @BindView(R.id.cart_proceed_checkout) TextView txt_proceed_checkout;
-    @BindView(R.id.cart_recycler_view) RecyclerView rv_cart;
+    TextView txt_item_count2;
+    TextView txt_item_price;
+    TextView txt_remove_all;
+    TextView txt_continue_shopping;
+    TextView txt_proceed_checkout;
+    RecyclerView rv_cart;
 
     CartAdapter cartAdapter;
 
@@ -42,7 +39,6 @@ public class CartScreen extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.fragment_cart_screen,container,false);
-        ButterKnife.bind(this,v);
         return v;
     }
 
@@ -58,7 +54,20 @@ public class CartScreen extends Fragment {
         });
     }
 
+    void BindView() {
+
+        img_back =getView().findViewById(R.id.back_img);
+        txt_item_count = getView().findViewById(R.id.cart_item_count_txt);
+        txt_item_count2 = getView().findViewById(R.id.item_count_txt);
+        txt_item_price = getView().findViewById(R.id.item_price_txt);
+        txt_remove_all = getView().findViewById(R.id.remove_all_txt);
+        txt_continue_shopping = getView().findViewById(R.id.continue_shopping_txt);
+        txt_proceed_checkout = getView().findViewById(R.id.cart_proceed_checkout);
+        rv_cart = getView().findViewById(R.id.cart_recycler_view);
+    }
     void setUI(){
+        BindView();
+        
         RecyclerView.LayoutManager rv_cart_lm
                 =new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 

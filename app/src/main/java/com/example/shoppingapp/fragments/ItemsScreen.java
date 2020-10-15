@@ -19,19 +19,14 @@ import com.example.shoppingapp.R;
 import com.example.shoppingapp.util.SpacesItemDecoration;
 import com.example.shoppingapp.adapters.SearchItemAdapter;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
 
 
 public class ItemsScreen extends Fragment {
 
-    @BindView(R.id.items_recycler_view)
     RecyclerView rv_items;
-    @BindView(R.id.img_back)
     ImageView backImg;
-    @BindView(R.id.search_txt)
     TextView searchTxt;
-    @BindView(R.id.search_img)
     ImageView searchImg;
 
     Navigation back;
@@ -40,11 +35,17 @@ public class ItemsScreen extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.fragment_items_screen,container,false);
-        ButterKnife.bind(this,v);
+
         return v;
     }
-
+void BindView(){
+     rv_items=getView().findViewById(R.id.items_recycler_view);
+     backImg  =getView().findViewById(R.id.img_back);
+     searchTxt =getView().findViewById(R.id.search_txt);
+     searchImg  =getView().findViewById(R.id.search_img);
+}
     void setUI(){
+        BindView();
         back= (Navigation) getContext();
         searchItemAdapter=new SearchItemAdapter(getContext());
         rv_items.setHasFixedSize(false);

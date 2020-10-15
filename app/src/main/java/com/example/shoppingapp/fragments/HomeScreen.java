@@ -16,18 +16,12 @@ import com.example.shoppingapp.R;
 import com.example.shoppingapp.adapters.CategoryAdapter;
 import com.example.shoppingapp.adapters.PreviousOrderAdapter;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class HomeScreen extends Fragment {
 
-    @BindView(R.id.category_recycler_view)
     RecyclerView rv_category;
-    @BindView(R.id.previous_order_recycler_view)
     RecyclerView rv_previous_order;
-    @BindView(R.id.txt_see_all_category)
     TextView txt_see_all_category;
-    @BindView(R.id.txt_see_all_previous_order)
     TextView txt_see_all_previous_order;
 
 
@@ -37,18 +31,18 @@ public class HomeScreen extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.fragment_home_screen,container,false);
-        ButterKnife.bind(this,v);
         return v;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         setUI();
     }
 
     private void setUI() {
+        BindView();
+
         RecyclerView.LayoutManager rv_category_lm=new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
 
         categoryAdapter=new CategoryAdapter(getContext());
@@ -61,5 +55,12 @@ public class HomeScreen extends Fragment {
         rv_previous_order.setHasFixedSize(true);
         rv_previous_order.setLayoutManager(rv_previous_order_lm);
         rv_previous_order.setAdapter(previousOrderAdapter);
+    }
+    
+    void BindView(){
+         rv_category=getView().findViewById(R.id.category_recycler_view);
+         rv_previous_order   =getView().findViewById(R.id.previous_order_recycler_view);
+         txt_see_all_category  =getView().findViewById(R.id.txt_see_all_category);
+         txt_see_all_previous_order  =getView().findViewById(R.id.txt_see_all_previous_order);
     }
 }

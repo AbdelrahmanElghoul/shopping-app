@@ -14,17 +14,13 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.android.material.transition.platform.MaterialFade;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
 import timber.log.Timber;
 
 public class MainShopScreenActivity extends AppCompatActivity {
 
-    @BindView(R.id.tab_layout)
-    TabLayout tabLayout;
-    @BindView(R.id.view_pager)
     ViewPager2 pager;
-
+    TabLayout tabLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +30,8 @@ public class MainShopScreenActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main_shop_screen);
         Timber.plant(new Timber.DebugTree());
-        ButterKnife.bind(this);
+
+        BindView();
 
         ViewPagerAdapter adapter=new ViewPagerAdapter(this);
         adapter.addList(new HomeScreen(),R.drawable.home_img);
@@ -42,10 +39,18 @@ public class MainShopScreenActivity extends AppCompatActivity {
         adapter.addList(new HomeScreen(),R.drawable.bookmark_img);
         adapter.addList(new HomeScreen(),R.drawable.avatar_img);
 
+        Timber.d(String.valueOf(pager==null));
         pager.setAdapter(adapter);
         new TabLayoutMediator(tabLayout, pager,
                 (tab, position) -> tab.setIcon(adapter.getIcon(position))
         ).attach();
 
     }
+
+    private void BindView() {
+        pager=findViewById(R.id.view_pager);
+        tabLayout=findViewById(R.id.tab_layout);
+    }
+
+
 }

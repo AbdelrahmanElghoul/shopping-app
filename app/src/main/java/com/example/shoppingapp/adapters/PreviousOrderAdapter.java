@@ -16,9 +16,6 @@ import com.example.shoppingapp.R;
 
 import java.util.List;
 
-import butterknife.BindDimen;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class PreviousOrderAdapter extends RecyclerView.Adapter<PreviousOrderAdapter.PreviousOrderViewHolder> {
 
@@ -54,19 +51,19 @@ public class PreviousOrderAdapter extends RecyclerView.Adapter<PreviousOrderAdap
 
     class PreviousOrderViewHolder extends RecyclerView.ViewHolder{
 
-        @BindView(R.id.item_img)
         ImageView itemImg;
-        @BindView(R.id.txt_price)
         TextView txtPrice;
-        @BindView(R.id.txt_name)
         TextView txtName;
-        @BindView(R.id.txt_quantity)
         TextView txtQuantity;
-        @BindView(R.id.previous_order_layout)
         LinearLayout layout;
         public PreviousOrderViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+
+            itemImg = itemView.findViewById(R.id.item_img);
+            txtPrice = itemView.findViewById(R.id.txt_price);
+            txtName = itemView.findViewById(R.id.txt_name);
+            txtQuantity = itemView.findViewById(R.id.txt_quantity);
+            layout = itemView.findViewById(R.id.previous_order_layout);
         }
     }
 }

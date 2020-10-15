@@ -24,8 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import timber.log.Timber;
 
 public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.SearchItemViewHolder> {
@@ -62,9 +60,9 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
 
         holder.itemLayout.setOnClickListener(v-> {
             Pair<View, String> p1 = Pair.create(holder.itemImg,  context.getString(R.string.DESCRIPTION_IMG_TRANSITION_TAG));
-            Pair<View, String> p2 = Pair.create(holder.itemNameTxt,  context.getString(R.string.DESCRIPTION_NAME_TRANSITION_TAG));
-            Pair<View, String> p3 = Pair.create(holder.itemPriceTxt,  context.getString(R.string.DESCRIPTION_PRICE_TRANSITION_TAG));
-            Pair<View, String> p4 = Pair.create(holder.itemQuantityTxt,  context.getString(R.string.DESCRIPTION_QUANTITY_TRANSITION_TAG));
+//            Pair<View, String> p2 = Pair.create(holder.itemNameTxt,  context.getString(R.string.DESCRIPTION_NAME_TRANSITION_TAG));
+//            Pair<View, String> p3 = Pair.create(holder.itemPriceTxt,  context.getString(R.string.DESCRIPTION_PRICE_TRANSITION_TAG));
+//            Pair<View, String> p4 = Pair.create(holder.itemQuantityTxt,  context.getString(R.string.DESCRIPTION_QUANTITY_TRANSITION_TAG));
             Pair<View, String> p5 = Pair.create(holder.itemLayout,  context.getString(R.string.DESCRIPTION_LAYOUT_TRANSITION_TAG));
 
             Intent intent=new Intent(context, MainActivity2.class);
@@ -75,7 +73,7 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
             Animation.MultipleSharedElementTransition(
                     context,
                     intent,
-                    p1,p2,p3,p4,p5);
+                    p1,p5);
 
         });
     }
@@ -87,24 +85,24 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
 
     class SearchItemViewHolder extends RecyclerView.ViewHolder{
 
-        @BindView(R.id.search_item_layout)
         ConstraintLayout itemLayout;
-        @BindView(R.id.search_item_img)
         ImageView itemImg;
-        @BindView(R.id.search_item_cart_img)
         ImageView cartImg;
-        @BindView(R.id.search_item_bookmark_img)
         ImageView bookmarkImg;
-        @BindView(R.id.search_item_name_txt)
         TextView itemNameTxt;
-        @BindView(R.id.search_item_price_txt)
         TextView itemPriceTxt;
-        @BindView(R.id.search_item_quantity_txt)
         TextView itemQuantityTxt;
 
         public SearchItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+
+            itemLayout = itemView.findViewById(R.id.search_item_layout);
+            itemImg = itemView.findViewById(R.id.search_item_img);
+            cartImg = itemView.findViewById(R.id.search_item_cart_img);
+            bookmarkImg = itemView.findViewById(R.id.search_item_bookmark_img);
+            itemNameTxt = itemView.findViewById(R.id.search_item_name_txt);
+            itemPriceTxt = itemView.findViewById(R.id.search_item_price_txt);
+            itemQuantityTxt = itemView.findViewById(R.id.search_item_quantity_txt);
         }
     }
 }

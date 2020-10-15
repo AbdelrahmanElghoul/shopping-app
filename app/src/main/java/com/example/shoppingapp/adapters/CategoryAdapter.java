@@ -21,8 +21,6 @@ import com.example.shoppingapp.R;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
 
@@ -77,16 +75,19 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     static class CategoryViewHolder extends RecyclerView.ViewHolder{
 
-        @BindView(R.id.category_img)
+
         ImageView categoryImg;
-        @BindView(R.id.category_txt)
+
         TextView categoryName;
-        @BindView(R.id.category_layout)
+
         LinearLayout category_layout;
 
         public CategoryViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+
+            categoryImg = itemView.findViewById(R.id.category_img);
+            categoryName = itemView.findViewById(R.id.category_txt);
+            category_layout = itemView.findViewById(R.id.category_layout);
         }
     }
 
