@@ -1,15 +1,12 @@
-package com.example.shoppingapp
+package com.example.shoppingapp_customer
 
-import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.os.Handler
-import android.widget.TextView
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_splash_screen.*
-import java.util.*
+import com.example.shoppingapp.MainShopScreenActivity
+import com.example.shoppingapp.R
 
 
 class SplashScreen : AppCompatActivity() {
@@ -18,8 +15,6 @@ class SplashScreen : AppCompatActivity() {
         setContentView(R.layout.activity_splash_screen)
 //
         Handler().postDelayed({
-
-            Toast.makeText(this@SplashScreen,packageName,Toast.LENGTH_LONG).show()
 
 //            val intent = if(packageName=="com.example.shoppingapp_dealer")
 //                Intent(this, DealerActivity::class.java)

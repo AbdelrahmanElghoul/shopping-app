@@ -1,9 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/background"
     android:layout_height="match_parent"
-    tools:context=".DealerActivity">
+    android:orientation="vertical"
+    tools:context="com.example.shoppingapp_dealer.DealerActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginBottom="@dimen/average_margin_padding"
+        android:paddingStart="@dimen/high_margin_padding"
+        android:layout_height="?actionBarSize">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|start"
+            android:text="@string/app_name"
+            style="@style/appbar_Text"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_marginHorizontal="@dimen/average_margin_padding"
+                android:layout_width="@dimen/Extra_large_icon_width_height"
+                android:layout_height="@dimen/Extra_large_icon_width_height"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/img_item_icon"
+                android:src="@drawable/default_img"
+                android:background="@drawable/round_frame"
+                android:padding="@dimen/low_margin_padding"
+                 />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_marginHorizontal="@dimen/high_margin_padding"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/average_margin_padding"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout_item_name_txt"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/img_item_icon">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:hint="@string/name"
+                    android:maxLength="100"
+                    android:id="@+id/txt_item_name"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+           <androidx.constraintlayout.widget.Guideline
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:orientation="vertical"
+               android:id="@+id/guide_line"
+               app:layout_constraintGuide_percent="0.5"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_marginTop="@dimen/average_margin_padding"
+                android:layout_width="0dp"
+                android:id="@+id/layout_item_price_txt"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/average_margin_padding"
+                app:layout_constraintStart_toStartOf="@id/layout_item_name_txt"
+                app:layout_constraintEnd_toStartOf="@id/guide_line"
+                app:layout_constraintTop_toBottomOf="@id/layout_item_name_txt">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:hint="@string/price"
+                    android:inputType="numberDecimal"
+                    android:id="@+id/txt_item_price"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_marginTop="@dimen/average_margin_padding"
+                android:layout_width="0dp"
+                android:id="@+id/layout_item_stock_txt"
+                android:layout_marginStart="@dimen/average_margin_padding"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/guide_line"
+                app:layout_constraintEnd_toEndOf="@id/layout_item_name_txt"
+                app:layout_constraintTop_toBottomOf="@id/layout_item_name_txt">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:hint="@string/stock"
+                    android:inputType="number"
+                    android:id="@+id/txt_item_stock"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_marginTop="@dimen/average_margin_padding"
+                android:focusable="false"
+                app:layout_constraintTop_toBottomOf="@id/layout_item_price_txt"
+                app:layout_constraintStart_toStartOf="@id/layout_item_name_txt"
+                app:layout_constraintEnd_toEndOf="@id/layout_item_name_txt"
+                android:id="@+id/layout_item_category"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:inputType="number"
+                    android:hint="@string/category"
+                    android:text=" "
+                    android:id="@+id/txt_item_category"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Spinner
+                android:layout_width="0dp"
+                android:id="@+id/spinner_category"
+                android:autofillHints="@string/category"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dialog"
+                app:layout_constraintTop_toTopOf="@id/layout_item_category"
+                app:layout_constraintStart_toStartOf="@id/layout_item_category"
+                app:layout_constraintBottom_toBottomOf="@id/layout_item_category"
+                app:layout_constraintEnd_toEndOf="@id/layout_item_category"
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_marginTop="@dimen/average_margin_padding"
+                android:layout_width="0dp"
+                android:id="@+id/layout_item_description_txt"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/layout_item_name_txt"
+                app:layout_constraintEnd_toEndOf="@id/layout_item_name_txt"
+                app:layout_constraintTop_toBottomOf="@id/layout_item_category">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:hint="@string/description"
+                    android:id="@+id/txt_item_description"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_marginTop="@dimen/average_margin_padding"
+                android:id="@+id/layout_item_manufacture_txt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/layout_item_description_txt"
+                app:layout_constraintEnd_toEndOf="@id/layout_item_description_txt"
+                app:layout_constraintTop_toBottomOf="@id/layout_item_description_txt">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:hint="@string/manufacture_details"
+                    android:id="@+id/txt_manufacture"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:id="@+id/btn_add_item"
+        android:background="@color/background_darker"
+        android:text="@string/add"
+        android:textAllCaps="false"
+        android:textSize="@dimen/text_appbar_size"
+        android:textColor="@color/white"
+        android:paddingHorizontal="@dimen/average_margin_padding"
+        android:layout_marginTop="@dimen/high_margin_padding"
+        />
+
+
+</LinearLayout>
