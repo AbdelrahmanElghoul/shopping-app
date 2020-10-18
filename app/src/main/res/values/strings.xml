@@ -47,6 +47,9 @@
     <string name="name">Name</string>
     <string name="stock">Stock</string>
     <string name="cancel">Cancel</string>
+    <string name="add_category_txt">Add category</string>
+
+
 
 
 </resources>

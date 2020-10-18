@@ -6,12 +6,17 @@ import java.util.*
 
 class Category : Parcelable {
 
-    var id: String = ""
-    var name: String? = null
-    var icon = 0
+    var id: String? = null
+    var name: String=""
+    var icon:String?=null
     var itemList: List<Item> = ArrayList()
 
+    override fun toString():String{
+        return name
+    }
+
     constructor(source: Parcel) : this()
+
     constructor()
 
     override fun describeContents() = 0

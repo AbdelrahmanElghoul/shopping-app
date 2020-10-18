@@ -22,7 +22,7 @@
         android:layout_height="@dimen/Extra_large_icon_width_height"
         android:background="@color/white"
         android:padding="@dimen/low_margin_padding"
-        android:src="@mipmap/app_icon_img_round"
+        android:src="@drawable/app_icon_img_round"
         app:layout_constraintBottom_toTopOf="@id/divider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

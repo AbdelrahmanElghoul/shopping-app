@@ -13,17 +13,20 @@ class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
+        Timber.plant(DebugTree())
 //
+
+//        Log.e("SDK123",String.valueOf(android.os.Build.VERSION.SDK_INT))
         Handler().postDelayed({
 
 //            val intent = if(packageName=="com.example.shoppingapp_dealer")
 //                Intent(this, DealerActivity::class.java)
 //            else
-            val intent=  Intent(this, MainShopScreenActivity::class.java)
+            val intent = Intent(this, MainShopScreenActivity::class.java)
 
             startActivity(intent)
             finish()
-        },1000)
+        }, 1000)
 
 // Float.POSITIVE_INFINITY.toLong()
 //        var dotCount:Int=0

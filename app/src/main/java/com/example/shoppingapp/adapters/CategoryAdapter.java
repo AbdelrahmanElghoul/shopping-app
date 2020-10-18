@@ -63,7 +63,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         });
 
         if(categoryList==null) return;
-        holder.categoryImg.setImageAlpha(categoryList.get(position).getIcon());
+//        holder.categoryImg.setImageAlpha(categoryList.get(position).getIcon());
         holder.categoryName.setText(categoryList.get(position).getName());
 
     }

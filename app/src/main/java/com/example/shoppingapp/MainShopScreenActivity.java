@@ -29,7 +29,7 @@ public class MainShopScreenActivity extends AppCompatActivity {
         getWindow().setExitTransition(transition);
 
         setContentView(R.layout.activity_main_shop_screen);
-        Timber.plant(new Timber.DebugTree());
+
 
         BindView();
 

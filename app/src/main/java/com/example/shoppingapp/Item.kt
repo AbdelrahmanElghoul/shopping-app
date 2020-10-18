@@ -6,14 +6,14 @@ import android.os.Parcelable
 
 class Item : Parcelable {
 
-    val id: String = ""
-    val categoryId: String = ""
-    val name: String = "name"
-    val iconURL: String? = null
-    val description: String = "Description"
-    val price = 0.0
-    val manufactureDetails: String? = null
-    val stock = 0
+    var id: String = ""
+    var categoryId: String = ""
+    var name: String = "name"
+    var iconURL: String? = null
+    var description: String? = null
+    var price :String="0.0"
+    var manufactureDetails: String? = null
+    var stock :String="0"
 
     constructor(source: Parcel) : this()
     constructor()
