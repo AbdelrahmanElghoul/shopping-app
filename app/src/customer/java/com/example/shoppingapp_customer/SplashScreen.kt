@@ -7,13 +7,14 @@ import android.os.Handler
 import android.widget.Toast
 import com.example.shoppingapp.MainShopScreenActivity
 import com.example.shoppingapp.R
+import timber.log.Timber
 
 
 class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
-        Timber.plant(DebugTree())
+        Timber.plant(Timber.DebugTree())
 //
 
 //        Log.e("SDK123",String.valueOf(android.os.Build.VERSION.SDK_INT))

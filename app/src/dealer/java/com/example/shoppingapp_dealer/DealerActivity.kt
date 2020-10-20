@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.shoppingapp.Category
@@ -19,81 +21,98 @@ import com.example.shoppingapp.util.RequestCode
 import com.example.shoppingapp_dealer.util.Firebase
 import kotlinx.android.synthetic.dealer.activity_dealer.*
 import kotlinx.android.synthetic.dealer.alert_dialog_layout.view.*
-import kotlinx.android.synthetic.main.category_layout.*
-import kotlinx.android.synthetic.main.fragment_description_screen.*
+
+
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
 
-var itemUri:Uri?=null
-var categoryUri:Uri?=null
+var adapter: ArrayAdapter<Category> ?= null
 var selectedImg:Int=-1  // itemUri=0 / categeoryUri=1
-var adapter:ArrayAdapter<Category>?=null
-var categoryList= mutableListOf<Category>()
+lateinit var viewModel:MainViewModel
+var categoryList= listOf<Category>()
 
 class DealerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dealer)
-        Timber.plant(DebugTree())
-        setUI()
+        initialiseData()
 
-        spinner_layout.setOnClickListener{
+        viewModel.categoryList.observe(this, {
+//            Timber.d("Spinner adapter size ${categoryList.size}")
+//            categoryList=it
+//            Timber.d("Spinner adapter size ${categoryList.size}")
+//            adapter?.notifyDataSetChanged()
+
+            adapter=ArrayAdapter<Category>(this, android.R.layout.simple_spinner_dropdown_item, it)
+            spinner_category_ad.adapter=adapter
+        })
+
+        spinner_layout_ad.setOnClickListener{
             Timber.tag("spinner").d("called")
-            spinner_category.callOnClick()
+            spinner_category_ad.callOnClick()
         }
         btn_add_item.setOnClickListener { btnAdd() }
-        img_item_icon.setOnClickListener {
+        img_item_icon_ad.setOnClickListener {
             selectedImg=0
             getImageFromGallery()
         }
-//        img_category.setOnClickListener {
-//            selectedImg=1
-//            getImageFromGallery()
-//        }
-        spinner_category?.onItemSelectedListener =object: AdapterView.OnItemSelectedListener{
+
+        spinner_category_ad?.onItemSelectedListener =object: AdapterView.OnItemSelectedListener{
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if(spinner_category.selectedItem.toString() == getString(R.string.add_category_txt))
-                    dialogEditText()
+                if(spinner_category_ad.selectedItem.toString() == getString(R.string.add_category_txt))
+                  {
+                      viewModel.categoryUri.value=null
+                      dialogEditText()
+                  }
                 else
-                    Glide.with(this@DealerActivity)
-                        .load(categoryList.get(position).icon)
+                    {Glide.with(this@DealerActivity)
+                        .load(viewModel.categoryList.value?.get(position)?.icon)
                         .apply(RequestOptions.circleCropTransform())
                         .error(R.drawable.default_img)
-                        .into(category_img)
+                        .into(img_selected_category_ad)
+
+                        Timber.tag("icon").d(viewModel.categoryList.value?.get(position)?.icon)
+                    }
 
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 
-    private fun setUI() {
-        var category=Category()
-        category.name=getString(R.string.add_category_txt)
+    private fun initialiseData(){
 
-        categoryList.add(category)
+        Timber.plant(DebugTree())
+        viewModel=ViewModelProvider(this@DealerActivity).get(MainViewModel::class.java)
+
         adapter=ArrayAdapter<Category>(this, android.R.layout.simple_spinner_dropdown_item, categoryList)
-        spinner_category.adapter=adapter
+        spinner_category_ad.adapter=adapter
+
+        if(viewModel.categoryList.value.isNullOrEmpty()) {
+            val cat=Category()
+            cat.name=getString(R.string.add_category_txt)
+            viewModel.addCategory(cat)
+        }
 
     }
 
     private fun validateViews():Boolean {
         var isValid =true
-        if (txt_item_name.text.isNullOrEmpty()) {
-            txt_item_name.error = "empty field"
+        if (txt_item_description_ad.text.isNullOrEmpty()) {
+            txt_item_description_ad.error = "empty field"
             isValid=false
         }
-        if (txt_item_price.text.isNullOrEmpty()) {
-            txt_item_price.error = "empty field"
+        if (txt_item_price_ad.text.isNullOrEmpty()) {
+            txt_item_description_ad.error = "empty field"
             isValid= false
         }
-        if (txt_item_stock.text.isNullOrEmpty() || txt_item_stock.text!!.equals("0")) {
-            txt_item_stock.error = "empty field"
+        if (txt_item_stock_ad.text.isNullOrEmpty() || txt_item_stock_ad.text!!.equals("0")) {
+            txt_item_description_ad.error = "empty field"
             isValid= false
         }
-        if (spinner_category.selectedItem.toString() == getString(R.string.add_category_txt)) {
+        if (spinner_category_ad.selectedItem.toString() == getString(R.string.add_category_txt)) {
                Toast.makeText(this, "select category", Toast.LENGTH_LONG).show()
             isValid= false
         }
@@ -103,26 +122,26 @@ class DealerActivity : AppCompatActivity() {
 
     private fun btnAdd() {
         if (!validateViews()) return
-
-        val category = categoryList[spinner_category.selectedItemPosition]
-        if (category.id == null) {
-            if (category.icon != null) category.icon = Firebase.addImageToStorage(category.icon!!)
-            category.id = Firebase.addCategoryToFirebase(category)
+        val category = viewModel.categoryList.value?.get(spinner_category_ad.selectedItemPosition)
+        if (category?.id == null) {
+            if (category?.icon != null)
+                category.icon = Firebase.addImageToStorage(category.icon!!)
+            category?.id = Firebase.addCategoryToFirebase(category as Category)
         }
 
         val item = Item()
-        item_name_txt.text.toString()
-        item.price = price_txt.text.toString()
-        item.stock = txt_item_stock.text.toString()
+        item.name = txt_item_name_ad.text.toString()
+        item.price = txt_item_price_ad.text.toString()
+        item.stock = txt_item_stock_ad.text.toString()
         item.categoryId = category.id!!
-        item.description = txt_item_description.text.toString()
-        item.manufactureDetails = item_manufacture_txt.text.toString()
+        item.description = txt_item_description_ad.text.toString()
+        item.manufactureDetails = txt_manufacture_ad.text.toString()
 
         Firebase.addItemToFirebase(item)
 
     }
 
-    private fun getImageFromGallery(){
+    private fun getImageFromGallery() {
         val intent = Intent()
         intent.action = Intent.ACTION_GET_CONTENT
         intent.type = "image/*"
@@ -133,57 +152,69 @@ class DealerActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RequestCode.GET_IMAGE_RESULT.getValue && resultCode == RESULT_OK && data != null) {
             when(selectedImg){
-                1 -> {
-                    itemUri = data.data
-
+                0 -> {
+                    viewModel.itemUri = data.data
                     Glide.with(this)
-                            .load(data.data)
+                            .load(viewModel.itemUri)
                             .apply(RequestOptions.circleCropTransform())
                             .error(R.drawable.default_img)
-                            .into(img_item_icon)
+                            .into(img_item_icon_ad)
                 }
-                2 -> categoryUri = data.data
+                1 -> {
+//                    categoryUri = data.data
+                    viewModel.categoryUri.value =data.data
+                }
             }
         }
     }
 
     fun dialogEditText() {
+
         val factory = LayoutInflater.from(this)
         val alertDialog = AlertDialog.Builder(this)
         val layoutView: View = factory.inflate(R.layout.alert_dialog_layout, null)
         val btnAdd = layoutView.btn_alert_dialog_add
         val txtCategory = layoutView.alert_dialog_edittext
         val btnCancel = layoutView.btn_alert_dialog_cancel
-        val imgCategory = layoutView.alert_dialog_img
+        val imgAlertDialogCategory = layoutView.alert_dialog_img
+
         alertDialog.setView(layoutView)
                 .setCancelable(false)
-        val dialog=alertDialog.create()
+        val dialog = alertDialog.create()
 
-        imgCategory.setOnClickListener {
-            selectedImg=1
+        imgAlertDialogCategory.setOnClickListener {
+            selectedImg = 1
             getImageFromGallery()
-            imgCategory.setImageURI(categoryUri)
+            viewModel.categoryUri.observe(this, {
+                Glide.with(this@DealerActivity)
+                        .load(it)
+                        .apply(RequestOptions.circleCropTransform())
+                        .error(R.drawable.default_img)
+                        .into(imgAlertDialogCategory)
+            })
         }
-        btnAdd.setOnClickListener{
-            if(txtCategory.text.isNullOrEmpty()){
-                txtCategory.error="enter category name"
+
+        btnAdd.setOnClickListener {
+            if (txtCategory.text.isNullOrEmpty()) {
+                txtCategory.error = "enter category name"
                 return@setOnClickListener
             }
 
-            newCategory(txtCategory.text.toString(), categoryUri.toString())
+            newCategory(txtCategory.text.toString(), viewModel.categoryUri.value)
+            dialog.dismiss()
         }
-        btnCancel.setOnClickListener{dialog.dismiss()}
+        btnCancel.setOnClickListener { dialog.dismiss() }
 
         dialog.show()
     }
 
-    private fun newCategory(name: String,uri:String?=null){
+    private fun newCategory(name: String,uri:Uri?=null){
         val category=Category()
         category.name=name
-        if(uri!=null)category.icon=uri
-        categoryList.add(index = 0, element = category)
-        adapter?.notifyDataSetChanged()
-        spinner_category.setSelection(0)
+        if(uri!=null)category.icon=uri.toString()
+        viewModel.addCategory(category)
+        spinner_category_ad.setSelection(0)
     }
 
 }
+

@@ -40,10 +40,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:id="@+id/img_item_icon"
+                android:id="@+id/img_item_icon_ad"
                 android:src="@drawable/default_img"
                 android:background="@drawable/round_frame"
-                android:padding="@dimen/low_margin_padding"
                  />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -51,15 +50,15 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/average_margin_padding"
                 android:layout_height="wrap_content"
-                android:id="@+id/layout_item_name_txt"
+                android:id="@+id/layout_item_name_txt_ad"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/img_item_icon">
+                app:layout_constraintTop_toBottomOf="@id/img_item_icon_ad">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:hint="@string/name"
                     android:maxLength="100"
-                    android:id="@+id/txt_item_name"
+                    android:id="@+id/txt_item_name_ad"
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -67,107 +66,104 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:orientation="vertical"
-               android:id="@+id/guide_line"
+               android:id="@+id/guide_line_ad"
                app:layout_constraintGuide_percent="0.5"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_marginTop="@dimen/average_margin_padding"
                 android:layout_width="0dp"
-                android:id="@+id/layout_item_price_txt"
+                android:id="@+id/layout_item_price_txt_ad"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/average_margin_padding"
-                app:layout_constraintStart_toStartOf="@id/layout_item_name_txt"
-                app:layout_constraintEnd_toStartOf="@id/guide_line"
-                app:layout_constraintTop_toBottomOf="@id/layout_item_name_txt">
+                app:layout_constraintStart_toStartOf="@id/layout_item_name_txt_ad"
+                app:layout_constraintEnd_toStartOf="@id/guide_line_ad"
+                app:layout_constraintTop_toBottomOf="@id/layout_item_name_txt_ad">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:hint="@string/price"
                     android:inputType="numberDecimal"
-                    android:id="@+id/txt_item_price"
+                    android:id="@+id/txt_item_price_ad"
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_marginTop="@dimen/average_margin_padding"
                 android:layout_width="0dp"
-                android:id="@+id/layout_item_stock_txt"
-                android:layout_marginStart="@dimen/average_margin_padding"
+                android:id="@+id/layout_item_stock_txt_ad"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@id/guide_line"
-                app:layout_constraintEnd_toEndOf="@id/layout_item_name_txt"
-                app:layout_constraintTop_toBottomOf="@id/layout_item_name_txt">
+                app:layout_constraintStart_toStartOf="@id/layout_item_price_txt_ad"
+                app:layout_constraintEnd_toEndOf="@id/layout_item_price_txt_ad"
+                app:layout_constraintTop_toBottomOf="@id/layout_item_price_txt_ad">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:hint="@string/stock"
                     android:inputType="number"
-                    android:id="@+id/txt_item_stock"
+                    android:id="@+id/txt_item_stock_ad"
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-
-            <com.google.android.material.textfield.TextInputLayout
+            <ImageView
                 android:layout_width="0dp"
-                android:layout_marginTop="@dimen/average_margin_padding"
-                android:focusable="false"
-                app:layout_constraintTop_toBottomOf="@id/layout_item_price_txt"
-                app:layout_constraintStart_toStartOf="@id/layout_item_name_txt"
-                app:layout_constraintEnd_toEndOf="@id/layout_item_name_txt"
-                android:id="@+id/layout_item_category"
-                android:layout_height="wrap_content">
+                android:layout_height="0dp"
+                android:id="@+id/img_selected_category_ad"
+                android:background="@drawable/round_frame"
+                android:src="@drawable/default_img"
+                app:layout_constraintTop_toTopOf="@id/layout_item_price_txt_ad"
+                app:layout_constraintBottom_toTopOf="@id/spinner_layout_ad"
+                app:layout_constraintEnd_toEndOf="@id/layout_item_name_txt_ad"
+                app:layout_constraintStart_toEndOf="@id/guide_line_ad"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:inputType="number"
-                    android:hint="@string/category"
-                    android:text=" "
-                    android:id="@+id/txt_item_category"
-                    android:layout_height="wrap_content"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <Spinner
+            <LinearLayout
                 android:layout_width="0dp"
-                android:id="@+id/spinner_category"
-                android:autofillHints="@string/category"
                 android:layout_height="wrap_content"
-                android:spinnerMode="dialog"
-                app:layout_constraintTop_toTopOf="@id/layout_item_category"
-                app:layout_constraintStart_toStartOf="@id/layout_item_category"
-                app:layout_constraintBottom_toBottomOf="@id/layout_item_category"
-                app:layout_constraintEnd_toEndOf="@id/layout_item_category"
-                />
+                android:id="@+id/spinner_layout_ad"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="@id/img_selected_category_ad"
+                app:layout_constraintEnd_toEndOf="@id/img_selected_category_ad"
+                app:layout_constraintBottom_toTopOf="@id/layout_item_description_txt_ad">
+
+                <com.example.shoppingapp_dealer.util.mSpinner
+                    android:focusable="false"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/spinner_category_ad"
+                    android:autofillHints="@string/category"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dialog"
+                    android:layout_gravity="center"
+                    />
+            </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_marginTop="@dimen/average_margin_padding"
                 android:layout_width="0dp"
-                android:id="@+id/layout_item_description_txt"
+                android:id="@+id/layout_item_description_txt_ad"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/layout_item_name_txt"
-                app:layout_constraintEnd_toEndOf="@id/layout_item_name_txt"
-                app:layout_constraintTop_toBottomOf="@id/layout_item_category">
+                app:layout_constraintStart_toStartOf="@id/layout_item_name_txt_ad"
+                app:layout_constraintEnd_toEndOf="@id/layout_item_name_txt_ad"
+                app:layout_constraintTop_toBottomOf="@id/layout_item_stock_txt_ad">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:hint="@string/description"
-                    android:id="@+id/txt_item_description"
+                    android:id="@+id/txt_item_description_ad"
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_marginTop="@dimen/average_margin_padding"
-                android:id="@+id/layout_item_manufacture_txt"
+                android:id="@+id/layout_item_manufacture_txt_ad"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/layout_item_description_txt"
-                app:layout_constraintEnd_toEndOf="@id/layout_item_description_txt"
-                app:layout_constraintTop_toBottomOf="@id/layout_item_description_txt">
+                app:layout_constraintStart_toStartOf="@id/layout_item_description_txt_ad"
+                app:layout_constraintEnd_toEndOf="@id/layout_item_description_txt_ad"
+                app:layout_constraintTop_toBottomOf="@id/layout_item_description_txt_ad">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:hint="@string/manufacture_details"
-                    android:id="@+id/txt_manufacture"
+                    android:id="@+id/txt_manufacture_ad"
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -176,6 +172,24 @@
     </ScrollView>
 
 
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_margin="@dimen/low_margin_padding"
+       android:gravity="center"
+       android:orientation="horizontal">
+
+       <ImageView
+           android:layout_width="@dimen/small_icon_width_height"
+           android:src="@drawable/error"
+           android:layout_height="@dimen/small_icon_width_height"/>
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:paddingStart="@dimen/average_margin_padding"
+           android:layout_height="wrap_content"
+           android:text="new category will be added when item is added"/>
+   </LinearLayout>
     <Button
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
@@ -186,7 +200,6 @@
         android:textSize="@dimen/text_appbar_size"
         android:textColor="@color/white"
         android:paddingHorizontal="@dimen/average_margin_padding"
-        android:layout_marginTop="@dimen/high_margin_padding"
         />
 
 
