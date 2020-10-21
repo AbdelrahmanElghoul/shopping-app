@@ -3,14 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application>
-        <activity android:name="com.example.shoppingapp_dealer.DealerActivity"
+        <activity android:name="com.example.shoppingapp_vendor.RegisterActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
+        </activity>
+        <activity
+            android:name="com.example.shoppingapp_vendor.VendorActivity"
+            android:windowSoftInputMode="adjustPan">
         </activity>
     </application>
 

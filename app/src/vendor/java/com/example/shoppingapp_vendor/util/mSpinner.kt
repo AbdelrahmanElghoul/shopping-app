@@ -1,4 +1,4 @@
-package com.example.shoppingapp_dealer.util
+package com.example.shoppingapp_vendor.util
 
 import android.annotation.SuppressLint
 import android.content.Context

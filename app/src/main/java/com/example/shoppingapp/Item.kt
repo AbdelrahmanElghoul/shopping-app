@@ -5,14 +5,15 @@ import android.os.Parcelable
 
 class Item : Parcelable {
 
-    var id: String = ""
-    var categoryId: String = ""
-    var name: String = "name"
+    lateinit var id: String
+    lateinit var categoryId: String
+    lateinit var name: String
     var iconURL: String? = null
     var description: String? = null
-    var price :String="0.0"
+    lateinit var price: String
     var manufactureDetails: String? = null
-    var stock :String="0"
+    lateinit var stock: String
+    lateinit var vendorId: String
 
     constructor(source: Parcel) : this()
     constructor()

@@ -24,8 +24,8 @@ class SplashScreen : AppCompatActivity() {
 //        Log.e("SDK123",String.valueOf(android.os.Build.VERSION.SDK_INT))
         Handler().postDelayed({
 
-//            val intent = if(packageName=="com.example.shoppingapp_dealer")
-//                Intent(this, DealerActivity::class.java)
+//            val intent = if(packageName=="com.example.shoppingapp_vendor")
+//                Intent(this, vendorActivity::class.java)
 //            else
             val intent = Intent(this, MainShopScreenActivity::class.java)
 

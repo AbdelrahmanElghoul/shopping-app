@@ -11,7 +11,6 @@
     <string name="description">Description</string>
     <string name="manufacture_details">Manufacture Details</string>
 
-
     <string name="backstack_tag">FragmentBackStackTag</string>
 
     <string name="FRAGMENT_NAME_TAG">Fragment_Name</string>

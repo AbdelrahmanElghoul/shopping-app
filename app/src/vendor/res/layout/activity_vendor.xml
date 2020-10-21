@@ -6,7 +6,7 @@
     android:background="@color/background"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.shoppingapp_dealer.DealerActivity">
+    tools:context="com.example.shoppingapp_vendor.VendorActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                 android:id="@+id/img_item_icon_ad"
                 android:src="@drawable/default_img"
                 android:background="@drawable/round_frame"
-                 />
+                android:contentDescription="item icon" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_marginHorizontal="@dimen/high_margin_padding"
@@ -104,27 +104,30 @@
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:id="@+id/img_selected_category_ad"
-                android:background="@drawable/round_frame"
-                android:src="@drawable/default_img"
-                app:layout_constraintTop_toTopOf="@id/layout_item_price_txt_ad"
-                app:layout_constraintBottom_toTopOf="@id/spinner_layout_ad"
-                app:layout_constraintEnd_toEndOf="@id/layout_item_name_txt_ad"
-                app:layout_constraintStart_toEndOf="@id/guide_line_ad"/>
+
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:id="@+id/spinner_layout_ad"
                 android:gravity="center"
-                app:layout_constraintStart_toStartOf="@id/img_selected_category_ad"
-                app:layout_constraintEnd_toEndOf="@id/img_selected_category_ad"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="@id/layout_item_price_txt_ad"
+                app:layout_constraintEnd_toEndOf="@id/layout_item_name_txt_ad"
+                app:layout_constraintStart_toEndOf="@id/guide_line_ad"
                 app:layout_constraintBottom_toTopOf="@id/layout_item_description_txt_ad">
 
-                <com.example.shoppingapp_dealer.util.mSpinner
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:id="@+id/img_selected_category_ad"
+                    android:background="@drawable/round_frame"
+                    android:src="@drawable/default_img"
+                    android:contentDescription="category icon" />
+
+                <com.example.shoppingapp_vendor.util.mSpinner
                     android:focusable="false"
                     android:layout_width="wrap_content"
                     android:id="@+id/spinner_category_ad"
@@ -171,8 +174,8 @@
 
     </ScrollView>
 
-
    <LinearLayout
+       android:visibility="gone"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:layout_margin="@dimen/low_margin_padding"
@@ -190,11 +193,12 @@
            android:layout_height="wrap_content"
            android:text="new category will be added when item is added"/>
    </LinearLayout>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:id="@+id/btn_add_item"
-        android:background="@color/background_darker"
+        android:background="@color/green_60"
         android:text="@string/add"
         android:textAllCaps="false"
         android:textSize="@dimen/text_appbar_size"

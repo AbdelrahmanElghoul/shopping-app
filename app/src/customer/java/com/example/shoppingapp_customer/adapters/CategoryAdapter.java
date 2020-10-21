@@ -15,20 +15,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoppingapp_customer.fragments.ItemsScreen;
 import com.example.shoppingapp_customer.util.Animation;
-import com.example.shoppingapp.Category;
+
 import com.example.shoppingapp_customer.MainActivity2;
 import com.example.shoppingapp.R;
 
+import java.lang.reflect.Array;
 import java.util.List;
 
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
 
-
-    List<Category> categoryList;
+    Pair<String, Integer>[]  categoryList;
     Context context;
 
-    public CategoryAdapter(List<Category> categoryList, Context context) {
+    public CategoryAdapter(Pair<String, Integer>[] categoryList, Context context) {
         this.categoryList = categoryList;
         this.context = context;
     }
@@ -47,8 +47,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         holder.category_layout.setOnClickListener(v ->  {
-
-
             Pair<View, String> p1 = Pair.create(holder.categoryImg,  context.getString(R.string.CATEGORY_IMG_TRANSITION_TAG));
             Pair<View, String> p2 = Pair.create(holder.categoryName,  context.getString(R.string.CATEGORY_NAME_TRANSITION_TAG));
             Pair<View, String> p3 = Pair.create(holder.category_layout,  context.getString(R.string.CATEGORY_Layout_TRANSITION_TAG));
@@ -62,9 +60,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                     p3,p2,p1);
         });
 
-        if(categoryList==null) return;
-//        holder.categoryImg.setImageAlpha(categoryList.get(position).getIcon());
-        holder.categoryName.setText(categoryList.get(position).getName());
+        holder.categoryImg.setImageResource(categoryList[position].second);
+        holder.categoryName.setText(categoryList[position].first);
 
     }
 
@@ -75,11 +72,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     static class CategoryViewHolder extends RecyclerView.ViewHolder{
 
-
         ImageView categoryImg;
-
         TextView categoryName;
-
         LinearLayout category_layout;
 
         public CategoryViewHolder(@NonNull View itemView) {
