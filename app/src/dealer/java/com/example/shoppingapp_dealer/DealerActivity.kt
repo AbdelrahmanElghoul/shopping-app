@@ -1,5 +1,6 @@
 package com.example.shoppingapp_dealer
 
+
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -10,7 +11,6 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -19,34 +19,34 @@ import com.example.shoppingapp.Item
 import com.example.shoppingapp.R
 import com.example.shoppingapp.util.RequestCode
 import com.example.shoppingapp_dealer.util.Firebase
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.dealer.activity_dealer.*
 import kotlinx.android.synthetic.dealer.alert_dialog_layout.view.*
-
-
 import timber.log.Timber
-import timber.log.Timber.DebugTree
+import timber.log.Timber.*
 
 
 var adapter: ArrayAdapter<Category> ?= null
 var selectedImg:Int=-1  // itemUri=0 / categeoryUri=1
 lateinit var viewModel:MainViewModel
 var categoryList= listOf<Category>()
-
+var mAuth: FirebaseAuth?= null;
 class DealerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dealer)
         initialiseData()
+        mAuth = FirebaseAuth.getInstance()
+
+
 
         viewModel.categoryList.observe(this, {
-//            Timber.d("Spinner adapter size ${categoryList.size}")
-//            categoryList=it
-//            Timber.d("Spinner adapter size ${categoryList.size}")
-//            adapter?.notifyDataSetChanged()
-
-            adapter=ArrayAdapter<Category>(this, android.R.layout.simple_spinner_dropdown_item, it)
-            spinner_category_ad.adapter=adapter
+            adapter = ArrayAdapter<Category>(this, android.R.layout.simple_spinner_dropdown_item, it)
+            spinner_category_ad.adapter = adapter
         })
 
         spinner_layout_ad.setOnClickListener{
@@ -162,7 +162,7 @@ class DealerActivity : AppCompatActivity() {
                 }
                 1 -> {
 //                    categoryUri = data.data
-                    viewModel.categoryUri.value =data.data
+                    viewModel.categoryUri.value = data.data
                 }
             }
         }
@@ -208,13 +208,15 @@ class DealerActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun newCategory(name: String,uri:Uri?=null){
+    private fun newCategory(name: String, uri: Uri? = null){
         val category=Category()
         category.name=name
         if(uri!=null)category.icon=uri.toString()
         viewModel.addCategory(category)
         spinner_category_ad.setSelection(0)
     }
+
+
 
 }
 

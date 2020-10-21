@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:background="@color/colorPrimary"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.DescriptionScreen">
+    tools:context="com.example.shoppingapp_customer.fragments.DescriptionScreen">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout

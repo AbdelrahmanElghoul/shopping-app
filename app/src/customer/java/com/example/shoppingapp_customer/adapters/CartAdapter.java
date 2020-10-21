@@ -1,4 +1,4 @@
-package com.example.shoppingapp.adapters;
+package com.example.shoppingapp_customer.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,10 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.example.shoppingapp.Item;
 import com.example.shoppingapp.R;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 

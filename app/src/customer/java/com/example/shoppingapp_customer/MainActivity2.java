@@ -1,24 +1,20 @@
-package com.example.shoppingapp;
+package com.example.shoppingapp_customer;
 
 import android.os.Bundle;
-import android.transition.Explode;
 
-import android.transition.Slide;
 import android.transition.Transition;
 
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.example.shoppingapp.fragments.CheckoutScreen;
-import com.example.shoppingapp.fragments.DescriptionScreen;
-import com.example.shoppingapp.fragments.ItemsScreen;
-import com.example.shoppingapp.util.Animation;
-import com.example.shoppingapp.util.Navigation;
-import com.example.shoppingapp.util.OpenFragment;
-import com.google.android.material.transition.platform.MaterialElevationScale;
+import com.example.shoppingapp.R;
+import com.example.shoppingapp_customer.fragments.CheckoutScreen;
+import com.example.shoppingapp_customer.fragments.DescriptionScreen;
+import com.example.shoppingapp_customer.fragments.ItemsScreen;
+import com.example.shoppingapp_customer.util.Navigation;
+import com.example.shoppingapp_customer.util.OpenFragment;
 import com.google.android.material.transition.platform.MaterialFade;
-import com.google.android.material.transition.platform.MaterialFadeThrough;
 
 import timber.log.Timber;
 

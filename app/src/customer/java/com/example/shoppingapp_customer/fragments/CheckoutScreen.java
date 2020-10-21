@@ -1,4 +1,4 @@
-package com.example.shoppingapp.fragments;
+package com.example.shoppingapp_customer.fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -18,9 +18,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.shoppingapp.Map;
+import com.example.shoppingapp_customer.Map;
 import com.example.shoppingapp.R;
-import com.example.shoppingapp.util.UpdateUI;
+import com.example.shoppingapp_customer.util.UpdateUI;
 import com.here.sdk.core.GeoCoordinates;
 import com.here.sdk.mapviewlite.MapViewLite;
 
@@ -28,7 +28,7 @@ import com.here.sdk.mapviewlite.MapViewLite;
 
 import static android.content.Context.LOCATION_SERVICE;
 import static androidx.core.content.ContextCompat.checkSelfPermission;
-import static com.example.shoppingapp.fragments.Permissions.REQUEST_LOCATION;
+import static com.example.shoppingapp_customer.fragments.Permissions.REQUEST_LOCATION;
 
 
 public class CheckoutScreen extends Fragment implements UpdateUI {

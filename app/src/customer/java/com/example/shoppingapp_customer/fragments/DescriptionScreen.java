@@ -1,4 +1,4 @@
-package com.example.shoppingapp.fragments;
+package com.example.shoppingapp_customer.fragments;
 
 import android.os.Bundle;
 
@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.shoppingapp.Item;
-import com.example.shoppingapp.util.Navigation;
+import com.example.shoppingapp_customer.util.Navigation;
 import com.example.shoppingapp.R;
 
 

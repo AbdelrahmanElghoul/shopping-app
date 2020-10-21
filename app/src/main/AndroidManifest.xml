@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".LoginActivity" />
+        <activity android:name="com.example.shoppingapp_customer.LoginActivity" />
 
 
         <provider
@@ -26,8 +26,8 @@
             android:exported="false"
             tools:node="remove" />
 
-        <activity android:name=".MainActivity2" />
-        <activity android:name=".MainShopScreenActivity" />
+        <activity android:name="com.example.shoppingapp_customer.MainActivity2" />
+        <activity android:name="com.example.shoppingapp_customer.MainShopScreenActivity" />
     </application>
 
 </manifest>

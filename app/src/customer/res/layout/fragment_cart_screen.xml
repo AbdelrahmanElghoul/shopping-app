@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:background="@color/background"
     android:layout_height="match_parent"
-    tools:context=".fragments.CartScreen">
+    tools:context="com.example.shoppingapp_customer.fragments.CartScreen">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

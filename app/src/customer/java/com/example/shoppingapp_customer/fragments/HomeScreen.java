@@ -1,4 +1,4 @@
-package com.example.shoppingapp.fragments;
+package com.example.shoppingapp_customer.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoppingapp.R;
-import com.example.shoppingapp.adapters.CategoryAdapter;
-import com.example.shoppingapp.adapters.PreviousOrderAdapter;
+import com.example.shoppingapp_customer.adapters.CategoryAdapter;
+import com.example.shoppingapp_customer.adapters.PreviousOrderAdapter;
 
 
 public class HomeScreen extends Fragment {

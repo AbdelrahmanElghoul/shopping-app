@@ -1,4 +1,4 @@
-package com.example.shoppingapp.fragments;
+package com.example.shoppingapp_customer.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,10 +14,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.example.shoppingapp.util.Navigation;
+import com.example.shoppingapp_customer.util.Navigation;
 import com.example.shoppingapp.R;
-import com.example.shoppingapp.util.SpacesItemDecoration;
-import com.example.shoppingapp.adapters.SearchItemAdapter;
+import com.example.shoppingapp_customer.util.SpacesItemDecoration;
+import com.example.shoppingapp_customer.adapters.SearchItemAdapter;
 
 
 

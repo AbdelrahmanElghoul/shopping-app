@@ -1,4 +1,4 @@
-package com.example.shoppingapp.adapters;
+package com.example.shoppingapp_customer.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,10 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.shoppingapp.fragments.ItemsScreen;
-import com.example.shoppingapp.util.Animation;
+import com.example.shoppingapp_customer.fragments.ItemsScreen;
+import com.example.shoppingapp_customer.util.Animation;
 import com.example.shoppingapp.Category;
-import com.example.shoppingapp.MainActivity2;
+import com.example.shoppingapp_customer.MainActivity2;
 import com.example.shoppingapp.R;
 
 import java.util.List;

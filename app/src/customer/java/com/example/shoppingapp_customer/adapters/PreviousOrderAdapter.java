@@ -1,4 +1,4 @@
-package com.example.shoppingapp.adapters;
+package com.example.shoppingapp_customer.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -4,17 +4,21 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.widget.Toast
-import com.example.shoppingapp.MainShopScreenActivity
 import com.example.shoppingapp.R
+import com.google.firebase.auth.FirebaseAuth
 import timber.log.Timber
+import timber.log.Timber.d
 
-
+var mAuth: FirebaseAuth?= null;
 class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
         Timber.plant(Timber.DebugTree())
+
+        mAuth = FirebaseAuth.getInstance()
+        if(mAuth!!.currentUser?.uid==null) d("Firebase user = null")
+        else  d("current user id= ${mAuth!!.currentUser?.uid}")
 //
 
 //        Log.e("SDK123",String.valueOf(android.os.Build.VERSION.SDK_INT))

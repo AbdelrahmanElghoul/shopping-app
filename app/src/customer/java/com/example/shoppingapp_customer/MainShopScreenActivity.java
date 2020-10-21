@@ -1,4 +1,4 @@
-package com.example.shoppingapp;
+package com.example.shoppingapp_customer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,9 +7,10 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.os.Bundle;
 import android.transition.Transition;
 
-import com.example.shoppingapp.adapters.ViewPagerAdapter;
-import com.example.shoppingapp.fragments.CartScreen;
-import com.example.shoppingapp.fragments.HomeScreen;
+import com.example.shoppingapp.R;
+import com.example.shoppingapp_customer.adapters.ViewPagerAdapter;
+import com.example.shoppingapp_customer.fragments.CartScreen;
+import com.example.shoppingapp_customer.fragments.HomeScreen;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.android.material.transition.platform.MaterialFade;

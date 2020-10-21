@@ -1,4 +1,4 @@
-package com.example.shoppingapp;
+package com.example.shoppingapp_customer;
 
 import android.content.Context;
 import android.view.View;
@@ -7,7 +7,8 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.shoppingapp.util.UpdateUI;
+import com.example.shoppingapp.R;
+import com.example.shoppingapp_customer.util.UpdateUI;
 import com.here.sdk.core.GeoCircle;
 import com.here.sdk.core.GeoCoordinates;
 import com.here.sdk.core.LanguageCode;

@@ -43,5 +43,25 @@ class Firebase {
         fun getCategories():List<Category>?{
             return null
         }
+
+//        private fun auth(email: String, password: String){
+//            mAuth?.createUserWithEmailAndPassword(email, password)
+//                    ?.addOnCompleteListener(this) { task ->
+//                        if (task.isSuccessful) {
+//                            // Sign in success, update UI with the signed-in user's information
+//                            d("logged in")
+//                        } else {
+//                            task.addOnFailureListener {
+//                                e(it)
+//                            }
+//                            // If sign in fails, display a message to the user.
+//                            Toast.makeText(this, "Authentication failed.",
+//                                    Toast.LENGTH_SHORT).show()
+//
+//                        }
+//
+//                        // ...
+//                    }
+//        }
     }
 }

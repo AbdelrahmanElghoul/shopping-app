@@ -1,4 +1,4 @@
-package com.example.shoppingapp.fragments;
+package com.example.shoppingapp_customer.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,12 +15,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.shoppingapp.MainActivity2;
+import com.example.shoppingapp_customer.MainActivity2;
 import com.example.shoppingapp.R;
-import com.example.shoppingapp.adapters.CartAdapter;
-
-
-import timber.log.Timber;
+import com.example.shoppingapp_customer.adapters.CartAdapter;
 
 public class CartScreen extends Fragment {
 

@@ -1,4 +1,4 @@
-package com.example.shoppingapp.adapters;
+package com.example.shoppingapp_customer.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,12 +15,11 @@ import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoppingapp.Item;
-import com.example.shoppingapp.MainActivity2;
-import com.example.shoppingapp.util.Animation;
+import com.example.shoppingapp_customer.MainActivity2;
+import com.example.shoppingapp_customer.util.Animation;
 import com.example.shoppingapp.R;
-import com.example.shoppingapp.fragments.DescriptionScreen;
+import com.example.shoppingapp_customer.fragments.DescriptionScreen;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 

@@ -1,4 +1,4 @@
-package com.example.shoppingapp.util;
+package com.example.shoppingapp_customer.util;
 
 import android.graphics.Rect;
 import android.view.View;
