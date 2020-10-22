@@ -1,151 +1,109 @@
-package com.example.shoppingapp_customer.fragments;
+package com.example.shoppingapp_customer.fragments
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import com.example.shoppingapp.R
+import com.example.shoppingapp.util.Permissions
+import com.example.shoppingapp.util.UpdateUI
+import com.example.shoppingapp_customer.Map
+import com.here.sdk.core.GeoCoordinates
+import com.here.sdk.mapviewlite.MapViewLite
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import com.example.shoppingapp_customer.Map;
-import com.example.shoppingapp.R;
-import com.example.shoppingapp_customer.util.UpdateUI;
-import com.here.sdk.core.GeoCoordinates;
-import com.here.sdk.mapviewlite.MapViewLite;
-
-
-
-import static android.content.Context.LOCATION_SERVICE;
-import static androidx.core.content.ContextCompat.checkSelfPermission;
-import static com.example.shoppingapp_customer.fragments.Permissions.REQUEST_LOCATION;
-
-
-public class CheckoutScreen extends Fragment implements UpdateUI {
-
-    TextView txt_location_change;
-    ImageView imgLocate;
-    TextView txt_address;
-    MapViewLite mapView;
-    Map map;
-    LocationManager locationManager;
-    LocationListener locationListener;
-    GeoCoordinates geoCoordinates;
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Map.setMapCredentials(getContext());
-        View v = inflater.inflate(R.layout.fragment_checkout_screen, container, false);
-        return v;
+class CheckoutScreen : Fragment(), UpdateUI {
+    var txt_location_change: TextView? = null
+    var imgLocate: ImageView? = null
+    var txt_address: TextView? = null
+    var mapView: MapViewLite? = null
+    var map: Map? = null
+    var locationManager: LocationManager? = null
+    var locationListener: LocationListener? = null
+    var geoCoordinates: GeoCoordinates? = null
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        Map.setMapCredentials(context)
+        return inflater.inflate(R.layout.fragment_checkout_screen, container, false)
     }
 
-    void BindView(){
-         txt_location_change  =getView().findViewById(R.id.location_change_txt);
-         imgLocate =getView().findViewById(R.id.get_location_img);
-         txt_address   =getView().findViewById(R.id.txt_address);
-         mapView  =getView().findViewById(R.id.map);
+    fun BindView() {
+        txt_location_change = view!!.findViewById(R.id.location_change_txt)
+        imgLocate = view!!.findViewById(R.id.get_location_img)
+        txt_address = view!!.findViewById(R.id.txt_address)
+        mapView = view!!.findViewById(R.id.map)
     }
 
     @SuppressLint("MissingPermission")
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        BindView();
-
-        mapView.onCreate(savedInstanceState);
-        map = new Map(getContext(), mapView,this);
-        map.loadMapScene();
-
-        imgLocate.setOnClickListener(v -> {
-            requestPermission1();
-            locationManager = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, 10000, 500, locationListener);
-            locationManager.requestLocationUpdates(locationManager.NETWORK_PROVIDER, 10000, 500, locationListener);
-        });
-
-        locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                geoCoordinates =new GeoCoordinates(location.getLatitude(),location.getLongitude());
-                map.getAddressForCoordinates(geoCoordinates);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        BindView()
+        mapView!!.onCreate(savedInstanceState)
+        map = Map(context, mapView, this)
+        map!!.loadMapScene()
+        imgLocate!!.setOnClickListener { v: View? ->
+            requestPermission1()
+            locationManager = context!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            locationManager!!.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 500f, locationListener)
+            locationManager!!.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 500f, locationListener)
+        }
+        locationListener = object : LocationListener {
+            override fun onLocationChanged(location: Location) {
+                geoCoordinates = GeoCoordinates(location.latitude, location.longitude)
+                map!!.getAddressForCoordinates(geoCoordinates)
             }
 
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String provider) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-
-            }
-        };
-
+            override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
+            override fun onProviderEnabled(provider: String) {}
+            override fun onProviderDisabled(provider: String) {}
+        }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        switch(requestCode){
-            case REQUEST_LOCATION:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(getContext(), "All good", Toast.LENGTH_SHORT).show();
-                return;
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == Permissions.REQUEST_LOCATION.get) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(context, "All good", Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 
-    private void requestPermission1(){
-        if (checkSelfPermission(getContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION) !=
+    private fun requestPermission1() {
+        if (ContextCompat.checkSelfPermission(context!!,
+                        Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED &&
-                checkSelfPermission(getContext(),
+                ContextCompat.checkSelfPermission(context!!,
                         Manifest.permission.ACCESS_COARSE_LOCATION) !=
-                        PackageManager.PERMISSION_GRANTED) {
-
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    Permissions.REQUEST_LOCATION);
-
-            return;
+                PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    Permissions.REQUEST_LOCATION.get)
+            return
         }
-
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        mapView.onResume();
+    override fun onResume() {
+        super.onResume()
+        mapView!!.onResume()
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mapView.onDestroy();
+    override fun onDestroy() {
+        super.onDestroy()
+        mapView!!.onDestroy()
     }
 
-    @Override
-    public void update(String address) {
-        address =address.replace(", ",",\n");
-
-        txt_address.setText(address);
-
+    override fun update(address: String) {
+        var address = address
+        address = address.replace(", ", ",\n")
+        txt_address!!.text = address
     }
 }
-

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="@dimen/default_icon_width_height"
+        android:layout_height="@dimen/default_icon_width_height"
+        android:layout_marginTop="@dimen/high_margin_padding"
+        android:id="@+id/img_avatar_fsi"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="@dimen/_5sdp"
+        android:background="@drawable/round_frame"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/app_icon_img_foreground"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorAccent"
+        android:id="@+id/horizontal_view_fsi"
+        app:layout_constraintTop_toTopOf="@id/img_avatar_fsi"
+        app:layout_constraintBottom_toBottomOf="@id/img_avatar_fsi"
+        android:visibility="invisible"
+        />
+
+    <androidx.cardview.widget.CardView
+        app:layout_constraintStart_toStartOf="@id/horizontal_view_fsi"
+        app:layout_constraintEnd_toEndOf="@id/horizontal_view_fsi"
+        android:id="@+id/card_fsi"
+        app:cardCornerRadius="50dp"
+        android:layout_marginHorizontal="@dimen/average_margin_padding"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_view_fsi"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/average_margin_padding"
+        android:layout_width="0dp"
+        android:layout_height="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guide_line_fsi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.1" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_sign_in_email_txt_fsi"
+                style="@style/text_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/high_margin_padding"
+                android:hint="@string/email"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/guide_line_fsi">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_sign_in_email_fsi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_sign_in_password_txt_fsi"
+                style="@style/text_input_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/password"
+                app:layout_constraintEnd_toEndOf="@id/layout_sign_in_email_txt_fsi"
+                app:layout_constraintStart_toStartOf="@id/layout_sign_in_email_txt_fsi"
+                app:layout_constraintTop_toBottomOf="@id/layout_sign_in_email_txt_fsi"
+                app:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_sign_in_password_fsi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.gms.common.SignInButton
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/high_margin_padding"
+                android:layout_width="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/layout_sign_in_password_txt_fsi"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/btn_google_login_fsi"
+            />
+
+
+<!--            <com.facebook.login.widget.LoginButton-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/btn_google_login_fsi"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                android:id="@+id/btn_facebook_login_fsi"/>-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_error_fsi"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/btn_sign_in_fsi"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:gravity="center"
+                android:text="@string/empty_field_error_msg"
+                app:drawableStartCompat="@drawable/error" />
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"
+                android:id="@+id/progress_bar_fsi"
+                app:layout_constraintBottom_toTopOf="@id/btn_sign_in_fsi"
+                />
+            <Button
+                style="@style/default_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/average_margin_padding"
+                android:text="@string/log_in"
+                android:id="@+id/btn_sign_in_fsi"
+                app:layout_constraintBottom_toTopOf="@id/btn_create_account_fsi"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+            <Button
+                style="@style/default_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/average_margin_padding"
+                android:text="Create account"
+                android:id="@+id/btn_create_account_fsi"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

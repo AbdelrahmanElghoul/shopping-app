@@ -47,8 +47,12 @@
     <string name="stock">Stock</string>
     <string name="cancel">Cancel</string>
     <string name="add_category_txt">Add category</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="phone">Phone</string>
+    <string name="register">Register</string>
 
-
-
+    <string name="empty_field_error_msg">empty field</string>
+    <string name="log_in">Log in</string>
 
 </resources>

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application>
-        <activity android:name="com.example.shoppingapp_vendor.RegisterActivity"
+        <activity android:name="com.example.shoppingapp_vendor.register.RegisterActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

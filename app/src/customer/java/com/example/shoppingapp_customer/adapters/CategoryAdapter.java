@@ -60,8 +60,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                     p3,p2,p1);
         });
 
-        holder.categoryImg.setImageResource(categoryList[position].second);
-        holder.categoryName.setText(categoryList[position].first);
+//        holder.categoryImg.setImageResource(categoryList[position].second);
+//        holder.categoryName.setText(categoryList[position].first);
 
     }
 

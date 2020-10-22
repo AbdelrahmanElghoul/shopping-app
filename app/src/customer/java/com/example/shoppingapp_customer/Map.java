@@ -8,7 +8,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.example.shoppingapp.R;
-import com.example.shoppingapp_customer.util.UpdateUI;
+import com.example.shoppingapp.util.UpdateUI;
 import com.here.sdk.core.GeoCircle;
 import com.here.sdk.core.GeoCoordinates;
 import com.here.sdk.core.LanguageCode;
@@ -37,8 +37,6 @@ public class Map {
     SearchOptions reverseGeocodingOptions;
     MapOverlay<View> mapOverlay;
     UpdateUI updateUI;
-
-
 
 
     public Map(Context context, MapViewLite mapView, Fragment fragment) {

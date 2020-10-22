@@ -62,7 +62,7 @@
                 android:layout_height="match_parent"
                 android:text="@string/home"
                 style="@style/Text"
-                android:textSize="@dimen/text_size"
+                android:textSize="@dimen/small_text_size"
                 android:id="@+id/txt_address"
                 android:textColor="@color/green_60"
                 app:layout_constraintStart_toStartOf="parent"
