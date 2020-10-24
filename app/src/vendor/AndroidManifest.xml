@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application>
-        <activity android:name="com.example.shoppingapp_vendor.register.RegisterActivity"
+        <activity android:name="com.example.shoppingapp_vendor.MainVendorActivity" />
+        <activity android:name="com.example.shoppingapp_vendor.SplashScreen"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -12,9 +13,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.example.shoppingapp_vendor.register.RegisterActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
             android:name="com.example.shoppingapp_vendor.VendorActivity"
-            android:windowSoftInputMode="adjustPan">
-        </activity>
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

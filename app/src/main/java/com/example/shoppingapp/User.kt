@@ -9,7 +9,8 @@ class User  {
     lateinit var name: String
     var icon: String?=null
     lateinit var email: String
-    lateinit var phone: String
+    var phone: String?=null
+    var cartId:String?=null
 
 
 }

@@ -10,7 +10,7 @@
     android:orientation="vertical">
 
         <ImageView
-            android:background="@drawable/image_frame"
+            android:background="@drawable/round_frame"
             android:elevation="3dp"
             android:padding="10dp"
             android:transitionName="@string/CATEGORY_IMG_TRANSITION_TAG"

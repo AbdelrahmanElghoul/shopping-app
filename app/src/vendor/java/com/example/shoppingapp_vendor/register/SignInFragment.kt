@@ -1,30 +1,117 @@
 package com.example.shoppingapp_vendor.register
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.shoppingapp.R
-import com.example.shoppingapp.util.OpenFragment
-import com.example.shoppingapp_vendor.sign_up.SignUpFragment
-import com.facebook.FacebookSdk
-import com.facebook.appevents.AppEventsLogger
+import com.example.shoppingapp.util.*
+import com.example.shoppingapp_vendor.MainVendorActivity
+import com.example.shoppingapp_vendor.VendorActivity
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.fragment_sign_in.*
+import timber.log.Timber
 
 
-class SignInFragment : Fragment(),OpenFragment {
+class SignInFragment : Fragment(),OpenFragment,UpdateUI {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_sign_in, container, false)
     }
+private lateinit var mGoogleSignInClient:GoogleSignInClient
+private lateinit  var gso:GoogleSignInOptions
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("64677809828-7ojdton88rht11q248miketlii0ipirj.apps.googleusercontent.com")
+                .requestEmail()
+                .build()
 
-        btn_create_account_fsi.setOnClickListener{openFragment(context as RegisterActivity, SignUpFragment(),R.id.frame_register_ar)}
+        mGoogleSignInClient= GoogleSignIn.getClient(context as Context, gso)
+
+        btn_create_account_fsi.setOnClickListener {
+            openFragment(context as RegisterActivity, SignUpFragment(), R.id.frame_register_ar)
+        }
+        btn_log_in_fsi.setOnClickListener {
+            logInEmailPassword()
+        }
+        btn_google_login_fsi.setOnClickListener{
+            logInGoogle()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RequestCode.GOOGLE_SIGN_IN.getValue  && resultCode== Activity.RESULT_OK) {
+            try {
+                val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+                // Google Sign In was successful, authenticate with Firebase
+                val account = task.getResult(ApiException::class.java)!!
+                Timber.tag("FirebaseAuth").d("firebaseAuthWithGoogle: ${account.idToken}")
+                Firebase.logInWithGoogle(this, account.idToken!!,Firebase.Users.VENDOR.Key,Intent(context, MainVendorActivity::class.java))
+            }
+            catch (e:Exception) {
+                // Google Sign In failed, update UI appropriately
+//                Log.w(TAG, "Google sign in failed", e)
+                // ...
+                Timber.tag("Firebase").e(e)
+            }
+        }
+        Timber.d("request code  = $requestCode\nresult code = $resultCode")
+        }
+    private fun areAllViewsValid(): Boolean {
+        var isValid = true
+        if (txt_sign_in_email_fsi.text.isNullOrEmpty()) {
+            txt_sign_in_email_fsi.error = getString(R.string.empty_field_error_msg)
+            isValid = false
+        } else if (!Util.isEmailValid(txt_sign_in_email_fsi.text.toString())) {
+            txt_sign_in_email_fsi.error = "invalid email"
+            isValid = false
+
+        }
+        if (txt_sign_in_password_fsi.text.isNullOrEmpty()) {
+            isValid = false
+            txt_sign_in_password_fsi.error = getString(R.string.empty_field_error_msg)
+        } else if (txt_sign_in_password_fsi.text!!.length < 6) {
+            isValid = false
+            txt_sign_in_password_fsi.error = "password mst be more than 6 digits"
+        }
+        return isValid
+    }
+
+    private fun logInEmailPassword() {
+        txt_error_fsi.visibility=View.GONE
+        if (!(areAllViewsValid())) return
+        progress_bar_fsi.visibility=View.VISIBLE
+
+
+        Firebase.logInWithEmailPassword(
+                this,
+                txt_sign_in_email_fsi.text.toString(),
+                txt_sign_in_password_fsi.text.toString(),
+                Intent(context, MainVendorActivity::class.java))
+    }
+    private fun logInGoogle() {
+
+        val signInIntent = mGoogleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RequestCode.GOOGLE_SIGN_IN.getValue)
+    }
+
+    override fun update(text: String?) {
+        progress_bar_fsi.visibility = View.GONE
+        txt_error_fsi.text = text
+        txt_error_fsi.visibility = View.VISIBLE
     }
 
 }

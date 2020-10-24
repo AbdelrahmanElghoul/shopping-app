@@ -32,7 +32,7 @@
         android:paddingEnd="@dimen/high_margin_padding"
         android:paddingTop="@dimen/low_margin_padding"
         android:paddingBottom="@dimen/low_margin_padding"
-        android:background="@drawable/image_frame"
+        android:background="@drawable/round_frame"
         android:layout_height="?android:actionBarSize">
 
         <ImageView

@@ -5,10 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
-import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
 import com.example.shoppingapp.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import timber.log.Timber
@@ -17,8 +18,8 @@ import timber.log.Timber
 abstract class Firebase {
 
     companion object {
-
-        fun addUserToFirebase(context: Context, user: User, type: String) {
+        //User
+        private fun addUserToDatabase(context: Context, user: User, type: String) {
             val database = FirebaseDatabase.getInstance()
             val key = database.reference.push().key.toString()
             val myRef = database.getReference(type).child(key)
@@ -37,48 +38,165 @@ abstract class Firebase {
             riversRef.putFile(Uri.parse(uri))
                     .addOnFailureListener {
                         Timber.e(it)
-                        val ui=context as UpdateUI
+                        val ui = context as UpdateUI
                         ui.update(it.toString())
                         Toast.makeText(context, "error occurred\n$it.message", Toast.LENGTH_SHORT).show()
                     }
-            return riversRef.downloadUrl.toString()
+            return riversRef.downloadUrl.result.toString()
         }
-        fun auth(activity: Activity, user: User, password: String, type: String, intent: Intent) {
+        fun auth(fragment: Fragment, user: User, password: String, type: String, intent: Intent) {
             val mAuth = FirebaseAuth.getInstance()
             mAuth.createUserWithEmailAndPassword(user.email, password)
-                    .addOnCompleteListener(activity) { task ->
-                        if (task.isSuccessful) {
-                            addUserToFirebase(activity, user, type)
-                            // Sign in success, update UI with the signed-in user's information
-                            activity.startActivity(intent)
-                        } else {
-                            task.addOnFailureListener {
-                                Timber.e(it)
-                                Toast.makeText(activity, "log in failed.\n${it}", Toast.LENGTH_SHORT).show()
-
-                            }
-                        }
-
+                    .addOnSuccessListener {
+                        addUserToDatabase(fragment.context as Context, user, type)
+                        fragment.startActivity(intent)
                     }
+                    .addOnFailureListener {
+                        Timber.e(it)
+                        val ui = fragment as UpdateUI
+                        ui.update(it.toString())
+                        Toast.makeText(fragment.context, "log in failed.\n${it}", Toast.LENGTH_SHORT).show()
+                    }
+        }
+
+        fun logout(activity: Activity) {
+            FirebaseAuth.getInstance().signOut()
+            activity.finish()
 
         }
 
-        fun login(email:String,password:String){
+        fun logInWithEmailPassword(fragment: Fragment, email: String, password: String, intent: Intent) {
+            val auth = FirebaseAuth.getInstance()
+            auth.signInWithEmailAndPassword(email, password)
+                    .addOnSuccessListener {
+                        fragment.startActivity(intent)
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(fragment.context, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show()
+                        val ui = fragment as UpdateUI
+                        ui.update(it.toString())
+                    }
+        }
+        fun logInWithGoogle(fragment: Fragment,token:String,type:String,intent: Intent) {
+            val auth = FirebaseAuth.getInstance()
+            val credential = GoogleAuthProvider.getCredential(token, null)
+            auth.signInWithCredential(credential)
+                    .addOnSuccessListener() {
+                            // Sign in success, update UI with the signed-in user's information
+                            val user=User()
+                            user.name=auth.currentUser?.displayName?: auth.currentUser?.email as String
+                            user.email=auth.currentUser?.email as String
+                            user.icon=auth.currentUser?.photoUrl.toString()
+                            user.phone=auth.currentUser?.phoneNumber
+                            addUserToDatabase(fragment.context as Context, user, type)
+                            fragment.startActivity(intent)
+                        }
+                    .addOnFailureListener{
+                        Toast.makeText(fragment.context, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show()
+                        val ui = fragment as UpdateUI
+                        ui.update(it.toString())
+                    }
+        }
+
+        fun logInWithFacebook(context: Context, user: User, password: String, type: String, intent: Intent) {
 
         }
-        fun getUserProfile():User{
 
-            return User()
+
+        fun updateUserProfile() {
+//            val user = Firebase.auth.currentUser
+//
+//            val profileUpdates = userProfileChangeRequest {
+//                displayName = "Jane Q. User"
+//                photoUri = Uri.parse("https://example.com/jane-q-user/profile.jpg")
+//            }
+//
+//            user!!.updateProfile(profileUpdates)
+//                    .addOnCompleteListener { task ->
+//                        if (task.isSuccessful) {
+//                            Log.d(TAG, "User profile updated.")
+//                        }
+//                    }
         }
-        fun getItems(key:String,value:String):List<Items>?{
+
+        fun getItems(key: String, value: String): List<Items>? {
+            val database = FirebaseDatabase.getInstance()
+            val myRef = database.getReference(Firebase.Items.ITEMS.Key).child(key)
+            val postListener = object : ChildEventListener {
+
+                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                    TODO("Not yet implemented")
+                }
+                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                    TODO("Not yet implemented")
+                }
+                override fun onChildRemoved(snapshot: DataSnapshot) {
+                    TODO("Not yet implemented")
+                }
+                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+                    TODO("Not yet implemented")
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+
+            }
+//            myRef.addValueEventListener(postListener)
+            myRef.addChildEventListener(postListener)
             return null
         }
 
-        fun logout(){
-            FirebaseAuth.getInstance().signOut()
+
+        fun verifyMail() {
+//            val user = Firebase.auth.currentUser
+//
+//            user!!.sendEmailVerification()
+//                    .addOnCompleteListener { task ->
+//                        if (task.isSuccessful) {
+//                            Log.d(TAG, "Email sent.")
+//                        }
+//                    }
         }
-        fun validateEmail(){}
-        fun validatePhone(){}
+        fun updatePassword() {
+//            val user = Firebase.auth.currentUser
+//            val newPassword = "SOME-SECURE-PASSWORD"
+//
+//            user!!.updatePassword(newPassword)
+//                    .addOnCompleteListener { task ->
+//                        if (task.isSuccessful) {
+//                            Log.d(TAG, "User password updated.")
+//                        }
+//                    }
+
+        }
+        fun passwordResetEmail() {
+//            val emailAddress = "user@example.com"
+//
+//            Firebase.auth.sendPasswordResetEmail(emailAddress)
+//                    .addOnCompleteListener { task ->
+//                        if (task.isSuccessful) {
+//                            Log.d(TAG, "Email sent.")
+//                        }
+//                    }
+
+        }
+        fun reAuthUser() {
+//            val user = Firebase.auth.currentUser!!
+
+//// Get auth credentials from the user for re-authentication. The example below shows
+//// email and password credentials but there are multiple possible providers,
+//// such as GoogleAuthProvider or FacebookAuthProvider.
+//            val credential = EmailAuthProvider
+//                    .getCredential("user@example.com", "password1234")
+//
+//// Prompt the user to re-provide their sign-in credentials
+//            user.reauthenticate(credential)
+//                    .addOnCompleteListener { Log.d(TAG, "User re-authenticated.") }
+        }
+
     }
 
     enum class Items(val Key: String){

@@ -25,7 +25,7 @@ class MainActivity2 : AppCompatActivity(), Navigation, OpenFragment {
             DescriptionScreen::class.java.simpleName == fragName -> {
                 val fragment: Fragment = DescriptionScreen()
                 val bundle = Bundle()
-                val color = intent.getIntExtra(getString(R.string.COLOR_TAG), getColor(R.color.light_blue))
+                val color = intent.getIntExtra(getString(R.string.COLOR_TAG), getColor(R.color.app_icon_color_dark))
                 bundle.putInt(getString(
                         R.string.COLOR_TAG), color)
                 //            bundle.putParcelable(getString(R.string.OBJECT_TAG), getIntent().getParcelableExtra(getString(R.string.OBJECT_TAG)));

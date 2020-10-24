@@ -17,8 +17,10 @@ import com.example.shoppingapp.R
 import com.example.shoppingapp.util.Firebase
 import com.example.shoppingapp.util.RequestCode
 import com.example.shoppingapp_vendor.util.VFirebase
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.vendor.activity_vendor.*
 import kotlinx.android.synthetic.vendor.alert_dialog_layout.view.*
+import timber.log.Timber
 import timber.log.Timber.*
 
 class VendorActivity : AppCompatActivity() {
@@ -32,13 +34,22 @@ class VendorActivity : AppCompatActivity() {
         setContentView(R.layout.activity_vendor)
         initialiseData()
 
-        img_logout_av.setOnClickListener { Firebase.logout() }
+//        val user=FirebaseAuth.getInstance().currentUser
+//        Timber.tag("current user")
+//                .d("name = ${user?.displayName}\n" +
+//                        "email = ${user?.email}\n" +
+//                        "photo = ${user?.photoUrl}\n" +
+//                        "phone=${user?.phoneNumber}\nuser=$user")
+//
+
+        img_logout_av.setOnClickListener { Firebase.logout(this) }
         spinner_layout_av.setOnClickListener {spinner_category_av.callOnClick()}
         btn_add_item.setOnClickListener { btnAdd() }
         img_item_icon_av.setOnClickListener {
             selectedImg = 0
           getImageFromGallery()
         }
+
         spinner_category_av?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 Glide.with(this@VendorActivity)

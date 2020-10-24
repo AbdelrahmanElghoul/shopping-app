@@ -1,4 +1,4 @@
-package com.example.shoppingapp_vendor.sign_up
+package com.example.shoppingapp_vendor.register
 
 import android.content.Intent
 import android.net.Uri
@@ -12,16 +12,15 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.shoppingapp.R
 import com.example.shoppingapp.User
-import com.example.shoppingapp.util.Firebase
-import com.example.shoppingapp.util.RequestCode
-import com.example.shoppingapp.util.UpdateUI
+import com.example.shoppingapp.util.*
+import com.example.shoppingapp_vendor.MainVendorActivity
 import com.example.shoppingapp_vendor.VendorActivity
-import com.example.shoppingapp_vendor.register.RegisterActivity
+import kotlinx.android.synthetic.main.fragment_sign_in.*
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import timber.log.Timber
 
 
-class SignUpFragment : Fragment(),UpdateUI {
+class SignUpFragment : Fragment(),OpenFragment,UpdateUI {
     private var imgUri: Uri?=null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -43,16 +42,16 @@ class SignUpFragment : Fragment(),UpdateUI {
     }
     private fun  btnsign_upOnClick(){
         txt_error_fsu.visibility=View.GONE
-        if(!validate()) return
-
+        if(!areAllViewsValid()) return
+        progress_bar_fsu.visibility=View.VISIBLE
         val user=User()
         user.name=txt_sign_up_name_fsu.text.toString()
         user.email=txt_sign_up_email_fsu.text.toString()
         user.phone=txt_sign_up_phone_fsu.text.toString()
         if(imgUri!=null)user.icon=imgUri.toString()
 
-        Firebase.auth(context as RegisterActivity,
-                user, password = txt_sign_up_password_fsu.text.toString(), Firebase.Users.VENDOR.Key, intent = Intent(context, VendorActivity::class.java))
+        Firebase.auth(this,
+                user, password = txt_sign_up_password_fsu.text.toString(), Firebase.Users.VENDOR.Key, intent = Intent(context, MainVendorActivity::class.java))
 
     }
 
@@ -69,7 +68,7 @@ class SignUpFragment : Fragment(),UpdateUI {
         }
 
     }
-    private fun validate():Boolean{
+    private fun areAllViewsValid():Boolean{
         var isValid=true
         if(txt_sign_up_name_fsu.text.isNullOrEmpty()){
             isValid=false
@@ -80,11 +79,16 @@ class SignUpFragment : Fragment(),UpdateUI {
             txt_sign_up_password_fsu.error=getString(R.string.empty_field_error_msg)
         }else if(txt_sign_up_password_fsu.text!!.length < 6){
             isValid=false
-            txt_sign_up_name_fsu.error="password mst be more than 6 digits"
+            txt_sign_up_password_fsu.error="password mst be more than 6 digits"
         }
+
         if(txt_sign_up_email_fsu.text.isNullOrEmpty()){
             isValid=false
             txt_sign_up_email_fsu.error=getString(R.string.empty_field_error_msg)
+        } else if(!Util.isEmailValid(txt_sign_up_email_fsu.text.toString())) {
+            txt_sign_up_email_fsu.error = "invalid email"
+            isValid = false
+
         }
         if(txt_sign_up_phone_fsu.text.isNullOrEmpty()){
             isValid=false

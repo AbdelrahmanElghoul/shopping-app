@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background"
-
     android:layout_height="match_parent">
 
     <ImageView
@@ -21,7 +20,22 @@
         android:background="@drawable/round_frame"
         android:backgroundTint="@color/white"
         android:src="@drawable/icon_avatar"
+        app:tint="@color/app_icon_color_dark"
         />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/app_icon_color_dark"
+        app:layout_constraintBottom_toTopOf="@id/guideline1_fsu"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/guideline1_fsu"
+        app:layout_constraintGuide_percent="0.3"/>
 
     <View
         android:layout_width="match_parent"
@@ -133,7 +147,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/txt_error_fsu"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@id/btn_sign_up_fsu"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -154,6 +168,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/average_margin_padding"
+                android:paddingHorizontal="@dimen/extra_margin_padding"
+                android:paddingVertical="@dimen/average_margin_padding"
                 android:text="@string/register"
                 android:id="@+id/btn_sign_up_fsu"
                 app:layout_constraintBottom_toBottomOf="parent"

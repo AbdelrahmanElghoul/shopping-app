@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.shoppingapp.R
 import com.example.shoppingapp.util.OpenFragment
-import com.example.shoppingapp_vendor.sign_up.SignUpFragment
 
 class RegisterActivity : AppCompatActivity(),OpenFragment {
     override fun onCreate(savedInstanceState: Bundle?) {
