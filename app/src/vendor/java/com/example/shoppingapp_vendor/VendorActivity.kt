@@ -4,24 +4,20 @@ import android.content.Intent
 import android.content.res.TypedArray
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.appcompat.app.AlertDialog
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.shoppingapp.Item
 import com.example.shoppingapp.R
 import com.example.shoppingapp.util.Firebase
 import com.example.shoppingapp.util.RequestCode
-import com.example.shoppingapp_vendor.util.VFirebase
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.vendor.activity_vendor.*
-import kotlinx.android.synthetic.vendor.alert_dialog_layout.view.*
-import timber.log.Timber
-import timber.log.Timber.*
+import timber.log.Timber.DebugTree
+import timber.log.Timber.plant
 
 class VendorActivity : AppCompatActivity() {
     private lateinit var adapter: ArrayAdapter<String>
@@ -87,18 +83,34 @@ class VendorActivity : AppCompatActivity() {
         return isValid
     }
     private fun btnAdd() {
+        txt_error_av.visibility=View.GONE
         if (!validateViews()) return
-        val item = Item()
-        item.name = txt_item_name_av.text.toString()
-        item.price = txt_item_price_av.text.toString()
-        item.stock = txt_item_stock_av.text.toString()
-        item.categoryId = spinner_category_av.selectedItemPosition.toString()
-        item.description = txt_item_description_av.text.toString()
-        item.manufactureDetails = txt_manufacture_av.text.toString()
 
-        VFirebase.addItemToFirebase(item)
+        val itemMap = HashMap<String, String>()
+        itemMap[Firebase.Items.ITEM_NAME.Key] = txt_item_name_av.text.toString()
+        itemMap[Firebase.Items.ITEM_PRICE.Key] = txt_item_price_av.text.toString()
+        if (itemUri != null) itemMap[Firebase.Items.ITEM_IMG_URL.Key] = itemUri.toString()
+        itemMap[Firebase.Items.ITEM_STOCK.Key] = txt_item_stock_av.text.toString()
+        itemMap[Firebase.Items.ITEMS_CATEGORY.Key] = spinner_category_av.selectedItemPosition.toString()
+        itemMap[Firebase.Items.ITEM_DESCRIPTION.Key] = txt_item_description_av.text.toString()
+        itemMap[Firebase.Items.ITEM_MANUFACTURE.Key] = txt_manufacture_av.text.toString()
+
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database
+                .getReference(Firebase.Items.ITEMS.Key)
+                .child(database.reference.push().key.toString())
+                .setValue(itemMap)
+
+        myRef.addOnSuccessListener  {
+            super.onBackPressed()
+        }
+                .addOnFailureListener {
+            Toast.makeText(this,it.message,Toast.LENGTH_LONG).show()
+            txt_error_av.text=it.message
+        }
+
     }
-    fun getImageFromGallery() {
+    private fun getImageFromGallery() {
         val intent = Intent()
         intent.action = Intent.ACTION_GET_CONTENT
         intent.type = "image/*"

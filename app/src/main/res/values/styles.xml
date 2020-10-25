@@ -36,6 +36,12 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="TextError">
+        <item name="android:textColor">@color/text_error_color</item>
+
+        <item name="android:textAllCaps">false</item>
+    </style>
+
     <style name="round_corner_button">
         <item name="android:textColor">#fff</item>
         <item name="android:paddingStart">10dp</item>

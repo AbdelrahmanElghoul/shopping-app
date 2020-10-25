@@ -19,18 +19,27 @@ abstract class Firebase {
 
     companion object {
         //User
-        private fun addUserToDatabase(context: Context, user: User, type: String) {
+        private fun addUserToDatabase(fragment: Fragment, userMap: HashMap<String,String>, type: String) {
             val database = FirebaseDatabase.getInstance()
             val key = database.reference.push().key.toString()
-            val myRef = database.getReference(type).child(key)
+            if (userMap.containsKey(Firebase.Users.USER_ICON.Key))
+                userMap[Firebase.Users.USER_ICON.Key]=
+                        addImageToStorage(fragment.context as Context, key, userMap[Firebase.Users.USER_ICON.Key] as String, type)
 
-            myRef.child(Firebase.Users.USER_NAME.Key).setValue(user.name)
-            if (user.icon != null) myRef.child(Firebase.Users.USER_ICON.Key).setValue(
-                    addImageToStorage(context, key, user.icon as String, type)
-            )
-            myRef.child(Firebase.Users.USER_NAME.Key).setValue(user.name)
-            myRef.child(Firebase.Users.USER_EMAIL.Key).setValue(user.email)
-            myRef.child(Firebase.Users.USER_PHONE.Key).setValue(user.phone)
+            val myRef = database
+                    .getReference(type)
+                    .child(key).
+                    setValue(userMap)
+                    .addOnSuccessListener {
+                        //Todo Continue
+                    }
+                    .addOnFailureListener{
+                        Timber.e(it)
+                        val ui = fragment as UpdateUI
+                        ui.update(it.toString())
+                        Toast.makeText(fragment.context, "log in failed.\n${it}", Toast.LENGTH_SHORT).show()
+                    }
+
         }
         fun addImageToStorage(context: Context, iconName: String, uri: String, type: String): String {
             val mStorageRef = FirebaseStorage.getInstance().reference
@@ -44,11 +53,11 @@ abstract class Firebase {
                     }
             return riversRef.downloadUrl.result.toString()
         }
-        fun auth(fragment: Fragment, user: User, password: String, type: String, intent: Intent) {
+        fun auth(fragment: Fragment, user: HashMap<String,String>, password: String, type: String, intent: Intent) {
             val mAuth = FirebaseAuth.getInstance()
-            mAuth.createUserWithEmailAndPassword(user.email, password)
+            mAuth.createUserWithEmailAndPassword(user[Firebase.Users.USER_EMAIL.Key] as String, password)
                     .addOnSuccessListener {
-                        addUserToDatabase(fragment.context as Context, user, type)
+                        addUserToDatabase(fragment, user, type)
                         fragment.startActivity(intent)
                     }
                     .addOnFailureListener {
@@ -58,13 +67,11 @@ abstract class Firebase {
                         Toast.makeText(fragment.context, "log in failed.\n${it}", Toast.LENGTH_SHORT).show()
                     }
         }
-
         fun logout(activity: Activity) {
             FirebaseAuth.getInstance().signOut()
             activity.finish()
 
         }
-
         fun logInWithEmailPassword(fragment: Fragment, email: String, password: String, intent: Intent) {
             val auth = FirebaseAuth.getInstance()
             auth.signInWithEmailAndPassword(email, password)
@@ -82,16 +89,17 @@ abstract class Firebase {
             val auth = FirebaseAuth.getInstance()
             val credential = GoogleAuthProvider.getCredential(token, null)
             auth.signInWithCredential(credential)
-                    .addOnSuccessListener() {
-                            // Sign in success, update UI with the signed-in user's information
-                            val user=User()
-                            user.name=auth.currentUser?.displayName?: auth.currentUser?.email as String
-                            user.email=auth.currentUser?.email as String
-                            user.icon=auth.currentUser?.photoUrl.toString()
-                            user.phone=auth.currentUser?.phoneNumber
-                            addUserToDatabase(fragment.context as Context, user, type)
-                            fragment.startActivity(intent)
-                        }
+                    .addOnSuccessListener {
+                        // Sign in success, update UI with the signed-in user's information
+                        val user = HashMap<String, String>()
+                        user[Firebase.Users.USER_NAME.Key] = auth.currentUser?.displayName
+                                ?: auth.currentUser?.email as String
+                        user[Firebase.Users.USER_EMAIL.Key] = auth.currentUser?.email as String
+                        user[Firebase.Users.USER_ICON.Key] = auth.currentUser?.photoUrl.toString()
+                        user[Firebase.Users.USER_PHONE.Key] = auth.currentUser?.phoneNumber as String
+                        addUserToDatabase(fragment, user, type)
+                        fragment.startActivity(intent)
+                    }
                     .addOnFailureListener{
                         Toast.makeText(fragment.context, "Authentication failed.",
                                 Toast.LENGTH_SHORT).show()
@@ -103,8 +111,6 @@ abstract class Firebase {
         fun logInWithFacebook(context: Context, user: User, password: String, type: String, intent: Intent) {
 
         }
-
-
         fun updateUserProfile() {
 //            val user = Firebase.auth.currentUser
 //
@@ -120,36 +126,14 @@ abstract class Firebase {
 //                        }
 //                    }
         }
-
         fun getItems(key: String, value: String): List<Items>? {
             val database = FirebaseDatabase.getInstance()
             val myRef = database.getReference(Firebase.Items.ITEMS.Key).child(key)
-            val postListener = object : ChildEventListener {
 
-                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                    TODO("Not yet implemented")
-                }
-                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                    TODO("Not yet implemented")
-                }
-                override fun onChildRemoved(snapshot: DataSnapshot) {
-                    TODO("Not yet implemented")
-                }
-                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                    TODO("Not yet implemented")
-                }
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-
-
-            }
 //            myRef.addValueEventListener(postListener)
-            myRef.addChildEventListener(postListener)
+
             return null
         }
-
-
         fun verifyMail() {
 //            val user = Firebase.auth.currentUser
 //

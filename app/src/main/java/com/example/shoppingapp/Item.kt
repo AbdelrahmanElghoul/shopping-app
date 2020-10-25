@@ -8,12 +8,13 @@ class Item : Parcelable {
     lateinit var id: String
     lateinit var categoryId: String
     lateinit var name: String
-    var iconURL: String? = null
-    var description: String? = null
     lateinit var price: String
-    var manufactureDetails: String? = null
     lateinit var stock: String
     lateinit var vendorId: String
+    var iconURL: String? = null
+    var description: String? = null
+    var manufactureDetails: String? = null
+
 
     constructor(source: Parcel) : this()
     constructor()

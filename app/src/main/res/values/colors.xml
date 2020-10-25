@@ -18,6 +18,8 @@
     <color name="black">#000</color>
     <color name="text_color">#474747</color>
 
+    <color name="text_error_color">#870202</color>
+
 
     <color name="app_icon_color_light">#BF2196F3</color>
     <color name="app_icon_color_dark">#4686E2</color>

@@ -61,7 +61,7 @@
         app:cardCornerRadius="@dimen/_20sdp"
         android:layout_marginHorizontal="@dimen/average_margin_padding"
         android:layout_marginBottom="@dimen/average_margin_padding"
-        app:layout_constraintBottom_toTopOf="@id/btn_add_item"
+        app:layout_constraintBottom_toTopOf="@id/txt_error_av"
         android:layout_height="0dp">
 
         <ScrollView
@@ -215,6 +215,20 @@
 
         </ScrollView>
     </androidx.cardview.widget.CardView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/low_margin_padding"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center_vertical"
+        android:drawableLeft="@drawable/error"
+        android:text=" Error"
+        android:visibility="gone"
+        android:id="@+id/txt_error_av"
+        style="@style/TextError"
+        app:layout_constraintBottom_toTopOf="@id/btn_add_item"
+        />
     <TextView
         app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/btn_add_item"

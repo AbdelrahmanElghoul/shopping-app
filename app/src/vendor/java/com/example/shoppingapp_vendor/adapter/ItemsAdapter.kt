@@ -9,15 +9,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.example.shoppingapp.Item
 import com.example.shoppingapp.R
+import kotlinx.android.synthetic.vendor.activity_vendor.*
 
-class ItemsAdapter(val context: Context) : RecyclerView.Adapter<ItemsAdapter.ItemsViewHolder>() {
+class ItemsAdapter(val context: Context,val itemList:List<Item>) : RecyclerView.Adapter<ItemsAdapter.ItemsViewHolder>() {
 
     class ItemsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var txtName: TextView
-        var txtPrice: TextView
-        var imgIcon: ImageView
-        var layoutCard: CardView
+         var txtName: TextView
+         var txtPrice: TextView
+         var imgIcon: ImageView
+         var layoutCard: CardView
 
         init {
             this.txtName = itemView.findViewById(R.id.txt_item_name_il)
@@ -33,10 +37,16 @@ class ItemsAdapter(val context: Context) : RecyclerView.Adapter<ItemsAdapter.Ite
     }
 
     override fun onBindViewHolder(holder: ItemsViewHolder, position: Int) {
-
+        holder.txtName.text=itemList[position].name
+        holder.txtPrice.text=itemList[position].price
+        Glide.with(context)
+                .load(itemList[position].iconURL)
+//                .apply(RequestOptions.circleCropTransform())
+                .error(R.drawable.default_img)
+                .into(holder.imgIcon)
     }
 
     override fun getItemCount(): Int {
-       return 10
+       return itemList.size
     }
 }

@@ -44,14 +44,14 @@ class SignUpFragment : Fragment(),OpenFragment,UpdateUI {
         txt_error_fsu.visibility=View.GONE
         if(!areAllViewsValid()) return
         progress_bar_fsu.visibility=View.VISIBLE
-        val user=User()
-        user.name=txt_sign_up_name_fsu.text.toString()
-        user.email=txt_sign_up_email_fsu.text.toString()
-        user.phone=txt_sign_up_phone_fsu.text.toString()
-        if(imgUri!=null)user.icon=imgUri.toString()
+        val userMap=HashMap<String,String>()
+        userMap[Firebase.Users.USER_NAME.Key]=txt_sign_up_name_fsu.text.toString()
+        userMap[Firebase.Users.USER_EMAIL.Key]=txt_sign_up_email_fsu.text.toString()
+        userMap[Firebase.Users.USER_PHONE.Key]=txt_sign_up_phone_fsu.text.toString()
+        if(imgUri!=null) userMap[Firebase.Users.USER_ICON.Key]=imgUri.toString()
 
         Firebase.auth(this,
-                user, password = txt_sign_up_password_fsu.text.toString(), Firebase.Users.VENDOR.Key, intent = Intent(context, MainVendorActivity::class.java))
+                userMap, password = txt_sign_up_password_fsu.text.toString(), Firebase.Users.VENDOR.Key, intent = Intent(context, MainVendorActivity::class.java))
 
     }
 
