@@ -33,7 +33,7 @@ private lateinit  var gso:GoogleSignInOptions
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("64677809828-7ojdton88rht11q248miketlii0ipirj.apps.googleusercontent.com")
+                .requestIdToken(getString(R.string.OAuthClient))
                 .requestEmail()
                 .build()
 
@@ -71,23 +71,28 @@ private lateinit  var gso:GoogleSignInOptions
         Timber.d("request code  = $requestCode\nresult code = $resultCode")
         }
     private fun areAllViewsValid(): Boolean {
+        resetViews()
         var isValid = true
         if (txt_sign_in_email_fsi.text.isNullOrEmpty()) {
-            txt_sign_in_email_fsi.error = getString(R.string.empty_field_error_msg)
+            layout_sign_in_email_txt_fsi.error = getString(R.string.empty_field_error_msg)
             isValid = false
         } else if (!Util.isEmailValid(txt_sign_in_email_fsi.text.toString())) {
-            txt_sign_in_email_fsi.error = "invalid email"
+            layout_sign_in_email_txt_fsi.error = "invalid email"
             isValid = false
 
         }
         if (txt_sign_in_password_fsi.text.isNullOrEmpty()) {
             isValid = false
-            txt_sign_in_password_fsi.error = getString(R.string.empty_field_error_msg)
+            layout_sign_in_password_txt_fsi.error = getString(R.string.empty_field_error_msg)
         } else if (txt_sign_in_password_fsi.text!!.length < 6) {
             isValid = false
-            txt_sign_in_password_fsi.error = "password mst be more than 6 digits"
+            layout_sign_in_password_txt_fsi.error = "password mst be more than 6 digits"
         }
         return isValid
+    }
+    private fun resetViews() {
+        layout_sign_in_email_txt_fsi.isErrorEnabled=false
+        layout_sign_in_password_txt_fsi.isErrorEnabled=false
     }
 
     private fun logInEmailPassword() {

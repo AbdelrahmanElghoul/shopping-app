@@ -93,7 +93,7 @@
                 app:layout_constraintEnd_toEndOf="@id/layout_sign_in_email_txt_fsi"
                 app:layout_constraintStart_toStartOf="@id/layout_sign_in_email_txt_fsi"
                 app:layout_constraintTop_toBottomOf="@id/layout_sign_in_email_txt_fsi"
-                app:passwordToggleEnabled="true">
+                app:endIconMode="password_toggle">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_sign_in_password_fsi"

@@ -29,7 +29,7 @@ class SplashScreen : AppCompatActivity() {
             Timber.d("${mAuth!!.currentUser?.uid==null}")
             startActivity(intent)
             finish()
-        }, 3000)
+        }, 1000)
 
     }
 }

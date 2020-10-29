@@ -1,0 +1,4 @@
+<transition xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/more_img" />
+    <item android:drawable="@drawable/img_close" />
+</transition>

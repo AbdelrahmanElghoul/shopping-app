@@ -19,6 +19,8 @@
     <dimen name="header_text_size">@dimen/_20ssp</dimen>
     <dimen name="text_appbar_size">@dimen/_25ssp</dimen>
 
-
+    <dimen name="standard_55">@dimen/_55sdp</dimen>
+    <dimen name="standard_105">@dimen/_105sdp</dimen>
+    <dimen name="standard_155">@dimen/_155sdp</dimen>
 
 </resources>

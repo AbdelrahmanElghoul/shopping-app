@@ -69,32 +69,35 @@ class SignUpFragment : Fragment(),OpenFragment,UpdateUI {
 
     }
     private fun areAllViewsValid():Boolean{
+        resetViews()
         var isValid=true
         if(txt_sign_up_name_fsu.text.isNullOrEmpty()){
             isValid=false
-            txt_sign_up_name_fsu.error=getString(R.string.empty_field_error_msg)
+            layout_sign_up_name_txt_fsu.error=getString(R.string.empty_field_error_msg)
         }
         if(txt_sign_up_password_fsu.text.isNullOrEmpty()){
             isValid=false
-            txt_sign_up_password_fsu.error=getString(R.string.empty_field_error_msg)
+            layout_sign_up_password_txt_fsu.error=getString(R.string.empty_field_error_msg)
         }else if(txt_sign_up_password_fsu.text!!.length < 6){
             isValid=false
-            txt_sign_up_password_fsu.error="password mst be more than 6 digits"
+            layout_sign_up_password_txt_fsu.error="password mst be more than 6 digits"
         }
 
         if(txt_sign_up_email_fsu.text.isNullOrEmpty()){
             isValid=false
-            txt_sign_up_email_fsu.error=getString(R.string.empty_field_error_msg)
+            layout_sign_up_email_txt_fsu.error=getString(R.string.empty_field_error_msg)
         } else if(!Util.isEmailValid(txt_sign_up_email_fsu.text.toString())) {
-            txt_sign_up_email_fsu.error = "invalid email"
+            layout_sign_up_email_txt_fsu.error = "invalid email"
             isValid = false
 
         }
-        if(txt_sign_up_phone_fsu.text.isNullOrEmpty()){
-            isValid=false
-            txt_sign_up_phone_fsu.error=getString(R.string.empty_field_error_msg)
-        }
         return isValid
+    }
+    private fun resetViews(){
+            layout_sign_up_name_txt_fsu.isErrorEnabled=false
+            layout_sign_up_password_txt_fsu.isErrorEnabled=false
+            layout_sign_up_email_txt_fsu.isErrorEnabled=false
+
     }
 
     override fun update(text: String?) {

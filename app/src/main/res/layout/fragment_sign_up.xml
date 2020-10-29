@@ -73,6 +73,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layout_sign_up_name_txt_fsu"
                 style="@style/text_input_layout"
+                app:endIconMode="none"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/high_margin_padding"
@@ -98,13 +99,13 @@
                 app:layout_constraintEnd_toEndOf="@id/layout_sign_up_name_txt_fsu"
                 app:layout_constraintStart_toStartOf="@id/layout_sign_up_name_txt_fsu"
                 app:layout_constraintTop_toBottomOf="@id/layout_sign_up_name_txt_fsu"
-                app:passwordToggleEnabled="true">
+                app:endIconMode="password_toggle"
+                >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_sign_up_password_fsu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -147,7 +148,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/txt_error_fsu"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/btn_sign_up_fsu"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

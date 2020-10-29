@@ -7,6 +7,7 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.shoppingapp.User
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.*
@@ -50,6 +51,14 @@ abstract class Firebase {
                         val ui = context as UpdateUI
                         ui.update(it.toString())
                         Toast.makeText(context, "error occurred\n$it.message", Toast.LENGTH_SHORT).show()
+                    }.addOnCompleteListener {
+                        if (!it.isSuccessful) {
+                            Timber.e(it.exception)
+                            val ui = context as UpdateUI
+                            ui.update(it.toString())
+                            Toast.makeText(context, "error2 occurred\n$it.message", Toast.LENGTH_SHORT).show()
+                        }
+
                     }
             return riversRef.downloadUrl.result.toString()
         }
@@ -95,12 +104,14 @@ abstract class Firebase {
                         user[Firebase.Users.USER_NAME.Key] = auth.currentUser?.displayName
                                 ?: auth.currentUser?.email as String
                         user[Firebase.Users.USER_EMAIL.Key] = auth.currentUser?.email as String
-                        user[Firebase.Users.USER_ICON.Key] = auth.currentUser?.photoUrl.toString()
-                        user[Firebase.Users.USER_PHONE.Key] = auth.currentUser?.phoneNumber as String
+                        if (auth.currentUser?.photoUrl != null)
+                            user[Firebase.Users.USER_ICON.Key] = auth.currentUser?.photoUrl.toString()
+                        if (auth.currentUser?.phoneNumber != null)
+                            user[Firebase.Users.USER_PHONE.Key] = auth.currentUser?.phoneNumber as String
                         addUserToDatabase(fragment, user, type)
                         fragment.startActivity(intent)
                     }
-                    .addOnFailureListener{
+                    .addOnFailureListener {
                         Toast.makeText(fragment.context, "Authentication failed.",
                                 Toast.LENGTH_SHORT).show()
                         val ui = fragment as UpdateUI
@@ -185,7 +196,7 @@ abstract class Firebase {
 
     enum class Items(val Key: String){
         ITEMS("Items"),
-        ITEMS_CATEGORY("category id"),
+        ITEMS_CATEGORY("categoryId"),
         ITEM_NAME("name"),
         ITEM_IMG_URL("icon"),
         ITEM_PRICE("price"),
@@ -200,6 +211,6 @@ abstract class Firebase {
         USER_ICON("icon"),
         USER_EMAIL("email"),
         USER_PHONE("phone"),
-        USER_CART_ID("cartID"),
+        USER_CART_ID("cartId"),
     }
 }

@@ -70,5 +70,12 @@
 
     </style>
 
-
+<style name="fab" >
+    <item name="backgroundTint">@color/colorAccent</item>
+    <item name="hoveredFocusedTranslationZ">@dimen/_11sdp</item>
+    <item name="tint">@color/white</item>
+    <item name="android:layout_marginBottom">@dimen/high_margin_padding</item>
+    <item name="android:layout_marginEnd">@dimen/high_margin_padding</item>
+    <item name="android:layout_marginTop">@dimen/high_margin_padding</item>
+</style>
 </resources>

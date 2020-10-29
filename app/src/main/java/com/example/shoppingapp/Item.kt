@@ -13,7 +13,7 @@ class Item : Parcelable {
     lateinit var vendorId: String
     var iconURL: String? = null
     var description: String? = null
-    var manufactureDetails: String? = null
+    var manufacture: String? = null
 
 
     constructor(source: Parcel) : this()
