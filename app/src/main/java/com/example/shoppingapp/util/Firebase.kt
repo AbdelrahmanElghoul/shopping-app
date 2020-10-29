@@ -7,10 +7,9 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.shoppingapp.User
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.database.*
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import timber.log.Timber
@@ -20,19 +19,16 @@ abstract class Firebase {
 
     companion object {
         //User
-        private fun addUserToDatabase(fragment: Fragment, userMap: HashMap<String,String>, type: String) {
+        private fun addUserToDatabase(fragment: Fragment, userMap: HashMap<String, String>,uri:Uri?, type: String) {
             val database = FirebaseDatabase.getInstance()
             val key = database.reference.push().key.toString()
-            if (userMap.containsKey(Firebase.Users.USER_ICON.Key))
-                userMap[Firebase.Users.USER_ICON.Key]=
-                        addImageToStorage(fragment.context as Context, key, userMap[Firebase.Users.USER_ICON.Key] as String, type)
-
-            val myRef = database
+            database
                     .getReference(type)
                     .child(key).
                     setValue(userMap)
                     .addOnSuccessListener {
-                        //Todo Continue
+                        if(uri!=null)
+                            addImageToStorage(context = fragment.context as Context, parentKey =  key,iconKey= Firebase.Users.USER_ICON.Key, uri =uri, type=type)
                     }
                     .addOnFailureListener{
                         Timber.e(it)
@@ -42,32 +38,67 @@ abstract class Firebase {
                     }
 
         }
-        fun addImageToStorage(context: Context, iconName: String, uri: String, type: String): String {
-            val mStorageRef = FirebaseStorage.getInstance().reference
-            val riversRef: StorageReference = mStorageRef.child("$type/$iconName.jpg")
-            riversRef.putFile(Uri.parse(uri))
-                    .addOnFailureListener {
-                        Timber.e(it)
-                        val ui = context as UpdateUI
-                        ui.update(it.toString())
-                        Toast.makeText(context, "error occurred\n$it.message", Toast.LENGTH_SHORT).show()
-                    }.addOnCompleteListener {
-                        if (!it.isSuccessful) {
-                            Timber.e(it.exception)
-                            val ui = context as UpdateUI
-                            ui.update(it.toString())
-                            Toast.makeText(context, "error2 occurred\n$it.message", Toast.LENGTH_SHORT).show()
-                        }
 
+        fun addImageToStorage(context: Context, parentKey: String,iconKey:String, uri: Uri, type: String) {
+            val mStorageRef = FirebaseStorage.getInstance().reference
+            val ref: StorageReference = mStorageRef.child("$type/$parentKey.jpg")
+//            riversRef.putFile(Uri.parse(uri))
+//                    .addOnFailureListener {
+//                        Timber.e(it)
+//                        val ui = context as UpdateUI
+//                        ui.update(it.toString())
+//                        Toast.makeText(context, "error occurred\n$it.message", Toast.LENGTH_SHORT).show()
+//                    }
+//                    .addOnCompleteListener {
+//                        Timber.tag("addImageToStorage").d("task successful=${it.isSuccessful}")
+//                        if (!it.isSuccessful) {
+//                            Timber.e(it.exception)
+//                            val ui = context as UpdateUI
+//                            ui.update(it.toString())
+//                            Toast.makeText(context, "error2 occurred\n$it.message", Toast.LENGTH_SHORT).show()
+//                        }
+//
+//                    }
+            ref.putFile(uri).continueWithTask { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw it
                     }
-            return riversRef.downloadUrl.result.toString()
+                }
+                ref.downloadUrl
+            }.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    FirebaseDatabase.getInstance()
+                            .getReference(type)
+                            .child(parentKey)
+                            .child(iconKey)
+                            .setValue(task.result.toString()).addOnFailureListener {
+                                Timber.e(it)
+                                val ui = context as UpdateUI
+                                ui.update(it.toString())
+                                Toast.makeText(context, "error occurred\n$it.message", Toast.LENGTH_SHORT).show()
+                            }
+
+                } else {
+                    val it = task.exception
+                    Timber.e(it)
+                    val ui = context as UpdateUI
+                    ui.update(it.toString())
+                    Toast.makeText(context, "error occurred\n$it.message", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+
+
         }
-        fun auth(fragment: Fragment, user: HashMap<String,String>, password: String, type: String, intent: Intent) {
+
+        fun auth(fragment: Fragment, user: HashMap<String, String>, uri:Uri?,password: String, type: String, intent: Intent) {
             val mAuth = FirebaseAuth.getInstance()
             mAuth.createUserWithEmailAndPassword(user[Firebase.Users.USER_EMAIL.Key] as String, password)
                     .addOnSuccessListener {
-                        addUserToDatabase(fragment, user, type)
+                        addUserToDatabase(fragment=fragment, userMap = user, type=type,uri = uri)
                         fragment.startActivity(intent)
+                        fragment.activity?.finish()
                     }
                     .addOnFailureListener {
                         Timber.e(it)
@@ -86,6 +117,7 @@ abstract class Firebase {
             auth.signInWithEmailAndPassword(email, password)
                     .addOnSuccessListener {
                         fragment.startActivity(intent)
+                        fragment.activity?.finish()
                     }
                     .addOnFailureListener {
                         Toast.makeText(fragment.context, "Authentication failed.",
@@ -94,7 +126,7 @@ abstract class Firebase {
                         ui.update(it.toString())
                     }
         }
-        fun logInWithGoogle(fragment: Fragment,token:String,type:String,intent: Intent) {
+        fun logInWithGoogle(fragment: Fragment, token: String, type: String, intent: Intent) {
             val auth = FirebaseAuth.getInstance()
             val credential = GoogleAuthProvider.getCredential(token, null)
             auth.signInWithCredential(credential)
@@ -104,12 +136,11 @@ abstract class Firebase {
                         user[Firebase.Users.USER_NAME.Key] = auth.currentUser?.displayName
                                 ?: auth.currentUser?.email as String
                         user[Firebase.Users.USER_EMAIL.Key] = auth.currentUser?.email as String
-                        if (auth.currentUser?.photoUrl != null)
-                            user[Firebase.Users.USER_ICON.Key] = auth.currentUser?.photoUrl.toString()
                         if (auth.currentUser?.phoneNumber != null)
                             user[Firebase.Users.USER_PHONE.Key] = auth.currentUser?.phoneNumber as String
-                        addUserToDatabase(fragment, user, type)
+                        addUserToDatabase(fragment = fragment, userMap = user, type=type,uri = auth.currentUser?.photoUrl)
                         fragment.startActivity(intent)
+                        fragment.activity?.finish()
                     }
                     .addOnFailureListener {
                         Toast.makeText(fragment.context, "Authentication failed.",

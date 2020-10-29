@@ -1,5 +1,6 @@
 package com.example.shoppingapp_vendor.register
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -11,11 +12,8 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.shoppingapp.R
-import com.example.shoppingapp.User
 import com.example.shoppingapp.util.*
 import com.example.shoppingapp_vendor.MainVendorActivity
-import com.example.shoppingapp_vendor.VendorActivity
-import kotlinx.android.synthetic.main.fragment_sign_in.*
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import timber.log.Timber
 
@@ -30,7 +28,7 @@ class SignUpFragment : Fragment(),OpenFragment,UpdateUI {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        btn_sign_up_fsu.setOnClickListener{btnsign_upOnClick()}
+        btn_sign_up_fsu.setOnClickListener{onClickSignUp()}
         img_avatar_fsu.setOnClickListener { getImageFromGallery() }
     }
 
@@ -40,18 +38,24 @@ class SignUpFragment : Fragment(),OpenFragment,UpdateUI {
         intent.type = "image/*"
         startActivityForResult(intent, RequestCode.GET_IMAGE_RESULT.getValue)
     }
-    private fun  btnsign_upOnClick(){
-        txt_error_fsu.visibility=View.GONE
-        if(!areAllViewsValid()) return
-        progress_bar_fsu.visibility=View.VISIBLE
-        val userMap=HashMap<String,String>()
-        userMap[Firebase.Users.USER_NAME.Key]=txt_sign_up_name_fsu.text.toString()
-        userMap[Firebase.Users.USER_EMAIL.Key]=txt_sign_up_email_fsu.text.toString()
-        userMap[Firebase.Users.USER_PHONE.Key]=txt_sign_up_phone_fsu.text.toString()
-        if(imgUri!=null) userMap[Firebase.Users.USER_ICON.Key]=imgUri.toString()
+    private fun  onClickSignUp() {
+        txt_error_fsu.visibility = View.GONE
+        if (!areAllViewsValid()) return
+        progress_bar_fsu.visibility = View.VISIBLE
+        val userMap = HashMap<String, String>()
+        userMap[Firebase.Users.USER_NAME.Key] = txt_sign_up_name_fsu.text.toString()
+        userMap[Firebase.Users.USER_EMAIL.Key] = txt_sign_up_email_fsu.text.toString()
+        userMap[Firebase.Users.USER_PHONE.Key] = txt_sign_up_phone_fsu.text.toString()
+//        if(imgUri!=null) userMap[Firebase.Users.USER_ICON.Key]=imgUri.toString()
 
-        Firebase.auth(this,
-                userMap, password = txt_sign_up_password_fsu.text.toString(), Firebase.Users.VENDOR.Key, intent = Intent(context, MainVendorActivity::class.java))
+        Firebase.auth(
+                fragment = this,
+                user = userMap,
+                password = txt_sign_up_password_fsu.text.toString(),
+                type = Firebase.Users.VENDOR.Key,
+                intent = Intent(context, MainVendorActivity::class.java),
+                uri = imgUri
+                )
 
     }
 
@@ -60,11 +64,15 @@ class SignUpFragment : Fragment(),OpenFragment,UpdateUI {
         Timber.d("$requestCode / $resultCode ${data?.data.toString()}")
         if (requestCode == RequestCode.GET_IMAGE_RESULT.getValue && resultCode == AppCompatActivity.RESULT_OK && data != null) {
             imgUri = data.data
+            Timber.tag("imgUri=${imgUri}")
             Glide.with(this)
                     .load(data.data)
                     .apply(RequestOptions.circleCropTransform())
                     .error(R.drawable.error)
                     .into(img_avatar_fsu)
+
+//            Firebase.addImageToStorage(context=context as Context,parentKey = "testing",
+//                    iconKey = "testing",uri=imgUri as Uri,type = "testing")
         }
 
     }

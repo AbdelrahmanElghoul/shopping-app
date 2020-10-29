@@ -1,6 +1,7 @@
 package com.example.shoppingapp_vendor
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Interpolator
@@ -37,7 +38,6 @@ class MainVendorActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_vendor)
         setUI()
-
 
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference(Firebase.Items.ITEMS.Key)
@@ -81,8 +81,6 @@ class MainVendorActivity : AppCompatActivity() {
 
         }
 
-
-
         myRef.addChildEventListener(postListener)
 
         main_fab_amv.setOnClickListener {
@@ -104,10 +102,11 @@ class MainVendorActivity : AppCompatActivity() {
         }
 
         fab_add_item_amv.setOnClickListener {
-            Toast.makeText(this, "add", Toast.LENGTH_LONG).show()
+//            Toast.makeText(this, "add", Toast.LENGTH_LONG).show()
+            startActivity(Intent(this,VendorActivity::class.java))
         }
         fab_logout_item_amv.setOnClickListener {
-            Toast.makeText(this, "logout", Toast.LENGTH_LONG).show()
+            Firebase.logout(this)
         }
     }
 
