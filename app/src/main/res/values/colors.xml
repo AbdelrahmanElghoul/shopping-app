@@ -12,7 +12,7 @@
 
 
     <color name="selectedIcon">#010101</color>
-    <color name="unselectedIcon">#969896</color>
+    <color name="unselectedIcon">#ABADAB</color>
 
     <color name="white">#FFFFFFFF</color>
     <color name="black">#000</color>

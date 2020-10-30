@@ -13,7 +13,9 @@ class RegisterActivity : AppCompatActivity(),OpenFragment {
 
         openFragment(this, SignInFragment(),R.id.frame_register_ar)
 
+
     }
+
 
 
 }

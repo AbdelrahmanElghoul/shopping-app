@@ -47,13 +47,14 @@ class SignUpFragment : Fragment(),OpenFragment,UpdateUI {
         userMap[Firebase.Users.USER_EMAIL.Key] = txt_sign_up_email_fsu.text.toString()
         userMap[Firebase.Users.USER_PHONE.Key] = txt_sign_up_phone_fsu.text.toString()
 //        if(imgUri!=null) userMap[Firebase.Users.USER_ICON.Key]=imgUri.toString()
-
+       val intent = Intent(context, MainVendorActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NO_HISTORY
         Firebase.auth(
                 fragment = this,
                 user = userMap,
                 password = txt_sign_up_password_fsu.text.toString(),
                 type = Firebase.Users.VENDOR.Key,
-                intent = Intent(context, MainVendorActivity::class.java),
+                intent = intent,
                 uri = imgUri
                 )
 

@@ -8,8 +8,8 @@
 
 
     <ImageView
-        android:layout_width="@dimen/default_icon_width_height"
-        android:layout_height="@dimen/default_icon_width_height"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_80sdp"
         android:layout_marginTop="@dimen/high_margin_padding"
         android:id="@+id/img_avatar_fsi"
         android:scaleType="fitXY"

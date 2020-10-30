@@ -11,7 +11,7 @@
     <dimen name="small_icon_width_height">@dimen/_20sdp</dimen>
     <dimen name="average_icon_width_height">@dimen/_30sdp</dimen>
     <dimen name="large_icon_width_height">@dimen/_50sdp</dimen>
-    <dimen name="default_icon_width_height">@dimen/_80sdp</dimen>
+    <dimen name="default_icon_width_height">@dimen/_90sdp</dimen>
     <dimen name="Extra_large_icon_width_height">@dimen/_150sdp</dimen>
 
     <dimen name="small_text_size">@dimen/_14ssp</dimen>

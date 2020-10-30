@@ -14,44 +14,47 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.shoppingapp.R
 import com.example.shoppingapp.util.Firebase
 import com.example.shoppingapp.util.RequestCode
+import com.example.shoppingapp.util.UpdateUI
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import kotlinx.android.synthetic.main.fragment_sign_in.*
 import kotlinx.android.synthetic.vendor.activity_vendor.*
+import timber.log.Timber
 import timber.log.Timber.DebugTree
 import timber.log.Timber.plant
+import java.lang.Exception
 
-class VendorActivity : AppCompatActivity() {
+class VendorActivity : AppCompatActivity(),UpdateUI {
     private lateinit var adapter: ArrayAdapter<String>
     private var itemUri:Uri?=null
-    private var selectedImg:Int=-1  // itemUri=0 / categeoryUri=1
     private lateinit var categoryList:Pair<Array<String>,TypedArray>
-
+    private lateinit var database:FirebaseDatabase
+    private lateinit var type:String
+    private lateinit var key:String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vendor)
         initialiseData()
 
-//        val user=FirebaseAuth.getInstance().currentUser
-//        Timber.tag("current user")
-//                .d("name = ${user?.displayName}\n" +
-//                        "email = ${user?.email}\n" +
-//                        "photo = ${user?.photoUrl}\n" +
-//                        "phone=${user?.phoneNumber}\nuser=$user")
-//
 
-        img_logout_av.setOnClickListener { Firebase.logout(this) }
-        spinner_layout_av.setOnClickListener {spinner_category_av.callOnClick()}
+
+        spinner_layout_va.setOnClickListener {spinner_category_va.callOnClick()}
         btn_add_item.setOnClickListener { btnAdd() }
-        img_item_icon_av.setOnClickListener {
-            selectedImg = 0
+        img_item_icon_va.setOnClickListener {
+          getImageFromGallery()
+        }
+        img2_item_icon_va.setOnClickListener {
           getImageFromGallery()
         }
 
-        spinner_category_av?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        spinner_category_va?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 Glide.with(this@VendorActivity)
                         .load(categoryList.second.getResourceId(position,R.drawable.error))
                         .apply(RequestOptions.circleCropTransform())
-                        .into(img_selected_category_av)
+                        .into(img_selected_category_va)
 
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -59,56 +62,82 @@ class VendorActivity : AppCompatActivity() {
     }
 
     private fun initialiseData() {
+         database = FirebaseDatabase.getInstance()
+         type=Firebase.Items.ITEMS.Key
+         key=database.reference.push().key.toString()
+
         plant(DebugTree())
         categoryList= Pair(resources.getStringArray(R.array.category_name),  resources.obtainTypedArray(R.array.category_icon))
         adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, categoryList.first)
-        spinner_category_av.adapter = adapter
+        spinner_category_va.adapter = adapter
 
     }
     private fun validateViews(): Boolean {
         var isValid = true
-        if (txt_item_description_av.text.isNullOrEmpty()) {
-            txt_item_description_av.error = getString(R.string.empty_field_error_msg)
+        if (txt_item_description_va.text.isNullOrEmpty()) {
+            layout_item_description_txt_va.error = getString(R.string.empty_field_error_msg)
             isValid = false
         }
-        if (txt_item_price_av.text.isNullOrEmpty()) {
-            txt_item_description_av.error = getString(R.string.empty_field_error_msg)
+        if (txt_item_name_va.text.isNullOrEmpty()) {
+            layout_item_name_txt_va.error = getString(R.string.empty_field_error_msg)
             isValid = false
         }
-        if (txt_item_stock_av.text.isNullOrEmpty() || txt_item_stock_av.text!!.equals("0")) {
-            txt_item_description_av.error = getString(R.string.empty_field_error_msg)
+        if (txt_item_price_va.text.isNullOrEmpty()) {
+            layout_item_price_txt_va.error = getString(R.string.empty_field_error_msg)
+            isValid = false
+        }
+        if (txt_item_stock_va.text.isNullOrEmpty() || txt_item_stock_va.text!!.equals("0")) {
+            layout_item_stock_txt_va.error = getString(R.string.empty_field_error_msg)
             isValid = false
         }
 
         return isValid
     }
     private fun btnAdd() {
-        txt_error_av.visibility=View.GONE
+        txt_error_va.visibility=View.GONE
         if (!validateViews()) return
-
+        progress_bar_va.visibility=View.VISIBLE
         val itemMap = HashMap<String, String>()
-        itemMap[Firebase.Items.ITEM_NAME.Key] = txt_item_name_av.text.toString()
-        itemMap[Firebase.Items.ITEM_PRICE.Key] = txt_item_price_av.text.toString()
-        if (itemUri != null) itemMap[Firebase.Items.ITEM_IMG_URL.Key] = itemUri.toString()
-        itemMap[Firebase.Items.ITEM_STOCK.Key] = txt_item_stock_av.text.toString()
-        itemMap[Firebase.Items.ITEMS_CATEGORY.Key] = spinner_category_av.selectedItemPosition.toString()
-        itemMap[Firebase.Items.ITEM_DESCRIPTION.Key] = txt_item_description_av.text.toString()
-        itemMap[Firebase.Items.ITEM_MANUFACTURE.Key] = txt_manufacture_av.text.toString()
+        itemMap[Firebase.Items.ITEM_NAME.Key] = txt_item_name_va.text.toString()
+        itemMap[Firebase.Items.ITEM_PRICE.Key] = txt_item_price_va.text.toString()
+//        if (itemUri != null) itemMap[Firebase.Items.ITEM_IMG_URL.Key] = itemUri.toString()
+        itemMap[Firebase.Items.ITEM_STOCK.Key] = txt_item_stock_va.text.toString()
+        itemMap[Firebase.Items.ITEMS_CATEGORY.Key] = spinner_category_va.selectedItemPosition.toString()
+        itemMap[Firebase.Items.ITEM_DESCRIPTION.Key] = txt_item_description_va.text.toString()
+        itemMap[Firebase.Items.ITEM_MANUFACTURE.Key] = txt_manufacture_va.text.toString()
 
-        val database = FirebaseDatabase.getInstance()
-        val myRef = database
-                .getReference(Firebase.Items.ITEMS.Key)
-                .child(database.reference.push().key.toString())
+        database.getReference(type)
+                .child(key)
                 .setValue(itemMap)
+                .addOnSuccessListener {
+                    //item added
+                    if (itemUri != null) {
+                        //adding img to storage
+                        val mStorageRef = FirebaseStorage.getInstance().reference
+                        val ref: StorageReference = mStorageRef.child("${type}/${key}.jpg")
 
-        myRef.addOnSuccessListener  {
-            super.onBackPressed()
-        }
-                .addOnFailureListener {
-            Toast.makeText(this,it.message,Toast.LENGTH_LONG).show()
-            txt_error_av.text=it.message
-        }
-
+                        ref.putFile(itemUri!!).continueWithTask { task ->
+                            if (!task.isSuccessful) {
+                                task.exception?.let {
+                                    throw it
+                                }
+                            }
+                            ref.downloadUrl
+                        }.addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                //adding img url to database
+                                FirebaseDatabase.getInstance()
+                                        .getReference(type)
+                                        .child(key)
+                                        .child(Firebase.Items.ITEM_IMG_URL.Key)
+                                        .setValue(task.result.toString()).addOnFailureListener { error(it) }.addOnSuccessListener {
+                                            super.onBackPressed()
+                                        }
+                            } else error(task.exception!!)
+                        }
+                    }
+                }
+                .addOnFailureListener {error(it)}
     }
     private fun getImageFromGallery() {
         val intent = Intent()
@@ -125,9 +154,24 @@ class VendorActivity : AppCompatActivity() {
                     .load(itemUri)
                     .apply(RequestOptions.circleCropTransform())
                     .error(R.drawable.default_img)
-                    .into(img_item_icon_av)
+                    .into(img_item_icon_va)
+            Glide.with(this)
+                    .load(itemUri)
+                    .error(R.drawable.default_img)
+                    .into(img2_item_icon_va)
         }
     }
 
+    override fun update(text: String?) {
+        progress_bar_va.visibility=View.GONE
+        txt_error_va.text = text
+        txt_error_va.visibility = View.VISIBLE
+    }
+
+    private fun error(it: Exception){
+        Timber.e(it)
+        update(it.toString())
+        Toast.makeText(this, "error occurred\n$it.message", Toast.LENGTH_SHORT).show()
+    }
 }
 

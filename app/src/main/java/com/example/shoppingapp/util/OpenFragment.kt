@@ -11,6 +11,7 @@ interface OpenFragment {
        context.supportFragmentManager
                 .beginTransaction()
                 .replace(view, fragment) //                .addToBackStack(getString(R.string.backstack_tag))
+                .addToBackStack(null)
                 .commit()
     }
 }

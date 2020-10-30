@@ -5,12 +5,13 @@ import android.os.Parcelable
 
 class User  {
 
+
+    lateinit var type:String
     lateinit var id: String
     lateinit var name: String
     var icon: String?=null
     lateinit var email: String
     var phone: String?=null
     var cartId:String?=null
-
 
 }

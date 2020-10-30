@@ -59,7 +59,7 @@ private lateinit  var gso:GoogleSignInOptions
                 // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)!!
                 Timber.tag("FirebaseAuth").d("firebaseAuthWithGoogle: ${account.idToken}")
-                Firebase.logInWithGoogle(this, account.idToken!!,Firebase.Users.VENDOR.Key,Intent(context, MainVendorActivity::class.java))
+                Firebase.logInWithGoogle(fragment = this@SignInFragment, token=account.idToken!!,type=Firebase.Users.VENDOR.Key,intent=Intent(context, MainVendorActivity::class.java))
             }
             catch (e:Exception) {
                 // Google Sign In failed, update UI appropriately
@@ -118,5 +118,7 @@ private lateinit  var gso:GoogleSignInOptions
         txt_error_fsi.text = text
         txt_error_fsi.visibility = View.VISIBLE
     }
+
+
 
 }

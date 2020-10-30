@@ -1,5 +1,6 @@
 package com.example.shoppingapp_vendor
 
+import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -31,8 +32,8 @@ import timber.log.Timber
 class MainVendorActivity : AppCompatActivity() {
     lateinit var itemAdapter: ItemsAdapter
     var itemList = mutableListOf<Item>()
-    var isFABOpen = false
-    lateinit var transitionDrawable: TransitionDrawable
+    private var isFABOpen = false
+    private lateinit var transitionDrawable: TransitionDrawable
     private val mHandler = Handler()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,10 +49,11 @@ class MainVendorActivity : AppCompatActivity() {
                 val item = snapshot.getValue(Item::class.java)
                 item?.id = snapshot.key.toString()
 
-                Timber.tag(tag).d("item=${item?.categoryId}")
+                Timber.tag(tag).d("item category=${item?.categoryId}")
 
                 itemList.add(item!!)
                 itemAdapter.notifyDataSetChanged()
+
 
             }
 

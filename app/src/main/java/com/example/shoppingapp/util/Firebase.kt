@@ -1,12 +1,20 @@
 package com.example.shoppingapp.util
 
 import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.net.Uri
 import android.widget.Toast
+import androidx.core.content.contentValuesOf
 import androidx.fragment.app.Fragment
+import com.example.shoppingapp.R
 import com.example.shoppingapp.User
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.FirebaseDatabase
@@ -18,19 +26,27 @@ import timber.log.Timber
 abstract class Firebase {
 
     companion object {
-        //User
-        private fun addUserToDatabase(fragment: Fragment, userMap: HashMap<String, String>,uri:Uri?, type: String) {
+
+        private lateinit var type: String
+        private lateinit var intent: Intent
+        private var uri: Uri? = null
+        private lateinit var fragment: Fragment
+
+        private fun addUserToDatabase(userMap: HashMap<String, String>) {
             val database = FirebaseDatabase.getInstance()
-            val key = database.reference.push().key.toString()
             database
                     .getReference(type)
-                    .child(key).
-                    setValue(userMap)
+                    .child(FirebaseAuth.getInstance().uid!!).setValue(userMap)
                     .addOnSuccessListener {
-                        if(uri!=null)
-                            addImageToStorage(context = fragment.context as Context, parentKey =  key,iconKey= Firebase.Users.USER_ICON.Key, uri =uri, type=type)
+                        if (uri != null)
+                            addImageToStorage(iconKey = Firebase.Users.USER_ICON.Key)
+                        else {
+                            fragment.startActivity(intent)
+                            fragment.activity?.finish()
+                        }
+
                     }
-                    .addOnFailureListener{
+                    .addOnFailureListener {
                         Timber.e(it)
                         val ui = fragment as UpdateUI
                         ui.update(it.toString())
@@ -38,28 +54,11 @@ abstract class Firebase {
                     }
 
         }
-
-        fun addImageToStorage(context: Context, parentKey: String,iconKey:String, uri: Uri, type: String) {
+        fun addImageToStorage(iconKey: String) {
             val mStorageRef = FirebaseStorage.getInstance().reference
-            val ref: StorageReference = mStorageRef.child("$type/$parentKey.jpg")
-//            riversRef.putFile(Uri.parse(uri))
-//                    .addOnFailureListener {
-//                        Timber.e(it)
-//                        val ui = context as UpdateUI
-//                        ui.update(it.toString())
-//                        Toast.makeText(context, "error occurred\n$it.message", Toast.LENGTH_SHORT).show()
-//                    }
-//                    .addOnCompleteListener {
-//                        Timber.tag("addImageToStorage").d("task successful=${it.isSuccessful}")
-//                        if (!it.isSuccessful) {
-//                            Timber.e(it.exception)
-//                            val ui = context as UpdateUI
-//                            ui.update(it.toString())
-//                            Toast.makeText(context, "error2 occurred\n$it.message", Toast.LENGTH_SHORT).show()
-//                        }
-//
-//                    }
-            ref.putFile(uri).continueWithTask { task ->
+            val ref: StorageReference = mStorageRef.child("$type/${FirebaseAuth.getInstance().uid!!}.jpg")
+
+            ref.putFile(this.uri!!).continueWithTask { task ->
                 if (!task.isSuccessful) {
                     task.exception?.let {
                         throw it
@@ -68,37 +67,44 @@ abstract class Firebase {
                 ref.downloadUrl
             }.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    FirebaseDatabase.getInstance()
-                            .getReference(type)
-                            .child(parentKey)
-                            .child(iconKey)
-                            .setValue(task.result.toString()).addOnFailureListener {
-                                Timber.e(it)
-                                val ui = context as UpdateUI
-                                ui.update(it.toString())
-                                Toast.makeText(context, "error occurred\n$it.message", Toast.LENGTH_SHORT).show()
-                            }
+                    addImageUrlToDatabase(iconKey = iconKey, url = task.result.toString())
 
                 } else {
                     val it = task.exception
                     Timber.e(it)
-                    val ui = context as UpdateUI
+                    val ui = this.fragment.activity as UpdateUI
                     ui.update(it.toString())
-                    Toast.makeText(context, "error occurred\n$it.message", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this.fragment.context, "error occurred\n$it.message", Toast.LENGTH_SHORT).show()
                 }
             }
 
-
-
+        }
+        private fun addImageUrlToDatabase(iconKey: String, url: String) {
+            FirebaseDatabase.getInstance()
+                    .getReference(type)
+                    .child(FirebaseAuth.getInstance().uid!!)
+                    .child(iconKey)
+                    .setValue(url).addOnFailureListener {
+                        Timber.e(it)
+                        val ui = fragment.activity as UpdateUI
+                        ui.update(it.toString())
+                        Toast.makeText(fragment.context, "error occurred\n$it.message", Toast.LENGTH_SHORT).show()
+                    }.addOnSuccessListener {
+                        fragment.activity?.startActivity(intent)
+                        fragment.activity?.finish()
+                    }
         }
 
-        fun auth(fragment: Fragment, user: HashMap<String, String>, uri:Uri?,password: String, type: String, intent: Intent) {
+        fun auth(fragment: Fragment, user: HashMap<String, String>, password: String,
+                 uri: Uri?, type: String, intent: Intent) {
             val mAuth = FirebaseAuth.getInstance()
             mAuth.createUserWithEmailAndPassword(user[Firebase.Users.USER_EMAIL.Key] as String, password)
                     .addOnSuccessListener {
-                        addUserToDatabase(fragment=fragment, userMap = user, type=type,uri = uri)
-                        fragment.startActivity(intent)
-                        fragment.activity?.finish()
+                        this.type = type
+                        this.intent = intent
+                        this.uri = uri
+                        this.fragment = fragment
+                        addUserToDatabase(userMap = user)
                     }
                     .addOnFailureListener {
                         Timber.e(it)
@@ -107,15 +113,11 @@ abstract class Firebase {
                         Toast.makeText(fragment.context, "log in failed.\n${it}", Toast.LENGTH_SHORT).show()
                     }
         }
-        fun logout(activity: Activity) {
-            FirebaseAuth.getInstance().signOut()
-            activity.finish()
-
-        }
         fun logInWithEmailPassword(fragment: Fragment, email: String, password: String, intent: Intent) {
             val auth = FirebaseAuth.getInstance()
             auth.signInWithEmailAndPassword(email, password)
                     .addOnSuccessListener {
+                        this.intent = intent
                         fragment.startActivity(intent)
                         fragment.activity?.finish()
                     }
@@ -131,6 +133,9 @@ abstract class Firebase {
             val credential = GoogleAuthProvider.getCredential(token, null)
             auth.signInWithCredential(credential)
                     .addOnSuccessListener {
+                        this.type = type
+                        this.intent = intent
+                        this.fragment = fragment
                         // Sign in success, update UI with the signed-in user's information
                         val user = HashMap<String, String>()
                         user[Firebase.Users.USER_NAME.Key] = auth.currentUser?.displayName
@@ -138,9 +143,17 @@ abstract class Firebase {
                         user[Firebase.Users.USER_EMAIL.Key] = auth.currentUser?.email as String
                         if (auth.currentUser?.phoneNumber != null)
                             user[Firebase.Users.USER_PHONE.Key] = auth.currentUser?.phoneNumber as String
-                        addUserToDatabase(fragment = fragment, userMap = user, type=type,uri = auth.currentUser?.photoUrl)
-                        fragment.startActivity(intent)
-                        fragment.activity?.finish()
+                        Timber.tag("googleImg").d("${auth.currentUser?.photoUrl}")
+                        addUserToDatabase(userMap = user)
+
+                        if (auth.currentUser?.photoUrl != null)
+                            addImageUrlToDatabase(iconKey = Firebase.Users.USER_ICON.Key,
+                                    url = auth.currentUser?.photoUrl.toString())
+                        else {
+                            fragment.startActivity(intent)
+                            fragment.activity?.finish()
+                        }
+
                     }
                     .addOnFailureListener {
                         Toast.makeText(fragment.context, "Authentication failed.",
@@ -148,6 +161,22 @@ abstract class Firebase {
                         val ui = fragment as UpdateUI
                         ui.update(it.toString())
                     }
+        }
+
+        fun logout(activity: Activity) {
+            FirebaseAuth.getInstance().signOut()
+            if (GoogleSignIn.getLastSignedInAccount(activity) != null)
+                googleLogout(activity)
+            activity.finish()
+        }
+        private fun googleLogout(context: Context) {
+            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(context.getString(R.string.OAuthClient))
+                    .requestEmail()
+                    .build()
+
+            val mGoogleSignInClient = GoogleSignIn.getClient(context, gso)
+            mGoogleSignInClient.signOut()
         }
 
         fun logInWithFacebook(context: Context, user: User, password: String, type: String, intent: Intent) {

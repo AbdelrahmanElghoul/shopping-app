@@ -11,7 +11,7 @@ class Item : Parcelable {
     lateinit var price: String
     lateinit var stock: String
     lateinit var vendorId: String
-    var iconURL: String? = null
+    var icon: String? = null
     var description: String? = null
     var manufacture: String? = null
 
