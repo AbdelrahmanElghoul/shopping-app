@@ -150,7 +150,7 @@
             android:text="@string/remove_all"
             android:textSize="@dimen/small_text_size"
             android:id="@+id/remove_all_txt"
-            style="@style/round_corner_button"
+            style="@style/small_round_corner_button"
             android:layout_height="wrap_content"
             />
 
@@ -159,7 +159,7 @@
             android:text="@string/continue_shopping"
             android:textSize="@dimen/small_text_size"
             android:id="@+id/continue_shopping_txt"
-            style="@style/round_corner_button"
+            style="@style/small_round_corner_button"
             android:layout_height="wrap_content"
             />
     </LinearLayout>

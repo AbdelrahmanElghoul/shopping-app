@@ -263,6 +263,7 @@ abstract class Firebase {
         ITEM_STOCK("stock"),
         ITEM_DESCRIPTION("description"),
         ITEM_MANUFACTURE("manufacture"),
+        ITEM_VENDOR_ID("vendorId"),
     }
     enum class Users(val Key: String){
         CUSTOMER("customer"),

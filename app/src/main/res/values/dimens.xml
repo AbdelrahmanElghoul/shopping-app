@@ -21,6 +21,8 @@
 
     <dimen name="standard_55">@dimen/_55sdp</dimen>
     <dimen name="standard_105">@dimen/_105sdp</dimen>
-    <dimen name="standard_155">@dimen/_155sdp</dimen>
+    <dimen name="standard_155">@dimen/_155sdp</dimen>\
+
+    <dimen name="default_elevation">@dimen/_5sdp</dimen>
 
 </resources>

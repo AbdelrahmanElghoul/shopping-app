@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
-        android:windowSoftInputMode="adjustPan"
+
         >
         <activity android:name="com.example.shoppingapp_vendor.MainVendorActivity" />
         <activity android:name="com.example.shoppingapp_vendor.SplashScreen"
@@ -17,10 +17,11 @@
         </activity>
         <activity
             android:name="com.example.shoppingapp_vendor.register.RegisterActivity"
-
+            android:windowSoftInputMode="adjustPan"
             />
         <activity
             android:name="com.example.shoppingapp_vendor.VendorActivity"
+            android:windowSoftInputMode="adjustPan"
              />
     </application>
 

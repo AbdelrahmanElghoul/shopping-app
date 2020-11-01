@@ -10,7 +10,7 @@ interface OpenFragment {
     fun openFragment(context: FragmentActivity,fragment: Fragment,view:Int) {
        context.supportFragmentManager
                 .beginTransaction()
-                .replace(view, fragment) //                .addToBackStack(getString(R.string.backstack_tag))
+                .add(view, fragment)
                 .addToBackStack(null)
                 .commit()
     }

@@ -39,12 +39,8 @@ class VendorActivity : AppCompatActivity(),UpdateUI {
         initialiseData()
 
 
-
-        spinner_layout_va.setOnClickListener {spinner_category_va.callOnClick()}
         btn_add_item.setOnClickListener { btnAdd() }
-        img_item_icon_va.setOnClickListener {
-          getImageFromGallery()
-        }
+        spinner_layout_va.setOnClickListener {spinner_category_va.callOnClick()}
         img2_item_icon_va.setOnClickListener {
           getImageFromGallery()
         }
@@ -105,6 +101,7 @@ class VendorActivity : AppCompatActivity(),UpdateUI {
         itemMap[Firebase.Items.ITEMS_CATEGORY.Key] = spinner_category_va.selectedItemPosition.toString()
         itemMap[Firebase.Items.ITEM_DESCRIPTION.Key] = txt_item_description_va.text.toString()
         itemMap[Firebase.Items.ITEM_MANUFACTURE.Key] = txt_manufacture_va.text.toString()
+        itemMap[Firebase.Items.ITEM_VENDOR_ID.Key] = FirebaseAuth.getInstance().uid!!
 
         database.getReference(type)
                 .child(key)
@@ -150,11 +147,6 @@ class VendorActivity : AppCompatActivity(),UpdateUI {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RequestCode.GET_IMAGE_RESULT.getValue && resultCode == RESULT_OK && data != null) {
             itemUri = data.data
-            Glide.with(this)
-                    .load(itemUri)
-                    .apply(RequestOptions.circleCropTransform())
-                    .error(R.drawable.default_img)
-                    .into(img_item_icon_va)
             Glide.with(this)
                     .load(itemUri)
                     .error(R.drawable.default_img)

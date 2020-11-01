@@ -61,6 +61,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="@dimen/average_margin_padding"
             android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.Guideline
@@ -72,7 +74,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layout_sign_up_name_txt_fsu"
-                style="@style/text_input_layout"
+                style="@style/rounded_text_input_layout"
                 app:endIconMode="none"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -92,7 +94,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layout_sign_up_password_txt_fsu"
-                style="@style/text_input_layout"
+                style="@style/rounded_text_input_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
@@ -111,7 +113,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layout_sign_up_email_txt_fsu"
-                style="@style/text_input_layout"
+                style="@style/rounded_text_input_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
 
@@ -129,10 +131,11 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layout_sign_up_phone_txt_fsu"
-                style="@style/text_input_layout"
+                style="@style/rounded_text_input_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/phone"
+
                 app:layout_constraintEnd_toEndOf="@id/layout_sign_up_name_txt_fsu"
                 app:layout_constraintStart_toStartOf="@id/layout_sign_up_name_txt_fsu"
                 app:layout_constraintTop_toBottomOf="@id/layout_sign_up_email_txt_fsu">
@@ -149,7 +152,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/txt_error_fsu"
                 android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@id/btn_sign_up_fsu"
+                app:layout_constraintBottom_toTopOf="@id/view_separator_fsi"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:gravity="center"
@@ -162,20 +165,42 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:visibility="gone"
                 android:id="@+id/progress_bar_fsu"
-                app:layout_constraintBottom_toTopOf="@id/btn_sign_up_fsu"
+                app:layout_constraintBottom_toTopOf="@id/view_separator_fsi"
                 />
-            <Button
-                style="@style/default_button"
+
+            <TextView
+                android:id="@+id/btn_sign_up_fsu"
+                style="@style/textView_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/average_margin_padding"
-                android:paddingHorizontal="@dimen/extra_margin_padding"
-                android:paddingVertical="@dimen/average_margin_padding"
                 android:text="@string/register"
-                android:id="@+id/btn_sign_up_fsu"
+                app:layout_constraintBottom_toTopOf="@id/btn_have_account_fsu"
+                app:layout_constraintVertical_bias="0.0"
+                android:layout_marginTop="@dimen/extra_margin_padding"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_sign_up_phone_txt_fsu"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:id="@+id/view_separator_fsi"
+                android:background="@color/unselectedIcon"
+                app:layout_constraintTop_toBottomOf="@id/btn_sign_up_fsu"
+                app:layout_constraintVertical_bias="1"
+                app:layout_constraintBottom_toTopOf="@id/btn_have_account_fsu"
+                android:layout_margin="@dimen/high_margin_padding"
+                />
+            <TextView
+                android:id="@+id/btn_have_account_fsu"
+                style="@style/textView_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/already_have_an_account"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

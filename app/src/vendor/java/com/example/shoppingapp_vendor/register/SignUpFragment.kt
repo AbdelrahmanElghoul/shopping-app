@@ -30,6 +30,7 @@ class SignUpFragment : Fragment(),OpenFragment,UpdateUI {
 
         btn_sign_up_fsu.setOnClickListener{onClickSignUp()}
         img_avatar_fsu.setOnClickListener { getImageFromGallery() }
+        btn_have_account_fsu.setOnClickListener{ activity?.onBackPressed()}
     }
 
     private fun getImageFromGallery() {

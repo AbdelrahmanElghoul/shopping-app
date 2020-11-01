@@ -35,7 +35,7 @@ class ItemsAdapter(val context: Context,val itemList:List<Item>) : RecyclerView.
 
     override fun onBindViewHolder(holder: ItemsViewHolder, position: Int) {
         holder.txtName.text=itemList[position].name
-        holder.txtPrice.text=itemList[position].price
+        holder.txtPrice.text= itemList[position].price + " $"
         Glide.with(context)
                 .load(itemList[position].icon)
 //                .apply(RequestOptions.circleCropTransform())

@@ -58,6 +58,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:layout_marginBottom="@dimen/average_margin_padding"
             android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.Guideline
@@ -69,7 +70,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layout_sign_in_email_txt_fsi"
-                style="@style/text_input_layout"
+                style="@style/rounded_text_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/high_margin_padding"
@@ -86,7 +87,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layout_sign_in_password_txt_fsi"
-                style="@style/text_input_layout"
+                style="@style/rounded_text_input_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
@@ -107,27 +108,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/high_margin_padding"
                 android:layout_width="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/layout_sign_in_password_txt_fsi"
+                app:layout_constraintTop_toBottomOf="@id/btn_log_in_fsi"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:id="@+id/btn_google_login_fsi"
+                android:background="@drawable/round_background"
+                app:layout_constraintBottom_toTopOf="@id/view_separator_fsi"
+                app:layout_constraintVertical_bias="0.0"
             />
 
-
-<!--            <com.facebook.login.widget.LoginButton-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/btn_google_login_fsi"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                android:id="@+id/btn_facebook_login_fsi"/>-->
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/txt_error_fsi"
                 android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@id/btn_log_in_fsi"
+                app:layout_constraintBottom_toTopOf="@id/view_separator_fsi"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:gravity="center"
@@ -140,26 +136,35 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:visibility="gone"
                 android:id="@+id/progress_bar_fsi"
-                app:layout_constraintBottom_toTopOf="@id/btn_log_in_fsi"
+                app:layout_constraintBottom_toTopOf="@id/view_separator_fsi"
                 />
-            <Button
-                style="@style/default_button"
+
+            <TextView
+                android:id="@+id/btn_log_in_fsi"
+                style="@style/textView_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/average_margin_padding"
                 android:text="@string/log_in"
-                android:id="@+id/btn_log_in_fsi"
-
-                app:layout_constraintBottom_toTopOf="@id/btn_create_account_fsi"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-            <Button
-                style="@style/default_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_sign_in_password_txt_fsi" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:id="@+id/view_separator_fsi"
+                android:background="@color/unselectedIcon"
+               app:layout_constraintBottom_toTopOf="@id/btn_create_account_fsi"
+                android:layout_margin="@dimen/high_margin_padding"
+                />
+            <TextView
+                style="@style/textView_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/average_margin_padding"
                 android:text="Create account"
                 android:id="@+id/btn_create_account_fsi"
+                app:layout_constraintTop_toBottomOf="@id/btn_google_login_fsi"
+                app:layout_constraintVertical_bias="1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

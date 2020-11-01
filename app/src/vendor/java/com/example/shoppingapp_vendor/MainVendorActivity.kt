@@ -1,18 +1,14 @@
 package com.example.shoppingapp_vendor
 
-import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Interpolator
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.TransitionDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import android.view.animation.AccelerateInterpolator
-import android.view.animation.AlphaAnimation
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -21,6 +17,7 @@ import com.example.shoppingapp.Item
 import com.example.shoppingapp.R
 import com.example.shoppingapp.util.Firebase
 import com.example.shoppingapp_vendor.adapter.ItemsAdapter
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -31,10 +28,12 @@ import timber.log.Timber
 
 class MainVendorActivity : AppCompatActivity() {
     lateinit var itemAdapter: ItemsAdapter
+    val tag = "firebase_mva"
     var itemList = mutableListOf<Item>()
     private var isFABOpen = false
     private lateinit var transitionDrawable: TransitionDrawable
-    private val mHandler = Handler()
+    private val fabHandler = Handler()
+    private val progressbarHandler = Handler()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_vendor)
@@ -42,9 +41,11 @@ class MainVendorActivity : AppCompatActivity() {
 
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference(Firebase.Items.ITEMS.Key)
+                .orderByChild(Firebase.Items.ITEM_VENDOR_ID.Key)
+                .equalTo(FirebaseAuth.getInstance().uid!!)
         val postListener = object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                val tag = "firebase_mva"
+                progress_bar_amv.visibility = View.GONE
                 Timber.tag(tag).d("Added\n $snapshot")
                 val item = snapshot.getValue(Item::class.java)
                 item?.id = snapshot.key.toString()
@@ -58,27 +59,33 @@ class MainVendorActivity : AppCompatActivity() {
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                val tag = "firebase_mva"
+
                 Timber.tag(tag).d("Changed\n $snapshot")
                 val item = snapshot.getValue(Item::class.java)
                 item?.id = snapshot.key.toString()
                 Timber.tag(tag).d("item=${item?.categoryId}")
 
-                itemList.removeIf { it.categoryId == item?.id }
-                itemList.add(item!!)
+                for ((index,mItem) in itemList.iterator().withIndex())
+                {
+                    if(mItem.id==item?.id){
+                        itemList[index]=item
+                        break
+                    }
+                }
                 itemAdapter.notifyDataSetChanged()
+
             }
 
             override fun onChildRemoved(snapshot: DataSnapshot) {
-                Timber.d("Removed")
+                Timber.tag(tag).d("Removed")
             }
 
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                Timber.d("Moved")
+                Timber.tag(tag).d("Moved")
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Timber.d("Cancelled")
+                Timber.tag(tag).d("Cancelled")
             }
 
         }
@@ -94,18 +101,25 @@ class MainVendorActivity : AppCompatActivity() {
             }
 
             if (isFABOpen) {
-                mHandler.removeCallbacksAndMessages(null)
+                fabHandler.removeCallbacksAndMessages(null)
                 codeToRun.run()
             } else {
                 showFABMenu()
                 transitionDrawable.startTransition(0)
-                mHandler.postDelayed(codeToRun, 2000)
+                fabHandler.postDelayed(codeToRun, 2000)
             }
+        }
+        layout_fab_add_item_amv.setOnClickListener {
+//            Toast.makeText(this, "add", Toast.LENGTH_LONG).show()
+            startActivity(Intent(this, VendorActivity::class.java))
+        }
+        layout_fab_logout_item_amv.setOnClickListener {
+            Firebase.logout(this)
         }
 
         fab_add_item_amv.setOnClickListener {
 //            Toast.makeText(this, "add", Toast.LENGTH_LONG).show()
-            startActivity(Intent(this,VendorActivity::class.java))
+            startActivity(Intent(this, VendorActivity::class.java))
         }
         fab_logout_item_amv.setOnClickListener {
             Firebase.logout(this)
@@ -113,6 +127,14 @@ class MainVendorActivity : AppCompatActivity() {
     }
 
     private fun setUI() {
+        progress_bar_amv.visibility=View.VISIBLE
+        progressbarHandler.postDelayed({
+            if(progress_bar_amv.visibility==View.VISIBLE)
+            {
+                progress_bar_amv.visibility=View.GONE
+                Toast.makeText(this,"no Item to display",Toast.LENGTH_LONG).show()
+            }
+        },15000)
         transitionDrawable = TransitionDrawable(arrayOf(
                 bitmapDrawableFromVector(this, R.drawable.more_img),
                 bitmapDrawableFromVector(this, R.drawable.img_close)
@@ -159,4 +181,10 @@ class MainVendorActivity : AppCompatActivity() {
         drawable.draw(canvas)
         return bitmap
     }
+
+    override fun onStop() {
+        super.onStop()
+        progressbarHandler.removeCallbacksAndMessages(null)
+    }
+
 }

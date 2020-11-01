@@ -80,7 +80,7 @@
             app:layout_constraintTop_toBottomOf="@id/home_screen_appbar"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="@string/see_all"
-           style="@style/round_corner_button"
+           style="@style/small_round_corner_button"
             android:id="@+id/txt_see_all_category"
             />
 
@@ -124,7 +124,7 @@
             />
 
         <TextView
-            style="@style/round_corner_button"
+            style="@style/small_round_corner_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/offer_card1"

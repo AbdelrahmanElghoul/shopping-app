@@ -4,10 +4,13 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.transition.Fade
+import androidx.transition.Slide
 import com.example.shoppingapp.R
 import com.example.shoppingapp.util.*
 import com.example.shoppingapp_vendor.MainVendorActivity
@@ -40,7 +43,14 @@ private lateinit  var gso:GoogleSignInOptions
         mGoogleSignInClient= GoogleSignIn.getClient(context as Context, gso)
 
         btn_create_account_fsi.setOnClickListener {
-            openFragment(context as RegisterActivity, SignUpFragment(), R.id.frame_register_ar)
+            val frag=SignUpFragment()
+
+            frag.apply{
+                //Slide(Gravity.TOP)
+                enterTransition =  Fade().setDuration(500)
+                exitTransition = Fade().setDuration(300)
+            }
+            openFragment(context as RegisterActivity, frag, R.id.frame_register_ar)
         }
         btn_log_in_fsi.setOnClickListener {
             logInEmailPassword()

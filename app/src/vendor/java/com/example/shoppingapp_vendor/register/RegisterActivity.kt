@@ -16,6 +16,12 @@ class RegisterActivity : AppCompatActivity(),OpenFragment {
 
     }
 
-
+    override fun onBackPressed() {
+        val count = supportFragmentManager.backStackEntryCount
+        if(count==1)
+            finish()
+        else
+            super.onBackPressed()
+    }
 
 }

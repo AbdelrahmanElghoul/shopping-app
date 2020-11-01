@@ -56,5 +56,6 @@
     <string name="log_in">Log in</string>
     <string name="logout">Log out</string>
     <string name="add_item">Add item</string>
+    <string name="already_have_an_account">already have an account</string>
 
 </resources>
