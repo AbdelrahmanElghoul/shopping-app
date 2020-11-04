@@ -1,30 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#F8F8FF</color>
+    <color name="colorPrimary">#0D47A1</color>
     <color name="colorPrimaryDark">#02021A</color>
-    <color name="colorAccent">#D6097D</color>
-<!--    <color name="colorAccent">#023C36</color>-->
+    <color name="colorAccent">#1a75d2</color>
+    <!--    <color name="colorAccent">#023C36</color>-->
     <color name="app_icon_img_background">#F6FBFC</color>
+
+    <color name="app_bar_color">@color/background</color>
 
     <color name="background">#F8F8FF</color>
     <color name="background_darker">#646480</color>
     <color name="default_card_color">#FFF</color>
 
-
     <color name="selectedIcon">#010101</color>
     <color name="unselectedIcon">#ABADAB</color>
 
+    <color name="dark_filter">#70000000</color>
+
+    <color name="text_color">#474747</color>
+
+    <color name="text_error_color">#B71C1C</color>
+
+    <color name="app_icon_color_light">#2196F3</color>
+    <color name="app_icon_color_dark">#2196F3</color>
+    <!--    <color name="app_icon_color_dark">#2979FF</color>-->
+
+    <!--154C63-->
     <color name="btn_color">#2196F3</color>
+
+
+    <color name="category_color">#6D8551</color>
+    <color name="red">#C31633</color>
+
 
     <color name="white">#FFFFFFFF</color>
     <color name="black">#000</color>
-    <color name="text_color">#474747</color>
-
-    <color name="text_error_color">#870202</color>
-
-
-    <color name="app_icon_color_light">#2196F3</color>
-    <color name="app_icon_color_dark">#4686E2</color>
 
     <color name="green_60">#6C8C6E</color>
     <color name="green_40">#A4D6A7</color>
@@ -35,6 +45,4 @@
     <color name="app_icon1_color">#033C47</color>
     <color name="app_icon2_color">#013F4D</color>
 
-    <color name="category_color">#6D8551</color>
-    <color name="red">#C31633</color>
 </resources>

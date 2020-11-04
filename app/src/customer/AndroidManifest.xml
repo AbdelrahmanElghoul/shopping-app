@@ -7,5 +7,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.example.shoppingapp_customer.register.RegisterActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity
+            android:name="com.example.shoppingapp_customer.MainShopScreenActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity
+            android:name="com.example.shoppingapp_customer.MainActivity2"
+            android:windowSoftInputMode="adjustPan"
+            />
     </application>
 </manifest>

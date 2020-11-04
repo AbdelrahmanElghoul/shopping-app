@@ -24,9 +24,9 @@ import com.here.sdk.core.GeoCoordinates
 import com.here.sdk.mapviewlite.MapViewLite
 
 class CheckoutScreen : Fragment(), UpdateUI {
-    var txt_location_change: TextView? = null
+    private var txt_location_change: TextView? = null
     var imgLocate: ImageView? = null
-    var txt_address: TextView? = null
+    private var txt_address: TextView? = null
     var mapView: MapViewLite? = null
     var map: Map? = null
     var locationManager: LocationManager? = null
@@ -51,11 +51,11 @@ class CheckoutScreen : Fragment(), UpdateUI {
         mapView!!.onCreate(savedInstanceState)
         map = Map(context, mapView, this)
         map!!.loadMapScene()
-        imgLocate!!.setOnClickListener { v: View? ->
+        imgLocate!!.setOnClickListener {
             requestPermission1()
             locationManager = context!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            locationManager!!.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 500f, locationListener)
-            locationManager!!.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 500f, locationListener)
+            locationManager!!.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 500f, locationListener!!)
+            locationManager!!.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 500f, locationListener!!)
         }
         locationListener = object : LocationListener {
             override fun onLocationChanged(location: Location) {

@@ -1,55 +1,37 @@
 package com.example.shoppingapp_customer
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
+import androidx.appcompat.app.AppCompatActivity
 import com.example.shoppingapp.R
+import com.example.shoppingapp.util.Firebase
+import com.example.shoppingapp_customer.register.RegisterActivity
 import com.google.firebase.auth.FirebaseAuth
 import timber.log.Timber
-import timber.log.Timber.d
+import timber.log.Timber.tag
 
-var mAuth: FirebaseAuth?= null;
+
 class SplashScreen : AppCompatActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
         Timber.plant(Timber.DebugTree())
 
-        mAuth = FirebaseAuth.getInstance()
-        if(mAuth!!.currentUser?.uid==null) d("Firebase user = null")
-        else  d("current user id= ${mAuth!!.currentUser?.uid}")
-//
+//        Firebase.logout(this)
+         val mAuth= FirebaseAuth.getInstance()
 
-//        Log.e("SDK123",String.valueOf(android.os.Build.VERSION.SDK_INT))
-        Handler().postDelayed({
-
-//            val intent = if(packageName=="com.example.shoppingapp_vendor")
-//                Intent(this, vendorActivity::class.java)
-//            else
-            val intent = Intent(this, MainShopScreenActivity::class.java)
-
+        Handler(Looper.getMainLooper()).postDelayed({
+            val intent = if (mAuth.currentUser?.uid == null && Firebase.getUid(this)==null)
+                Intent(this, RegisterActivity::class.java)
+            else
+                (Intent(this, MainShopScreenActivity::class.java))
+            Timber.d("${mAuth.currentUser?.uid == null}")
             startActivity(intent)
             finish()
-        }, 1000)
-
-// Float.POSITIVE_INFINITY.toLong()
-//        var dotCount:Int=0
-//        var timer = object: CountDownTimer(10000, 1000) {
-//            override fun onTick(millisUntilFinished: Long) {
-//                when {
-//                    dotCount % 4== 0 -> loading_txt.text = "loading..."
-//                    dotCount % 3== 0 -> loading_txt.text = "loading.."
-//                    dotCount % 2== 0 -> loading_txt.text = "loading."
-//                    else -> loading_txt.text = "loading"
-//                }
-//                dotCount++
-//            }
-//            override fun onFinish() {
-//                var intent = Intent(this@SplashScreen, MainShopScreenActivity::class.java)
-//                startActivity(intent)
-//            }
-//        }
-//        timer.start()
+        }, 1500)
     }
 }

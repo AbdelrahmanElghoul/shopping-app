@@ -3,25 +3,31 @@ package com.example.shoppingapp
 import android.os.Parcel
 import android.os.Parcelable
 
-class Item : Parcelable {
+class Item(var id: String, var name: String, var categoryId: String, var price: String, var stock: String) : Parcelable {
 
-    lateinit var id: String
-    lateinit var categoryId: String
-    lateinit var name: String
-    lateinit var price: String
-    lateinit var stock: String
-    lateinit var vendorId: String
+    var vendorId: String? = null
     var icon: String? = null
     var description: String? = null
     var manufacture: String? = null
 
+    constructor(source: Parcel) : this(
+            source.readString() as String,
+            source.readString() as String,
+            source.readString() as String,
+            source.readString() as String,
+            source.readString() as String
+    )
 
-    constructor(source: Parcel) : this()
-    constructor()
 
     override fun describeContents() = 0
 
-    override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {}
+    override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
+        writeString(id)
+        writeString(name)
+        writeString(categoryId)
+        writeString(price)
+        writeString(stock)
+    }
 
     companion object {
         @JvmField
