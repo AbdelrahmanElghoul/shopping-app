@@ -4,13 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.transition.Fade
-import androidx.transition.Slide
 import com.example.shoppingapp.R
 import com.example.shoppingapp.util.*
 import com.example.shoppingapp_customer.MainShopScreenActivity
@@ -118,7 +116,7 @@ private lateinit  var gso:GoogleSignInOptions
 //                txt_sign_in_email_fsi.text.toString(),
 //                txt_sign_in_password_fsi.text.toString(),
 //                Intent(context, MainShopScreenActivity::class.java))
-        Firebase.login2(
+        Firebase.login(
                 fragment = this,
                 email = txt_sign_in_email_fsi.text.toString(),
                 password = txt_sign_in_password_fsi.text.toString(),

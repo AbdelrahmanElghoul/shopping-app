@@ -111,11 +111,12 @@ private lateinit  var gso:GoogleSignInOptions
         progress_bar_fsi.visibility=View.VISIBLE
 
 
-        Firebase.logInWithEmailPassword(
-                this,
-                txt_sign_in_email_fsi.text.toString(),
-                txt_sign_in_password_fsi.text.toString(),
-                Intent(context, MainVendorActivity::class.java))
+        Firebase.login(
+                fragment=this,
+                email=txt_sign_in_email_fsi.text.toString(),
+                password=txt_sign_in_password_fsi.text.toString(),
+                type=Firebase.Users.VENDOR.Key,
+                intent=Intent(context, MainVendorActivity::class.java))
     }
     private fun logInGoogle() {
 

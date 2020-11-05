@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_margin="5dp"
+
     android:layout_height="wrap_content"
+    android:padding="@dimen/low_margin_padding"
     android:gravity="center"
     android:transitionName="@string/CATEGORY_Layout_TRANSITION_TAG"
     android:id="@+id/category_layout"
@@ -11,14 +12,15 @@
 
         <ImageView
             android:background="@drawable/round_frame"
-            android:elevation="3dp"
-            android:padding="10dp"
+            android:backgroundTint="@color/white"
+            android:elevation="@dimen/default_elevation"
+            android:padding="@dimen/_5sdp"
+            android:layout_margin="@dimen/_1sdp"
             android:transitionName="@string/CATEGORY_IMG_TRANSITION_TAG"
-            android:layout_marginBottom="5dp"
             android:id="@+id/category_img"
             android:scaleType="fitCenter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/large_icon_width_height"
+            android:layout_height="@dimen/large_icon_width_height"
             android:src="@drawable/default_img"
             android:contentDescription="@string/category" />
 

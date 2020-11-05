@@ -47,9 +47,9 @@ public class DescriptionScreen extends Fragment {
 
     }
 void BindView() {
-    backImg = getView().findViewById(R.id.back_img);
-    itemImg = getView().findViewById(R.id.item_img);
-    layout = getView().findViewById(R.id.description_layout);
+    backImg = getView().findViewById(R.id.img_back_dsf);
+    itemImg = getView().findViewById(R.id.img_item_dsf);
+    layout = getView().findViewById(R.id.layout_description_dsf);
 }
     void setUI(){
         BindView();

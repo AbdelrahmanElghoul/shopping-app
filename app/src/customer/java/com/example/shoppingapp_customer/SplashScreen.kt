@@ -25,11 +25,10 @@ class SplashScreen : AppCompatActivity() {
          val mAuth= FirebaseAuth.getInstance()
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = if (mAuth.currentUser?.uid == null && Firebase.getUid(this)==null)
+            val intent = if (Firebase.getUid(this)==null)
                 Intent(this, RegisterActivity::class.java)
             else
                 (Intent(this, MainShopScreenActivity::class.java))
-            Timber.d("${mAuth.currentUser?.uid == null}")
             startActivity(intent)
             finish()
         }, 1500)

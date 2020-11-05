@@ -15,14 +15,14 @@
     <dimen name="Extra_large_icon_width_height">@dimen/_150sdp</dimen>
 
     <dimen name="small_text_size">@dimen/_14ssp</dimen>
+    <dimen name="default_text_size">@dimen/_16ssp</dimen>
     <dimen name="normal_text_size">@dimen/_18ssp</dimen>
-    <dimen name="header_text_size">@dimen/_20ssp</dimen>
-    <dimen name="text_appbar_size">@dimen/_25ssp</dimen>
+
 
     <dimen name="standard_55">@dimen/_55sdp</dimen>
     <dimen name="standard_105">@dimen/_105sdp</dimen>
-    <dimen name="standard_155">@dimen/_155sdp</dimen>\
+    <dimen name="standard_155">@dimen/_155sdp</dimen>
 
-    <dimen name="default_elevation">@dimen/_5sdp</dimen>
+    <dimen name="default_elevation">@dimen/_2sdp</dimen>
 
 </resources>

@@ -42,7 +42,7 @@ class MainVendorActivity : AppCompatActivity() {
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference(Firebase.Items.ITEMS.Key)
                 .orderByChild(Firebase.Items.ITEM_VENDOR_ID.Key)
-                .equalTo(FirebaseAuth.getInstance().uid!!)
+                .equalTo(Firebase.getUid(this))
         val postListener = object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 progress_bar_amv.visibility = View.GONE

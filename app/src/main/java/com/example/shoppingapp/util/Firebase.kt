@@ -20,8 +20,6 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import timber.log.Timber
-import timber.log.Timber.tag
-import java.util.*
 import kotlin.collections.HashMap
 
 
@@ -30,7 +28,7 @@ abstract class Firebase {
     companion object {
 
         private lateinit var Uid:String
-        fun setUid(context: Context, value: String){
+        private fun setUid(context: Context, value: String){
             val sharedPreferences: SharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreference_KEY), Context.MODE_PRIVATE)
             val editor:SharedPreferences.Editor =  sharedPreferences.edit()
             editor.putString(context.getString(R.string.sharedPreferenceUserID_KEY), value)
@@ -48,7 +46,7 @@ abstract class Firebase {
         private var uri: Uri? = null
         private lateinit var fragment: Fragment
 
-        private fun addUserToDatabase(userMap: HashMap<String, String>) {
+        private fun googleUserDatabase(userMap: HashMap<String, String>) {
             val database = FirebaseDatabase.getInstance()
             database
                     .getReference(type)
@@ -73,7 +71,7 @@ abstract class Firebase {
         }
         private fun addImageToStorage(iconKey: String) {
             val mStorageRef = FirebaseStorage.getInstance().reference
-            val ref: StorageReference = mStorageRef.child("$type/${FirebaseAuth.getInstance().uid!!}.jpg")
+            val ref: StorageReference = mStorageRef.child("$type/${getUid(fragment.context!!)}.jpg")
 
             ref.putFile(this.uri!!).continueWithTask { task ->
                 if (!task.isSuccessful) {
@@ -99,7 +97,7 @@ abstract class Firebase {
         private fun addImageUrlToDatabase(iconKey: String, url: String) {
             FirebaseDatabase.getInstance()
                     .getReference(type)
-                    .child(FirebaseAuth.getInstance().uid!!)
+                    .child(getUid(fragment.context!!)!!)
                     .child(iconKey)
                     .setValue(url).addOnFailureListener {
                         Timber.e(it)
@@ -112,39 +110,7 @@ abstract class Firebase {
                     }
         }
 
-        fun auth(fragment: Fragment, user: HashMap<String, String>, password: String,
-                 uri: Uri?, type: String, intent: Intent) {
-            val mAuth = FirebaseAuth.getInstance()
-            mAuth.createUserWithEmailAndPassword(user[Firebase.Users.USER_EMAIL.Key] as String, password)
-                    .addOnSuccessListener {
-                        this.type = type
-                        this.intent = intent
-                        this.uri = uri
-                        this.fragment = fragment
-                        addUserToDatabase(userMap = user)
-                    }
-                    .addOnFailureListener {
-                        Timber.e(it)
-                        val ui = fragment as UpdateUI
-                        ui.update(it.toString())
-                        Toast.makeText(fragment.context, "log in failed.\n${it}", Toast.LENGTH_SHORT).show()
-                    }
-        }
-        fun logInWithEmailPassword(fragment: Fragment, email: String, password: String, intent: Intent) {
-            val auth = FirebaseAuth.getInstance()
-            auth.signInWithEmailAndPassword(email, password)
-                    .addOnSuccessListener {
-                        this.intent = intent
-                        fragment.startActivity(intent)
-                        fragment.activity?.finish()
-                    }
-                    .addOnFailureListener {
-                        Toast.makeText(fragment.context, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show()
-                        val ui = fragment as UpdateUI
-                        ui.update(it.toString())
-                    }
-        }
+        //disabled
         fun logInWithGoogle(fragment: Fragment, token: String, type: String, intent: Intent) {
             val auth = FirebaseAuth.getInstance()
             val credential = GoogleAuthProvider.getCredential(token, null)
@@ -153,6 +119,8 @@ abstract class Firebase {
                         this.type = type
                         this.intent = intent
                         this.fragment = fragment
+                        Timber.tag("google Login email ").d("${auth.currentUser?.email}")
+                        Timber.tag("google Login").d("${auth.currentUser}")
                         // Sign in success, update UI with the signed-in user's information
                         val user = HashMap<String, String>()
                         user[Firebase.Users.USER_NAME.Key] = auth.currentUser?.displayName
@@ -161,9 +129,10 @@ abstract class Firebase {
                         if (auth.currentUser?.phoneNumber != null)
                             user[Firebase.Users.USER_PHONE.Key] = auth.currentUser?.phoneNumber as String
                         Timber.tag("googleImg").d("${auth.currentUser?.photoUrl}")
-                        addUserToDatabase(userMap = user)
+                        googleUserDatabase(userMap = user)
 
 
+                        setUid(context=fragment.context!!,value= FirebaseAuth.getInstance().uid!!)
                         if (auth.currentUser?.photoUrl != null)
                             addImageUrlToDatabase(iconKey = Firebase.Users.USER_ICON.Key,
                                     url = auth.currentUser?.photoUrl.toString())
@@ -174,6 +143,7 @@ abstract class Firebase {
 
                     }
                     .addOnFailureListener {
+                        Timber.e(it)
                         Toast.makeText(fragment.context, "Authentication failed.",
                                 Toast.LENGTH_SHORT).show()
                         val ui = fragment as UpdateUI
@@ -187,7 +157,7 @@ abstract class Firebase {
                     .clear()
                     .apply()
 
-            FirebaseAuth.getInstance().signOut()
+//            FirebaseAuth.getInstance().signOut()
             if (GoogleSignIn.getLastSignedInAccount(activity) != null)
                 googleLogout(activity)
             activity.finish()
@@ -205,6 +175,9 @@ abstract class Firebase {
         fun register(fragment: Fragment, userMap: HashMap<String, String>, uri: Uri?, type: String, intent: Intent){
             val database = FirebaseDatabase.getInstance()
             val ref=database.getReference(type)
+            this.type=type
+            this.uri=uri
+            this.intent=intent
             val key=ref.push().key.toString()
                    ref.child(key)
                     .setValue(userMap)
@@ -213,6 +186,7 @@ abstract class Firebase {
                         if (uri != null)
                             addImageToStorage(iconKey = Firebase.Users.USER_ICON.Key)
                         else {
+
                             fragment.startActivity(intent)
                             fragment.activity?.finish()
                         }
@@ -226,9 +200,9 @@ abstract class Firebase {
                     }
 
         }
-        fun login2(fragment: Fragment, email:String,password: String,type: String, intent: Intent){
+
+        fun login(fragment: Fragment, email:String, password: String, type: String, intent: Intent){
             val database = FirebaseDatabase.getInstance()
-            val ref=database.getReference(type)
 
             val myRef = database.getReference(type)
                     .orderByChild(Firebase.Users.USER_EMAIL.Key)
@@ -238,15 +212,29 @@ abstract class Firebase {
                 override fun onDataChange(snapshot: DataSnapshot) {
 
                     val key = snapshot.key.toString()
-                    val name = snapshot.child(key).child(Firebase.Users.USER_PASSWORD.Key).value.toString()
-
-
+//                    val name = snapshot.child(key).child(Firebase.Users.USER_PASSWORD.Key).value.toString()
+                    Timber.d(key)
                     val x = snapshot.children.firstOrNull()?.value
                     if (x != null) {
                         val map = x as HashMap<String, String>
-                        tag("fb1").d(map["password"]) // working  if not found app crash}
-                    }else{
-                        tag("fb1").d("not found")
+//                        tag("fb1").d(map["password"])
+                        if (map["password"] == password) {
+                            setUid(context = fragment.context!!,value = key)
+                            fragment.startActivity(intent)
+                            fragment.activity?.finish()
+                        } else {
+                            val errorMsg="email/password is incorrect"
+                            Toast.makeText(fragment.context, errorMsg,
+                                    Toast.LENGTH_SHORT).show()
+                            val ui = fragment as UpdateUI
+                            ui.update(errorMsg)
+                        }
+                    } else {
+                        val errorMsg="email not found"
+                        Toast.makeText(fragment.context, errorMsg,
+                                Toast.LENGTH_SHORT).show()
+                        val ui = fragment as UpdateUI
+                        ui.update(errorMsg)
                     }
                 }
                 override fun onCancelled(error: DatabaseError) {
@@ -254,15 +242,8 @@ abstract class Firebase {
                 }
             })
 
-
-
-
-
         }
 
-        fun logInWithFacebook(context: Context, user: User, password: String, type: String, intent: Intent) {
-
-        }
         fun updateUserProfile() {
 //            val user = Firebase.auth.currentUser
 //

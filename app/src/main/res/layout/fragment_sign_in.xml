@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/app_icon_color_light"
+        android:background="@color/btn_color"
         app:layout_constraintBottom_toTopOf="@id/guideline1_fsi"/>
 
     <androidx.constraintlayout.widget.Guideline
@@ -81,6 +81,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_sign_in_email_fsi"
                     android:layout_width="match_parent"
+                    android:paddingHorizontal="@dimen/high_margin_padding"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -91,22 +92,25 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
-                app:layout_constraintEnd_toEndOf="@id/layout_sign_in_email_txt_fsi"
-                app:layout_constraintStart_toStartOf="@id/layout_sign_in_email_txt_fsi"
+                android:paddingTop="@dimen/low_margin_padding"
+                android:paddingBottom="@dimen/average_margin_padding"
                 app:layout_constraintTop_toBottomOf="@id/layout_sign_in_email_txt_fsi"
+                app:layout_constraintStart_toStartOf="@id/layout_sign_in_email_txt_fsi"
+                app:layout_constraintEnd_toEndOf="@id/layout_sign_in_email_txt_fsi"
+
                 app:endIconMode="password_toggle">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_sign_in_password_fsi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.gms.common.SignInButton
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/high_margin_padding"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/btn_log_in_fsi"
                 app:layout_constraintStart_toStartOf="parent"
@@ -152,7 +156,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:id="@+id/view_separator_fsi"
-                android:background="@color/unselectedIcon"
+                android:background="@color/colorPrimary"
                app:layout_constraintBottom_toTopOf="@id/btn_create_account_fsi"
                 android:layout_margin="@dimen/high_margin_padding"
                 />

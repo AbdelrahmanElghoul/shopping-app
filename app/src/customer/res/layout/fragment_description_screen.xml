@@ -4,63 +4,64 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorPrimary"
+    android:background="@color/background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.shoppingapp_customer.fragments.DescriptionScreen">
 
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:layout_height="0dp"
-        android:transitionName="@string/DESCRIPTION_LAYOUT_TRANSITION_TAG"
-        android:padding="@dimen/low_margin_padding"
-        android:id="@+id/description_layout"
-        android:layout_weight="2"
-        android:background="@drawable/semi_circle_view">
-
-        <ImageView
-            android:paddingStart="@dimen/average_margin_padding"
-            android:scaleType="fitCenter"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/item_name_txt"
-            app:layout_constraintBottom_toBottomOf="@id/item_name_txt"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_height="0dp"
-            android:src="@drawable/back_img"
-            app:tint="@color/white"
-            android:id="@+id/back_img"
-            android:contentDescription="@string/back_txt" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="?actionBarSize"
-            app:layout_constraintStart_toEndOf="@id/back_img"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:id="@+id/item_name_txt"
-            android:transitionName="@string/DESCRIPTION_NAME_TRANSITION_TAG"
-            android:text="@string/app_name"
-            style="@style/appbar_Text"
-            android:gravity="center"
-            />
-
-        <ImageView
-            android:id="@+id/item_img"
-
             android:layout_width="match_parent"
+            android:layout_weight="2"
+            android:background="@drawable/semi_circle_view"
+            android:layout_gravity="center_horizontal"
             android:layout_height="0dp"
-            android:layout_margin="@dimen/average_margin_padding"
-            android:src="@drawable/default_img"
-            android:transitionName="@string/DESCRIPTION_IMG_TRANSITION_TAG"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/back_img"
-             />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:transitionName="@string/DESCRIPTION_LAYOUT_TRANSITION_TAG"
+            android:padding="@dimen/low_margin_padding"
+            android:id="@+id/layout_description_dsf"
+            >
 
+            <ImageView
+                android:paddingStart="@dimen/average_margin_padding"
+                android:scaleType="fitCenter"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/txt_name_dsf"
+                app:layout_constraintBottom_toBottomOf="@id/txt_name_dsf"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_height="0dp"
+                android:src="@drawable/back_img"
+                app:tint="@color/white"
+                android:id="@+id/img_back_dsf"
+                android:contentDescription="@string/back_txt" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="?actionBarSize"
+                app:layout_constraintStart_toEndOf="@id/img_back_dsf"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/txt_name_dsf"
+                android:transitionName="@string/DESCRIPTION_NAME_TRANSITION_TAG"
+                android:text="@string/app_name"
+                style="@style/appbar_Text"
+                android:gravity="center"
+                />
+
+            <ImageView
+                android:id="@+id/img_item_dsf"
+
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/average_margin_padding"
+                android:src="@drawable/default_img"
+                android:transitionName="@string/DESCRIPTION_IMG_TRANSITION_TAG"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/img_back_dsf"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -77,37 +78,23 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/add_to_cart_img"
-                app:layout_constraintBottom_toBottomOf="@id/add_to_cart_img"
+                app:layout_constraintStart_toStartOf="@id/txt_price_dsf"
+                app:layout_constraintTop_toBottomOf="@id/txt_price_dsf"
                 android:text="quantity"
                 android:transitionName="@string/DESCRIPTION_QUANTITY_TRANSITION_TAG"
                 style="@style/header_Text"
-                android:id="@+id/quantity_txt"
+                android:id="@+id/txt_stock_dsf"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
                 android:text="00.00$"
                 style="@style/header_Text"
-                android:transitionName="@string/DESCRIPTION_PRICE_TRANSITION_TAG"
-                android:id="@+id/price_txt"
-                app:layout_constraintBottom_toBottomOf="@id/item_bookmark_img"
-                app:layout_constraintTop_toTopOf="@id/item_bookmark_img"
+                android:id="@+id/txt_price_dsf"
                 android:layout_marginTop="@dimen/average_margin_padding"
-                />
-
-            <ImageView
-                android:layout_width="@dimen/average_icon_width_height"
-                android:layout_height="@dimen/average_icon_width_height"
-                app:layout_constraintEnd_toEndOf="parent"
-                style="@style/header_Text"
-                android:id="@+id/add_to_cart_img"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/shopping_cart_img"
-                android:layout_marginTop="@dimen/average_margin_padding"
                 />
 
             <ImageView
@@ -115,21 +102,22 @@
                 android:layout_height="@dimen/average_icon_width_height"
                 app:layout_constraintEnd_toEndOf="parent"
                 style="@style/header_Text"
-                android:id="@+id/item_bookmark_img"
-                app:layout_constraintTop_toBottomOf="@id/add_to_cart_img"
-                android:src="@drawable/bookmark_img"
+                android:id="@+id/img_add_to_cart_dsf"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/img_add_to_cart"
                 android:layout_marginTop="@dimen/average_margin_padding"
                 />
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/header_Text"
                 android:text="@string/description"
-                app:layout_constraintTop_toBottomOf="@id/item_bookmark_img"
-                android:layout_marginTop="@dimen/extra_margin_padding"
+                app:layout_constraintTop_toBottomOf="@id/txt_stock_dsf"
+                android:layout_marginTop="@dimen/high_margin_padding"
                 app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/description"
+                android:id="@+id/txt_description_header_dsf"
                 />
 
             <TextView
@@ -137,10 +125,10 @@
                 android:layout_height="wrap_content"
                 style="@style/Text"
                 android:text="item description"
-                app:layout_constraintTop_toBottomOf="@id/description"
-                android:layout_marginTop="@dimen/high_margin_padding"
+                app:layout_constraintTop_toBottomOf="@id/txt_description_header_dsf"
+                android:layout_marginTop="@dimen/average_margin_padding"
                 app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/item_description_txt"
+                android:id="@+id/txt_description_dsf"
                 />
 
 
@@ -149,10 +137,10 @@
                 android:layout_height="wrap_content"
                 style="@style/header_Text"
                 android:text="@string/manufacture_details"
-                app:layout_constraintTop_toBottomOf="@id/item_description_txt"
-                android:layout_marginTop="@dimen/extra_margin_padding"
+                app:layout_constraintTop_toBottomOf="@id/txt_description_dsf"
+                android:layout_marginTop="@dimen/high_margin_padding"
                 app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/manufacture"
+                android:id="@+id/txt_manufacture_header_dsf"
                 />
 
             <TextView
@@ -160,10 +148,10 @@
                 android:layout_height="wrap_content"
                 style="@style/Text"
                 android:text="manufacture details"
-                app:layout_constraintTop_toBottomOf="@id/manufacture"
-                android:layout_marginTop="@dimen/high_margin_padding"
+                app:layout_constraintTop_toBottomOf="@id/txt_manufacture_header_dsf"
+                android:layout_marginTop="@dimen/average_margin_padding"
                 app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/item_manufacture_txt"
+                android:id="@+id/txt_manufacture_dsf"
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

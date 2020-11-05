@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoppingapp.Item;
 import com.example.shoppingapp_customer.MainActivity2;
-import com.example.shoppingapp_customer.util.Animation;
+
 import com.example.shoppingapp.R;
 import com.example.shoppingapp_customer.fragments.DescriptionScreen;
 
@@ -58,22 +58,12 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
 
 
         holder.itemLayout.setOnClickListener(v-> {
-            Pair<View, String> p1 = Pair.create(holder.itemImg,  context.getString(R.string.DESCRIPTION_IMG_TRANSITION_TAG));
-//            Pair<View, String> p2 = Pair.create(holder.itemNameTxt,  context.getString(R.string.DESCRIPTION_NAME_TRANSITION_TAG));
-//            Pair<View, String> p3 = Pair.create(holder.itemPriceTxt,  context.getString(R.string.DESCRIPTION_PRICE_TRANSITION_TAG));
-//            Pair<View, String> p4 = Pair.create(holder.itemQuantityTxt,  context.getString(R.string.DESCRIPTION_QUANTITY_TRANSITION_TAG));
-            Pair<View, String> p5 = Pair.create(holder.itemLayout,  context.getString(R.string.DESCRIPTION_LAYOUT_TRANSITION_TAG));
-
             Intent intent=new Intent(context, MainActivity2.class);
             intent.putExtra(context.getString(R.string.FRAGMENT_NAME_TAG), DescriptionScreen.class.getSimpleName());
             intent.putExtra(context.getString(R.string.COLOR_TAG),color);
 //            intent.putExtra(context.getString(R.string.OBJECT_TAG), itemList.get(position));
 
-            Animation.MultipleSharedElementTransition(
-                    context,
-                    intent,
-                    p1,p5);
-
+            context.startActivity(intent);
         });
     }
 

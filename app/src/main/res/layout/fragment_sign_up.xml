@@ -27,7 +27,7 @@
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
 
-        android:background="@color/app_icon_color_dark"
+        android:background="@color/app_icon_color"
         app:layout_constraintBottom_toTopOf="@id/guideline1_fsu"/>
 
     <androidx.constraintlayout.widget.Guideline
@@ -70,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.1" />
+                app:layout_constraintGuide_percent="0.11" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layout_sign_up_name_txt_fsu"
@@ -185,7 +185,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:id="@+id/view_separator_fsi"
-                android:background="@color/unselectedIcon"
+                android:background="@color/colorPrimary"
                 app:layout_constraintTop_toBottomOf="@id/btn_sign_up_fsu"
                 app:layout_constraintVertical_bias="1"
                 app:layout_constraintBottom_toTopOf="@id/btn_have_account_fsu"

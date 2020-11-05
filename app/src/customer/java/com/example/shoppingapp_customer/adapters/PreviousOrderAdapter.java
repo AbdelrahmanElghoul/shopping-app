@@ -59,7 +59,7 @@ public class PreviousOrderAdapter extends RecyclerView.Adapter<PreviousOrderAdap
         public PreviousOrderViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            itemImg = itemView.findViewById(R.id.item_img);
+            itemImg = itemView.findViewById(R.id.img_item_dsf);
             txtPrice = itemView.findViewById(R.id.txt_price);
             txtName = itemView.findViewById(R.id.txt_name);
             txtQuantity = itemView.findViewById(R.id.txt_quantity);

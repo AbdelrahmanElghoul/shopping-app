@@ -53,7 +53,7 @@ public class CartScreen extends Fragment {
 
     void BindView() {
 
-        img_back =getView().findViewById(R.id.back_img);
+        img_back =getView().findViewById(R.id.img_back_dsf);
         txt_item_count = getView().findViewById(R.id.cart_item_count_txt);
         txt_item_count2 = getView().findViewById(R.id.item_count_txt);
         txt_item_price = getView().findViewById(R.id.item_price_txt);

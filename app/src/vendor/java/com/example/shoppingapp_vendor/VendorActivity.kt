@@ -33,11 +33,11 @@ class VendorActivity : AppCompatActivity(),UpdateUI {
     private lateinit var database:FirebaseDatabase
     private lateinit var type:String
     private lateinit var key:String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vendor)
         initialiseData()
-
 
         btn_add_item.setOnClickListener { btnAdd() }
         spinner_layout_va.setOnClickListener {spinner_category_va.callOnClick()}
@@ -101,7 +101,7 @@ class VendorActivity : AppCompatActivity(),UpdateUI {
         itemMap[Firebase.Items.ITEMS_CATEGORY.Key] = spinner_category_va.selectedItemPosition.toString()
         itemMap[Firebase.Items.ITEM_DESCRIPTION.Key] = txt_item_description_va.text.toString()
         itemMap[Firebase.Items.ITEM_MANUFACTURE.Key] = txt_manufacture_va.text.toString()
-        itemMap[Firebase.Items.ITEM_VENDOR_ID.Key] = FirebaseAuth.getInstance().uid!!
+        itemMap[Firebase.Items.ITEM_VENDOR_ID.Key] = Firebase.getUid(this).toString()
 
         database.getReference(type)
                 .child(key)

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="img_offer">
+        <item name="elevation">@dimen/_5sdp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:layout_marginTop">@dimen/low_margin_padding</item>
+        <item name="android:layout_marginHorizontal">@dimen/average_margin_padding</item>
+        <item name="contentDescription">"offer"</item>
+        <item name="android:src">@drawable/offer_banner</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+
+    <style name="round_card_view" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeBottomRight">@dimen/_50sdp</item>
+        <item name="cornerSizeBottomLeft">@dimen/_25sdp</item>
+    </style>
+
+</resources>
