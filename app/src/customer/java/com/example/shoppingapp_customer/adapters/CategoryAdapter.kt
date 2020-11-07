@@ -29,16 +29,14 @@ class CategoryAdapter(val context: Context) : RecyclerView.Adapter<CategoryViewH
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         holder.category_layout.setOnClickListener {
-            val p1 = Pair.create<View, String>(holder.categoryImg, context.getString(R.string.CATEGORY_IMG_TRANSITION_TAG))
-            val p2 = Pair.create<View, String>(holder.categoryName, context.getString(R.string.CATEGORY_NAME_TRANSITION_TAG))
-            val p3 = Pair.create<View, String>(holder.category_layout, context.getString(R.string.CATEGORY_Layout_TRANSITION_TAG))
             val intent = Intent(context, MainActivity2::class.java)
             intent.putExtra(context.getString(R.string.FRAGMENT_NAME_TAG), ItemsScreen::class.java.simpleName)
+            intent.putExtra(context.getString(R.string.SELECTED_CATEGORY_TAG), position)
             context.startActivity(intent)
         }
 
-        holder.categoryImg.setImageResource(categoryList.second?.getResourceId(position,R.drawable.error)!!);
-        holder.categoryName.text = categoryList.first?.get(position);
+        holder.categoryImg.setImageResource(categoryList.second?.getResourceId(position,R.drawable.error)!!)
+        holder.categoryName.text = categoryList.first?.get(position)
     }
 
     override fun getItemCount(): Int {
@@ -56,4 +54,5 @@ class CategoryAdapter(val context: Context) : RecyclerView.Adapter<CategoryViewH
             category_layout = itemView.findViewById(R.id.category_layout)
         }
     }
+
 }

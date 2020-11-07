@@ -9,11 +9,11 @@ import com.example.shoppingapp.util.OpenFragment
 import com.example.shoppingapp_customer.fragments.CheckoutScreen
 import com.example.shoppingapp_customer.fragments.DescriptionScreen
 import com.example.shoppingapp_customer.fragments.ItemsScreen
-import com.example.shoppingapp_customer.util.Navigation
 import com.google.android.material.transition.platform.MaterialFade
 import timber.log.Timber
 
-class MainActivity2 : AppCompatActivity(), Navigation, OpenFragment {
+class MainActivity2 : AppCompatActivity(), OpenFragment {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val transition: Transition = MaterialFade()
@@ -21,6 +21,7 @@ class MainActivity2 : AppCompatActivity(), Navigation, OpenFragment {
         setContentView(R.layout.activity_main2)
         val fragName = intent.getStringExtra(getString(R.string.FRAGMENT_NAME_TAG))
         Timber.d(fragName)
+
         when {
             DescriptionScreen::class.java.simpleName == fragName -> {
                 val fragment: Fragment = DescriptionScreen()
@@ -43,14 +44,26 @@ class MainActivity2 : AppCompatActivity(), Navigation, OpenFragment {
                 Timber.d(fragName.toString())
                 openFragment(this, fragment, R.id.activity2_frame)
             }
+            ItemsScreen::class.java.simpleName== fragName ->{
+                val fragment=ItemsScreen()
+                val bundle=Bundle()
+                bundle.putInt(getString(R.string.SELECTED_CATEGORY_TAG),
+                        intent.getIntExtra(getString(R.string.SELECTED_CATEGORY_TAG),0))
+                fragment.arguments=bundle
+                openFragment(this, fragment, R.id.activity2_frame)
+            }
             else -> {
                 openFragment(this, ItemsScreen(), R.id.activity2_frame)
             }
         }
     }
 
-    override fun goBack() {
-        super.supportFinishAfterTransition()
-        super.onBackPressed()
+    override fun onBackPressed() {
+        val count = supportFragmentManager.backStackEntryCount
+        if(count==1)
+            finish()
+        else
+            super.onBackPressed()
     }
+
 }

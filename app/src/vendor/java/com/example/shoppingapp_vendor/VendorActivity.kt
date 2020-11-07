@@ -15,15 +15,14 @@ import com.example.shoppingapp.R
 import com.example.shoppingapp.util.Firebase
 import com.example.shoppingapp.util.RequestCode
 import com.example.shoppingapp.util.UpdateUI
-import com.google.firebase.auth.FirebaseAuth
+
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import kotlinx.android.synthetic.main.fragment_sign_in.*
+
 import kotlinx.android.synthetic.vendor.activity_vendor.*
 import timber.log.Timber
-import timber.log.Timber.DebugTree
-import timber.log.Timber.plant
+import timber.log.Timber.*
 import java.lang.Exception
 
 class VendorActivity : AppCompatActivity(),UpdateUI {
@@ -127,7 +126,8 @@ class VendorActivity : AppCompatActivity(),UpdateUI {
                                         .getReference(type)
                                         .child(key)
                                         .child(Firebase.Items.ITEM_IMG_URL.Key)
-                                        .setValue(task.result.toString()).addOnFailureListener { error(it) }.addOnSuccessListener {
+                                        .setValue(task.result.toString()).addOnFailureListener { error(it) }
+                                        .addOnSuccessListener {
                                             super.onBackPressed()
                                         }
                             } else error(task.exception!!)
@@ -164,6 +164,11 @@ class VendorActivity : AppCompatActivity(),UpdateUI {
         Timber.e(it)
         update(it.toString())
         Toast.makeText(this, "error occurred\n$it.message", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        e("onStop")
     }
 }
 

@@ -14,7 +14,7 @@
     <string name="backstack_tag">FragmentBackStackTag</string>
 
     <string name="FRAGMENT_NAME_TAG">Fragment_Name</string>
-
+    <string name="SELECTED_CATEGORY_TAG">category_tag</string>
     <string name="COLOR_TAG">color_tag</string>
     <string name="OBJECT_TAG">object_tag</string>
 
@@ -56,6 +56,7 @@
     <string name="log_in">Log in</string>
     <string name="logout">Log out</string>
     <string name="add_item">Add item</string>
+    <string name="add_to_cart">Add to cart</string>
     <string name="already_have_an_account">already have an account</string>
 
 </resources>

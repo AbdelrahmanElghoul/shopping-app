@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.shoppingapp_customer.fragments.DescriptionScreen">
+    >
 
-
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/guideline_dsf"
+        app:layout_constraintGuide_percent="0.25"
+        />
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:layout_weight="2"
             android:background="@drawable/semi_circle_view"
             android:layout_gravity="center_horizontal"
@@ -19,6 +26,7 @@
             android:transitionName="@string/DESCRIPTION_LAYOUT_TRANSITION_TAG"
             android:padding="@dimen/low_margin_padding"
             android:id="@+id/layout_description_dsf"
+        app:layout_constraintBottom_toTopOf="@id/guideline_dsf"
             >
 
             <ImageView
@@ -45,6 +53,7 @@
                 android:transitionName="@string/DESCRIPTION_NAME_TRANSITION_TAG"
                 android:text="@string/app_name"
                 style="@style/appbar_Text"
+                android:textColor="@color/white"
                 android:gravity="center"
                 />
 
@@ -63,10 +72,12 @@
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"
+        app:layout_constraintTop_toBottomOf="@id/guideline_dsf"
+        android:layout_weight="5"
         >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -159,4 +170,4 @@
 
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -133,16 +133,22 @@
                 android:gravity="center"
                 android:text="@string/empty_field_error_msg"
                 app:drawableStartCompat="@drawable/error" />
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
                 android:visibility="gone"
                 android:id="@+id/progress_bar_fsi"
-                app:layout_constraintBottom_toTopOf="@id/view_separator_fsi"
-                />
+                android:background="@color/dark_filter"
+                android:layout_height="match_parent">
 
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminateTint="@color/red"
+                    android:backgroundTint="@color/dark_filter"
+                    />
+            </LinearLayout>
             <TextView
                 android:id="@+id/btn_log_in_fsi"
                 style="@style/textView_btn"

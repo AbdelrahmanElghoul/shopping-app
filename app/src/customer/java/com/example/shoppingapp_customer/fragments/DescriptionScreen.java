@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.shoppingapp.Item;
-import com.example.shoppingapp_customer.util.Navigation;
 import com.example.shoppingapp.R;
 
 
@@ -23,7 +22,6 @@ import timber.log.Timber;
 public class DescriptionScreen extends Fragment {
 
     ImageView backImg;
-    Navigation navigation;
     ImageView itemImg;
     ConstraintLayout layout;
     int color;
@@ -44,6 +42,7 @@ public class DescriptionScreen extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setUI();
 
+        backImg.setOnClickListener(v -> getActivity().onBackPressed());
 
     }
 void BindView() {
@@ -53,9 +52,6 @@ void BindView() {
 }
     void setUI(){
         BindView();
-
-        navigation=(Navigation)getContext();
-        backImg.setOnClickListener(v-> navigation.goBack());
 
         Timber.d(String.valueOf(color));
 

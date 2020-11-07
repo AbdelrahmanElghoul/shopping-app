@@ -14,3 +14,7 @@
 .cxx
 /app/build.gradle
 
+
+/app/src/customer/google-services.json
+/app/src/vendor/google-services.json
+/app/google-services.json

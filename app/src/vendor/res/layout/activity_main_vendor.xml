@@ -29,16 +29,22 @@
 
     </LinearLayout>
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:id="@+id/progress_bar_amv"
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="center"
         android:visibility="gone"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appbar_amv"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+        android:id="@+id/progress_bar_amv"
+        android:background="@color/dark_filter"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/red"
+            android:backgroundTint="@color/dark_filter"
+            />
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"

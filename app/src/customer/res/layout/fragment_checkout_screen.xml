@@ -16,13 +16,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/actionbar_txt"
         app:layout_constraintBottom_toBottomOf="@id/actionbar_txt"
-        android:id="@+id/img_back"/>
+        android:id="@+id/img_back_isf"/>
 
     <TextView
         android:layout_width="0dp"
         android:layout_margin="@dimen/average_margin_padding"
         android:layout_height="?actionBarSize"
-        app:layout_constraintStart_toEndOf="@id/img_back"
+        app:layout_constraintStart_toEndOf="@id/img_back_isf"
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/actionbar_txt"
         app:layout_constraintEnd_toEndOf="parent"

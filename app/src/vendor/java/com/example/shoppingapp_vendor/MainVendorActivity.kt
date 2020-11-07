@@ -34,6 +34,7 @@ class MainVendorActivity : AppCompatActivity() {
     private lateinit var transitionDrawable: TransitionDrawable
     private val fabHandler = Handler()
     private val progressbarHandler = Handler()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_vendor)

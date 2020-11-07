@@ -20,6 +20,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import timber.log.Timber
+import timber.log.Timber.tag
 import kotlin.collections.HashMap
 
 
@@ -87,7 +88,7 @@ abstract class Firebase {
                 } else {
                     val it = task.exception
                     Timber.e(it)
-                    val ui = this.fragment.activity as UpdateUI
+                    val ui = this.fragment as UpdateUI
                     ui.update(it.toString())
                     Toast.makeText(this.fragment.context, "error occurred\n$it.message", Toast.LENGTH_SHORT).show()
                 }
@@ -173,31 +174,60 @@ abstract class Firebase {
         }
 
         fun register(fragment: Fragment, userMap: HashMap<String, String>, uri: Uri?, type: String, intent: Intent){
-            val database = FirebaseDatabase.getInstance()
-            val ref=database.getReference(type)
+            val tag="fb register"
             this.type=type
             this.uri=uri
             this.intent=intent
-            val key=ref.push().key.toString()
-                   ref.child(key)
-                    .setValue(userMap)
-                    .addOnSuccessListener {
-                        setUid(fragment.context!!,key)
-                        if (uri != null)
-                            addImageToStorage(iconKey = Firebase.Users.USER_ICON.Key)
-                        else {
+            this.fragment=fragment
 
-                            fragment.startActivity(intent)
-                            fragment.activity?.finish()
-                        }
+            tag("$tag email").d(userMap[Firebase.Users.USER_EMAIL.Key])
+            val database = FirebaseDatabase.getInstance()
+            val myRef = database.getReference(type)
+                    .orderByChild(Firebase.Users.USER_EMAIL.Key)
+                    .equalTo(userMap[Firebase.Users.USER_EMAIL.Key])
 
-                    }
-                    .addOnFailureListener {
-                        Timber.e(it)
+            val ref=database.getReference(type)
+            myRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val key = snapshot.key.toString()
+                    tag("$tag snap1=").d("$snapshot")
+//                    val name = snapshot.child(key).child(Firebase.Users.USER_PASSWORD.Key).value.toString()
+                    tag("$tag key=").d(key)
+                    val x = snapshot.children.firstOrNull()?.value
+                    tag("$tag snap2=").d("$x")
+                    if (x == null) {
+                        val key=ref.push().key.toString()
+                        ref.child(key)
+                                .setValue(userMap)
+                                .addOnSuccessListener {
+                                    setUid(fragment.context!!,key)
+                                    if (uri != null)
+                                        addImageToStorage(iconKey = Firebase.Users.USER_ICON.Key)
+                                    else {
+
+                                        fragment.startActivity(intent)
+                                        fragment.activity?.finish()
+                                    }
+
+                                }
+                                .addOnFailureListener {
+                                    Timber.e(it)
+                                    val ui = fragment as UpdateUI
+                                    ui.update(it.toString())
+                                    Toast.makeText(fragment.context, "log in failed.\n${it}", Toast.LENGTH_SHORT).show()
+                                }
+                    } else {
+                        val errorMsg="email already exist"
+                        Toast.makeText(fragment.context, errorMsg,
+                                Toast.LENGTH_SHORT).show()
                         val ui = fragment as UpdateUI
-                        ui.update(it.toString())
-                        Toast.makeText(fragment.context, "log in failed.\n${it}", Toast.LENGTH_SHORT).show()
+                        ui.update(errorMsg)
                     }
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    Timber.tag("login value listener cancelled").d("${error}")
+                }
+            })
 
         }
 
@@ -216,7 +246,7 @@ abstract class Firebase {
                     Timber.d(key)
                     val x = snapshot.children.firstOrNull()?.value
                     if (x != null) {
-                        val map = x as HashMap<String, String>
+                        val map = x as HashMap<*, *>
 //                        tag("fb1").d(map["password"])
                         if (map["password"] == password) {
                             setUid(context = fragment.context!!,value = key)

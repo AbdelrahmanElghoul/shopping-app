@@ -3,37 +3,54 @@ package com.example.shoppingapp
 import android.os.Parcel
 import android.os.Parcelable
 
-class Item(var id: String, var name: String, var categoryId: String, var price: String, var stock: String) : Parcelable {
+class Item() : Parcelable {
 
-    var vendorId: String? = null
+    lateinit var id:String
+    lateinit var name: String
     var icon: String? = null
     var description: String? = null
+    lateinit var price: String
     var manufacture: String? = null
+    lateinit var stock: String
+    lateinit var categoryId:String
+    lateinit var vendorId: String
 
-    constructor(source: Parcel) : this(
-            source.readString() as String,
-            source.readString() as String,
-            source.readString() as String,
-            source.readString() as String,
-            source.readString() as String
-    )
-
-
-    override fun describeContents() = 0
-
-    override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
-        writeString(id)
-        writeString(name)
-        writeString(categoryId)
-        writeString(price)
-        writeString(stock)
+    constructor(parcel: Parcel) : this() {
+        id = parcel.readString() as String
+        name = parcel.readString() as String
+        icon = parcel.readString()
+        description = parcel.readString()
+        price = parcel.readString() as String
+        manufacture = parcel.readString()
+        stock = parcel.readString() as String
+        categoryId = parcel.readString() as String
+        vendorId = parcel.readString() as String
     }
 
-    companion object {
-        @JvmField
-        val CREATOR: Parcelable.Creator<Item> = object : Parcelable.Creator<Item> {
-            override fun createFromParcel(source: Parcel): Item = Item(source)
-            override fun newArray(size: Int): Array<Item?> = arrayOfNulls(size)
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(id)
+        parcel.writeString(name)
+        parcel.writeString(icon)
+        parcel.writeString(description)
+        parcel.writeString(price)
+        parcel.writeString(manufacture)
+        parcel.writeString(stock)
+        parcel.writeString(categoryId)
+        parcel.writeString(vendorId)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<Item> {
+        override fun createFromParcel(parcel: Parcel): Item {
+            return Item(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Item?> {
+            return arrayOfNulls(size)
         }
     }
+
 }

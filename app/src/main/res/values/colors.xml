@@ -13,12 +13,14 @@
     <color name="default_card_color">#FFF</color>
 
     <color name="selectedIcon">#00FF80</color>
-    <color name="unselectedIcon">#B1FFB1</color>
+    <color name="unselectedIcon">#AA696969</color>
 
-    <color name="dark_filter">#70000000</color>
+
+    <color name="dark_filter">#4A000000</color>
     <color name="text_color">#474747</color>
     <color name="text_error_color">#B71C1C</color>
     <color name="app_icon_color">#1f89e5</color>
+    <color name="app_icon_color_lite">#BC1F89E5</color>
 
     <!--154C63-->
     <color name="btn_color">#1f89e5</color>
