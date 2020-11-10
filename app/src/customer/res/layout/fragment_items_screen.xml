@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.shoppingapp_customer.fragments.ItemsScreen">
 
@@ -55,7 +54,7 @@
         app:layout_constraintStart_toStartOf="@id/rv_items_isf"
         android:gravity="center"
         android:id="@+id/layout_progressbar_isf"
-        android:background="@color/dark_filter"
+        android:background="@color/unselectedIcon"
         app:layout_constraintEnd_toEndOf="@id/rv_items_isf"
         android:layout_height="0dp">
 

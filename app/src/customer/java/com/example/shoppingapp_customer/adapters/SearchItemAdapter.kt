@@ -2,6 +2,7 @@ package com.example.shoppingapp_customer.adapters
 
 import android.content.Context
 import android.graphics.Color
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.shoppingapp.Item
@@ -26,7 +28,6 @@ class SearchItemAdapter(val context: Context) : RecyclerView.Adapter<SearchItemV
     private var itemList = mutableListOf<Item>()
     private var rnd = Random()
     private var maxValue = 180
-
     fun addItem(item: Item) {
         itemList.add(item)
     }
@@ -41,7 +42,11 @@ class SearchItemAdapter(val context: Context) : RecyclerView.Adapter<SearchItemV
         val color = Color.argb(130, rnd.nextInt(maxValue), rnd.nextInt(maxValue), rnd.nextInt(maxValue))
         Timber.tag("color").d(color.toString())
 
-        holder.layout.setOnClickListener { d(itemList[position].id) }
+        holder.layout.setOnClickListener {
+            val bundle= Bundle()
+            bundle.putParcelable(context.getString(R.string.PASS_CLASS_KEY),itemList[position])
+            it.findNavController().navigate(R.id.action_itemsScreen_to_descriptionScreen,bundle)
+        }
         holder.txtPrice.text=itemList[position].price+" $"
         holder.txtName.text=itemList[position].name
         Glide.with(context)
@@ -71,7 +76,7 @@ class SearchItemAdapter(val context: Context) : RecyclerView.Adapter<SearchItemV
         var txtPrice:TextView
         var img:ImageView
         var fab:ConstraintLayout
-        var layout:MaterialCardView
+        var layout:ConstraintLayout
 
         init {
             this.txtName = itemView.findViewById(R.id.txt_item_name_isl)

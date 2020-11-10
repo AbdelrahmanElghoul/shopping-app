@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.shoppingapp.R
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shoppingapp.util.Firebase
@@ -25,13 +26,16 @@ class HomeScreen : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         img_logout_hsf.setOnClickListener{
-            Firebase.logout(activity = activity!!)
+            Firebase.logout(activity = requireActivity())
         }
         setUI()
+        txt_see_all_previous_order_hsf.setOnClickListener {
+            it.findNavController().navigate(R.id.action_homeScreen_to_cartScreen2)
+        }
     }
 
     private fun setUI() {
-        categoryAdapter = CategoryAdapter(context!!)
+        categoryAdapter = CategoryAdapter(requireContext())
         rv_category_hsf!!.setHasFixedSize(true)
         rv_category_hsf.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rv_category_hsf.adapter = categoryAdapter

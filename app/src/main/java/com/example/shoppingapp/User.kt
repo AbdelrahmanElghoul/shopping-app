@@ -1,51 +1,61 @@
 package com.example.shoppingapp
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Parcel
 import android.os.Parcelable
+import com.example.shoppingapp.util.Firebase
+import timber.log.Timber
 
-class User() : Parcelable {
+class User(){
 
-    lateinit var id: String
-    lateinit var name: String
-    lateinit var type:String
-    lateinit var email: String
-    var icon: String?=null
-    var phone: String?=null
-    var cartId:String?=null
 
-    constructor(parcel: Parcel) : this() {
-        id = parcel.readString() as String
-        name = parcel.readString() as String
-        type = parcel.readString() as String
-        email = parcel.readString() as String
-        icon = parcel.readString()
-        phone = parcel.readString()
-        cartId = parcel.readString()
-    }
+    companion object{
+        fun toMap():HashMap<String,String>{
+            val map=HashMap<String,String>()
 
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(id)
-        parcel.writeString(name)
-        parcel.writeString(type)
-        parcel.writeString(email)
-        parcel.writeString(icon)
-        parcel.writeString(phone)
-        parcel.writeString(cartId)
-    }
+            map[Firebase.Users.USER_NAME.Key]=name
+            map[Firebase.Users.USER_EMAIL.Key]=email
+            map[Firebase.Users.USER_PHONE.Key]=phone as String
+            map[Firebase.Users.USER_CART_ID.Key]=cartId
 
-    override fun describeContents(): Int {
-        return 0
-    }
+            if (icon != null)
+                map[Firebase.Users.USER_ICON.Key]= icon!!
 
-    companion object CREATOR : Parcelable.Creator<User> {
-        override fun createFromParcel(parcel: Parcel): User {
-            return User(parcel)
+            return map
         }
-
-        override fun newArray(size: Int): Array<User?> {
-            return arrayOfNulls(size)
+        fun addToCart(cart:Cart){
+            cartList.add(cart)
         }
+        lateinit var id: String
+        fun setId(context: Context, value: String){
+            val sharedPreferences: SharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreference_KEY), Context.MODE_PRIVATE)
+            val editor: SharedPreferences.Editor =  sharedPreferences.edit()
+            editor.putString(context.getString(R.string.sharedPreferenceUserID_KEY), value)
+            editor.apply()
+        }
+        fun getId(context: Context):String?{
+            if(this::id.isInitialized) return id
+            val sharedPref: SharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreference_KEY), Context.MODE_PRIVATE)
+            return sharedPref.getString(context.getString(R.string.sharedPreferenceUserID_KEY),null)
+
+        }
+        lateinit var name: String
+        lateinit var email: String
+        var icon: String?=null
+        var phone: String?=null
+            get(){
+                return field ?: ""
+            }
+        var cartList=mutableListOf<Cart>()
+            private set
+        lateinit var cartId:String
+
     }
+   class Cart {
+        lateinit var itemId:String
+        var quantity:Int=0
+   }
 
 
 }

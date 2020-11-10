@@ -33,7 +33,7 @@
         android:paddingHorizontal="@dimen/average_margin_padding"
         android:paddingVertical="@dimen/low_margin_padding"
         android:layout_height="0dp"
-        android:background="@color/dark_filter"
+        android:background="@color/unselectedIcon"
         app:layout_constraintTop_toBottomOf="@id/guideline_il"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

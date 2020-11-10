@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/homeScreen">
+
+    <fragment
+        android:id="@+id/cartScreen2"
+        android:name="com.example.shoppingapp_customer.fragments.CartScreen"
+        android:label="fragment_cart_screen"
+        tools:layout="@layout/fragment_cart_screen" >
+        <action
+            android:id="@+id/action_cartScreen_to_checkoutScreen"
+            app:destination="@id/checkoutScreen2" />
+    </fragment>
+    <fragment
+        android:id="@+id/checkoutScreen2"
+        android:name="com.example.shoppingapp_customer.fragments.CheckoutScreen"
+        android:label="fragment_checkout_screen"
+        tools:layout="@layout/fragment_checkout_screen" />
+    <fragment
+        android:id="@+id/descriptionScreen"
+        android:name="com.example.shoppingapp_customer.fragments.DescriptionScreen"
+        android:label="fragment_description_screen"
+        tools:layout="@layout/fragment_description_screen" />
+    <fragment
+        android:id="@+id/homeScreen"
+        android:name="com.example.shoppingapp_customer.fragments.HomeScreen"
+        android:label="fragment_home_screen"
+        tools:layout="@layout/fragment_home_screen" >
+        <action
+            android:id="@+id/action_homeScreen_to_itemsScreen"
+            app:destination="@id/itemsScreen" >
+            <argument
+                android:name="@string/SELECTED_CATEGORY_TAG"
+                app:argType="integer"
+                android:defaultValue="0"
+                />
+        </action>
+        <action
+            android:id="@+id/action_homeScreen_to_cartScreen2"
+            app:destination="@id/cartScreen2" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemsScreen"
+        android:name="com.example.shoppingapp_customer.fragments.ItemsScreen"
+        android:label="fragment_items_screen"
+        tools:layout="@layout/fragment_items_screen" >
+        <action
+            android:id="@+id/action_itemsScreen_to_descriptionScreen"
+            app:destination="@id/descriptionScreen" >
+            <argument
+                android:name="@string/SELECTED_CATEGORY_TAG"
+                app:argType="com.example.shoppingapp.Item"
+                />
+        </action>
+
+    </fragment>
+</navigation>

@@ -19,14 +19,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/guide_line"
             android:id="@+id/cart_item_img"
-            android:layout_margin="@dimen/high_margin_padding"
+            android:layout_margin="@dimen/low_margin_padding"
             android:src="@drawable/default_img"
             android:scaleType="fitCenter"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/average_margin_padding"
+            android:layout_marginVertical="@dimen/low_margin_padding"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/guide_line"
             android:id="@+id/cart_item_name_txt"
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2 KG"
-            android:layout_marginVertical="@dimen/average_margin_padding"
+            android:layout_marginVertical="@dimen/low_margin_padding"
             app:layout_constraintTop_toBottomOf="@id/cart_item_name_txt"
             android:textSize="@dimen/small_text_size"
             android:id="@+id/cart_item_quantity_txt"
@@ -48,7 +48,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/average_margin_padding"
+            android:layout_marginVertical="@dimen/low_margin_padding"
             android:text="$ 500"
             android:textSize="@dimen/small_text_size"
             android:id="@+id/cart_item_price_txt"
@@ -68,12 +68,11 @@
         <ImageView
             android:layout_width="@dimen/average_icon_width_height"
             android:layout_height="@dimen/average_icon_width_height"
-
             app:layout_constraintBottom_toBottomOf="@id/cart_item_counter_txt"
             app:layout_constraintTop_toTopOf="@id/cart_item_counter_txt"
             app:layout_constraintStart_toStartOf="@id/cart_item_name_txt"
             android:src="@drawable/remove_icon"
-            android:background="@color/green_40"
+            android:background="@color/app_icon_color_lite"
             android:id="@+id/decrement_img"
             />
         <TextView
@@ -83,19 +82,19 @@
             android:textColor="@color/white"
             android:textSize="@dimen/small_text_size"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginVertical="@dimen/average_margin_padding"
+            android:layout_marginVertical="@dimen/low_margin_padding"
             app:layout_constraintTop_toBottomOf="@id/cart_item_price_txt"
             app:layout_constraintStart_toEndOf="@id/decrement_img"
             android:text="1"
             android:id="@+id/cart_item_counter_txt"
-            android:background="@color/green_60"/>
+            android:background="@color/btn_color"/>
         <ImageView
             android:layout_width="@dimen/average_icon_width_height"
             android:layout_height="@dimen/average_icon_width_height"
             app:layout_constraintBottom_toBottomOf="@id/decrement_img"
             app:layout_constraintStart_toEndOf="@id/cart_item_counter_txt"
             android:src="@drawable/add_icon"
-            android:background="@color/green_40"
+            android:background="@color/app_icon_color_lite"
             android:id="@+id/increment_img"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>

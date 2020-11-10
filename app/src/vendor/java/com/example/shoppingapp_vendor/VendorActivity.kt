@@ -93,13 +93,13 @@ class VendorActivity : AppCompatActivity(),UpdateUI {
         if (!validateViews()) return
         progress_bar_va.visibility=View.VISIBLE
         val itemMap = HashMap<String, String>()
-        itemMap[Firebase.Items.ITEM_NAME.Key] = txt_item_name_va.text.toString()
-        itemMap[Firebase.Items.ITEM_PRICE.Key] = txt_item_price_va.text.toString()
+        itemMap[Firebase.Items.ITEM_NAME.Key] = txt_item_name_va.text?.trim().toString()
+        itemMap[Firebase.Items.ITEM_PRICE.Key] = txt_item_price_va.text?.trim().toString()
 //        if (itemUri != null) itemMap[Firebase.Items.ITEM_IMG_URL.Key] = itemUri.toString()
-        itemMap[Firebase.Items.ITEM_STOCK.Key] = txt_item_stock_va.text.toString()
+        itemMap[Firebase.Items.ITEM_STOCK.Key] = txt_item_stock_va.text?.trim().toString()
         itemMap[Firebase.Items.ITEMS_CATEGORY.Key] = spinner_category_va.selectedItemPosition.toString()
-        itemMap[Firebase.Items.ITEM_DESCRIPTION.Key] = txt_item_description_va.text.toString()
-        itemMap[Firebase.Items.ITEM_MANUFACTURE.Key] = txt_manufacture_va.text.toString()
+        itemMap[Firebase.Items.ITEM_DESCRIPTION.Key] = txt_item_description_va.text?.trim().toString()
+        itemMap[Firebase.Items.ITEM_MANUFACTURE.Key] = txt_manufacture_va.text?.trim().toString()
         itemMap[Firebase.Items.ITEM_VENDOR_ID.Key] = Firebase.getUid(this).toString()
 
         database.getReference(type)

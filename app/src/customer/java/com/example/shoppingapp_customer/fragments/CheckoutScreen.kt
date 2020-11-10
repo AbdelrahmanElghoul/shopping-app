@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment
 import com.example.shoppingapp.R
 import com.example.shoppingapp.util.Permissions
 import com.example.shoppingapp.util.UpdateUI
-import com.example.shoppingapp_customer.Map
+import com.example.shoppingapp_customer.util.Map
 import com.here.sdk.core.GeoCoordinates
 import com.here.sdk.mapviewlite.MapViewLite
 
@@ -38,10 +38,10 @@ class CheckoutScreen : Fragment(), UpdateUI {
     }
 
     fun BindView() {
-        txt_location_change = view!!.findViewById(R.id.location_change_txt)
-        imgLocate = view!!.findViewById(R.id.get_location_img)
-        txt_address = view!!.findViewById(R.id.txt_address)
-        mapView = view!!.findViewById(R.id.map)
+//        txt_location_change = view!!.findViewById(R.id.location_change_txt)
+        imgLocate = requireView().findViewById(R.id.get_location_img)
+        txt_address = requireView().findViewById(R.id.txt_address)
+        mapView = requireView().findViewById(R.id.map)
     }
 
     @SuppressLint("MissingPermission")
@@ -53,7 +53,7 @@ class CheckoutScreen : Fragment(), UpdateUI {
         map!!.loadMapScene()
         imgLocate!!.setOnClickListener {
             requestPermission1()
-            locationManager = context!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
             locationManager!!.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 500f, locationListener!!)
             locationManager!!.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 500f, locationListener!!)
         }
@@ -79,10 +79,10 @@ class CheckoutScreen : Fragment(), UpdateUI {
     }
 
     private fun requestPermission1() {
-        if (ContextCompat.checkSelfPermission(context!!,
+        if (ContextCompat.checkSelfPermission(requireContext(),
                         Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(context!!,
+                ContextCompat.checkSelfPermission(requireContext(),
                         Manifest.permission.ACCESS_COARSE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED) {
             requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),

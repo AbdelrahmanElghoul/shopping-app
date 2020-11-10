@@ -17,7 +17,7 @@
         android:paddingStart="@dimen/high_margin_padding">
 
         <TextView
-            style="@style/appbar_Text"
+            style="@style/header_Text"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -230,7 +230,7 @@
     android:visibility="gone"
       android:elevation="@dimen/_10sdp"
     android:id="@+id/progress_bar_va"
-    android:background="@color/dark_filter"
+    android:background="@color/unselectedIcon"
     android:layout_height="match_parent">
 
     <ProgressBar

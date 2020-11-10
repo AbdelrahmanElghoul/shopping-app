@@ -16,7 +16,7 @@
         android:padding="10dp"
         android:src="@drawable/default_img"
         android:layout_gravity="center_horizontal"
-        android:id="@+id/img_item_dsf"/>
+        android:id="@+id/img_item_pol"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

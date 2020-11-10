@@ -5,33 +5,37 @@
     android:layout_margin="@dimen/low_margin_padding"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/layout_item_isl"
+
     >
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
+            android:id="@+id/layout_item_isl"
             android:layout_height="match_parent"
             >
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/Extra_large_icon_width_height"
                 android:src="@drawable/default_img"
-                android:layout_weight="1"
                 android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 android:id="@+id/img_isl"
                 />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
+                app:layout_constraintTop_toBottomOf="@id/img_isl"
                 android:layout_height="wrap_content"
                 android:id="@+id/layout_details_isl"
-                android:layout_weight="1"
-                android:background="@color/dark_filter"
+                android:padding="@dimen/average_margin_padding"
+                android:background="@color/white"
                 >
                 <TextView
                     android:layout_width="0dp"
                     android:layout_marginEnd="@dimen/low_margin_padding"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:text="@string/name"
                     android:gravity="center_vertical"
                     app:layout_constraintStart_toStartOf="parent"
@@ -39,18 +43,18 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/txt_item_price_isl"
                     android:id="@+id/txt_item_name_isl"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_color"
 
                     />
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="@string/price"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:id="@+id/txt_item_price_isl"
 
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_color"
                     app:layout_constraintTop_toTopOf="@id/txt_item_name_isl"
                     app:layout_constraintBottom_toBottomOf="@id/txt_item_name_isl"
                     />
@@ -58,7 +62,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_weight="1"
+                app:layout_constraintTop_toBottomOf="@id/layout_details_isl"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:id="@+id/layout_add_to_cart_isl"
                 android:orientation="horizontal"
@@ -89,6 +93,7 @@
                     android:src="@drawable/img_add_to_cart"
                     android:scaleType="fitCenter"
                     app:tint="@color/white"
+                    android:paddingVertical="@dimen/low_margin_padding"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/txt_add_to_cart_isl"
                     app:layout_constraintBottom_toBottomOf="@id/txt_add_to_cart_isl"
@@ -96,7 +101,7 @@
                     />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView >
 

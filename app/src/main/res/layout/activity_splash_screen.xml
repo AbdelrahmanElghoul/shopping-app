@@ -42,7 +42,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:text="welcome"
-        style="@style/appbar_Text"
+        style="@style/header_Text"
         android:textStyle="italic|bold"
         android:textColor="@color/white"
         android:textSize="@dimen/_25ssp"

@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.transition.Fade
 import com.example.shoppingapp.R
 import com.example.shoppingapp.util.*
-import com.example.shoppingapp_customer.MainShopScreenActivity
+import com.example.shoppingapp_customer.navigation.NavigationActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -52,32 +52,29 @@ private lateinit  var gso:GoogleSignInOptions
         btn_log_in_fsi.setOnClickListener {
             logInEmailPassword()
         }
-        btn_google_login_fsi.setOnClickListener{
-            logInGoogle()
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RequestCode.GOOGLE_SIGN_IN.getValue  && resultCode== Activity.RESULT_OK) {
-            try {
-                val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-                // Google Sign In was successful, authenticate with Firebase
-                val account = task.getResult(ApiException::class.java)!!
-                Timber.tag("FirebaseAuth").d("firebaseAuthWithGoogle: ${account.idToken}")
-                Firebase.logInWithGoogle(fragment = this@SignInFragment,
-                        token=account.idToken!!,
-                        type=Firebase.Users.CUSTOMER.Key
-                        ,intent=Intent(context, MainShopScreenActivity::class.java))
-            }
-            catch (e:Exception) {
-                // Google Sign In failed, update UI appropriately
-//                Log.w(TAG, "Google sign in failed", e)
-                // ...
-                Timber.tag("Firebase").e(e)
-            }
-        }
+//        if (requestCode == RequestCode.GOOGLE_SIGN_IN.getValue  && resultCode== Activity.RESULT_OK) {
+//            try {
+//                val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+//                // Google Sign In was successful, authenticate with Firebase
+//                val account = task.getResult(ApiException::class.java)!!
+//                Timber.tag("FirebaseAuth").d("firebaseAuthWithGoogle: ${account.idToken}")
+//                Firebase.logInWithGoogle(fragment = this@SignInFragment,
+//                        token=account.idToken!!,
+//                        type=Firebase.Users.CUSTOMER.Key
+//                        ,intent=Intent(context, NavigationActivity::class.java))
+//            }
+//            catch (e:Exception) {
+//                // Google Sign In failed, update UI appropriately
+////                Log.w(TAG, "Google sign in failed", e)
+//                // ...
+//                Timber.tag("Firebase").e(e)
+//            }
+//        }
         Timber.d("request code  = $requestCode\nresult code = $resultCode")
         }
     private fun areAllViewsValid(): Boolean {
@@ -121,12 +118,7 @@ private lateinit  var gso:GoogleSignInOptions
                 email = txt_sign_in_email_fsi.text.toString(),
                 password = txt_sign_in_password_fsi.text.toString(),
                 type = Firebase.Users.CUSTOMER.Key,
-                intent = Intent(context, MainShopScreenActivity::class.java))
-    }
-    private fun logInGoogle() {
-
-        val signInIntent = mGoogleSignInClient.signInIntent
-        startActivityForResult(signInIntent, RequestCode.GOOGLE_SIGN_IN.getValue)
+                intent = Intent(context, NavigationActivity::class.java))
     }
 
     override fun update(text: String?) {
@@ -134,7 +126,6 @@ private lateinit  var gso:GoogleSignInOptions
         txt_error_fsi.text = text
         txt_error_fsi.visibility = View.VISIBLE
     }
-
 
 
 }

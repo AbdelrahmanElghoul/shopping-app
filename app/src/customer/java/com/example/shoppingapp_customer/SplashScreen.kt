@@ -6,10 +6,13 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.example.shoppingapp.R
+import com.example.shoppingapp.User
 import com.example.shoppingapp.util.Firebase
+import com.example.shoppingapp_customer.navigation.NavigationActivity
 import com.example.shoppingapp_customer.register.RegisterActivity
 import com.google.firebase.auth.FirebaseAuth
 import timber.log.Timber
+import timber.log.Timber.d
 import timber.log.Timber.tag
 
 
@@ -22,13 +25,13 @@ class SplashScreen : AppCompatActivity() {
         Timber.plant(Timber.DebugTree())
 
 //        Firebase.logout(this)
-         val mAuth= FirebaseAuth.getInstance()
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = if (Firebase.getUid(this)==null)
+            val intent = if (User.getId(this)==null)
                 Intent(this, RegisterActivity::class.java)
             else
-                (Intent(this, MainShopScreenActivity::class.java))
+                (Intent(this, NavigationActivity::class.java))
+
             startActivity(intent)
             finish()
         }, 1500)

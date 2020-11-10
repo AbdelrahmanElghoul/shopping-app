@@ -1,8 +1,8 @@
 package com.example.shoppingapp_customer.adapters
 
 import android.content.Context
-import android.content.Intent
 import android.content.res.TypedArray
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +10,10 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.util.Pair
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppingapp.R
-import com.example.shoppingapp_customer.MainActivity2
 import com.example.shoppingapp_customer.adapters.CategoryAdapter.CategoryViewHolder
-import com.example.shoppingapp_customer.fragments.ItemsScreen
 
 
 class CategoryAdapter(val context: Context) : RecyclerView.Adapter<CategoryViewHolder>() {
@@ -29,10 +28,17 @@ class CategoryAdapter(val context: Context) : RecyclerView.Adapter<CategoryViewH
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         holder.category_layout.setOnClickListener {
-            val intent = Intent(context, MainActivity2::class.java)
-            intent.putExtra(context.getString(R.string.FRAGMENT_NAME_TAG), ItemsScreen::class.java.simpleName)
-            intent.putExtra(context.getString(R.string.SELECTED_CATEGORY_TAG), position)
-            context.startActivity(intent)
+//            val intent = Intent(context, MainActivity2::class.java)
+//            intent.putExtra(context.getString(R.string.FRAGMENT_NAME_TAG), ItemsScreen::class.java.simpleName)
+//            intent.putExtra(context.getString(R.string.SELECTED_CATEGORY_TAG), position)
+//            context.startActivity(intent)
+
+            val bundle= Bundle()
+            bundle.putInt(context.getString(R.string.SELECTED_CATEGORY_TAG),position)
+            it.findNavController().navigate(R.id.action_homeScreen_to_itemsScreen,bundle)
+
+
+
         }
 
         holder.categoryImg.setImageResource(categoryList.second?.getResourceId(position,R.drawable.error)!!)

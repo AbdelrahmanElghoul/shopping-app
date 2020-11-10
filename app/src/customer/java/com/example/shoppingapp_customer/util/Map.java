@@ -1,4 +1,4 @@
-package com.example.shoppingapp_customer;
+package com.example.shoppingapp_customer.util;
 
 import android.content.Context;
 import android.view.View;

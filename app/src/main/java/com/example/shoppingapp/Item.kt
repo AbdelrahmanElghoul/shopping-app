@@ -11,6 +11,9 @@ class Item() : Parcelable {
     var description: String? = null
     lateinit var price: String
     var manufacture: String? = null
+    get(){
+        return if(field=="") "no details added by vendor" else field
+    }
     lateinit var stock: String
     lateinit var categoryId:String
     lateinit var vendorId: String

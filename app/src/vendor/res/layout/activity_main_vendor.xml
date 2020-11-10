@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            style="@style/appbar_Text"
+            style="@style/header_Text"
             android:textColor="@color/black"
             android:gravity="center_vertical"
             android:text="@string/app_name"/>
@@ -35,7 +35,7 @@
         android:gravity="center"
         android:visibility="gone"
         android:id="@+id/progress_bar_amv"
-        android:background="@color/dark_filter"
+        android:background="@color/unselectedIcon"
         android:layout_height="match_parent">
 
         <ProgressBar

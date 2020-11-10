@@ -11,8 +11,9 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.shoppingapp.R
+import com.example.shoppingapp.User
 import com.example.shoppingapp.util.*
-import com.example.shoppingapp_customer.MainShopScreenActivity
+import com.example.shoppingapp_customer.navigation.NavigationActivity
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import timber.log.Timber
 
@@ -42,22 +43,16 @@ class SignUpFragment : Fragment(),OpenFragment,UpdateUI {
         txt_error_fsu.visibility = View.GONE
         if (!areAllViewsValid()) return
         progress_bar_fsu.visibility = View.VISIBLE
-        val userMap = HashMap<String, String>()
-        userMap[Firebase.Users.USER_NAME.Key] = txt_sign_up_name_fsu.text.toString()
-        userMap[Firebase.Users.USER_EMAIL.Key] = txt_sign_up_email_fsu.text.toString()
-        userMap[Firebase.Users.USER_PHONE.Key] = txt_sign_up_phone_fsu.text.toString()
+
+        User.name= txt_sign_up_name_fsu.text.toString()
+        User.email = txt_sign_up_email_fsu.text.toString()
+        User.phone = txt_sign_up_phone_fsu.text.toString()
+
+        val userMap=User.toMap()
         userMap[Firebase.Users.USER_PASSWORD.Key] = txt_sign_up_password_fsu.text.toString()
 //        if(imgUri!=null) userMap[Firebase.Users.USER_ICON.Key]=imgUri.toString()
-       val intent = Intent(context, MainShopScreenActivity::class.java)
+       val intent = Intent(context, NavigationActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NO_HISTORY
-//        Firebase.auth(
-//                fragment = this,
-//                user = userMap,
-//                password = txt_sign_up_password_fsu.text.toString(),
-//                type = Firebase.Users.CUSTOMER.Key,
-//                intent = intent,
-//                uri = imgUri
-//                )
         Firebase.register(
                 fragment = this,
                 userMap = userMap,

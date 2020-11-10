@@ -1,11 +1,11 @@
 package com.example.shoppingapp_customer.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.shoppingapp_customer.MainActivity2;
 import com.example.shoppingapp.R;
 import com.example.shoppingapp_customer.adapters.CartAdapter;
 
@@ -25,7 +24,6 @@ public class CartScreen extends Fragment {
     TextView txt_item_count;
     TextView txt_item_count2;
     TextView txt_item_price;
-    TextView txt_remove_all;
     TextView txt_continue_shopping;
     TextView txt_proceed_checkout;
     RecyclerView rv_cart;
@@ -45,22 +43,20 @@ public class CartScreen extends Fragment {
         setUI();
 
         txt_proceed_checkout.setOnClickListener(v->{
-            Intent intent=new Intent(getContext(), MainActivity2.class);
-            intent.putExtra(getContext().getString(R.string.FRAGMENT_NAME_TAG), CheckoutScreen.class.getSimpleName());
-            startActivity(intent);
+//            Intent intent=new Intent(getContext(), MainActivity2.class);
+//            intent.putExtra(getContext().getString(R.string.FRAGMENT_NAME_TAG), CheckoutScreen.class.getSimpleName());
+//            startActivity(intent);
+            Navigation.findNavController(v).navigate(R.id.action_cartScreen_to_checkoutScreen);
         });
     }
 
     void BindView() {
 
         img_back =getView().findViewById(R.id.img_back_dsf);
-        txt_item_count = getView().findViewById(R.id.cart_item_count_txt);
-        txt_item_count2 = getView().findViewById(R.id.item_count_txt);
-        txt_item_price = getView().findViewById(R.id.item_price_txt);
-        txt_remove_all = getView().findViewById(R.id.remove_all_txt);
-        txt_continue_shopping = getView().findViewById(R.id.continue_shopping_txt);
-        txt_proceed_checkout = getView().findViewById(R.id.cart_proceed_checkout);
-        rv_cart = getView().findViewById(R.id.cart_recycler_view);
+        txt_item_count2 = getView().findViewById(R.id.txt_item_count2_csf);
+        txt_item_price = getView().findViewById(R.id.txt_total_price_csf);
+        txt_proceed_checkout = getView().findViewById(R.id.txt_proceed_checkout_csf);
+        rv_cart = getView().findViewById(R.id.rv_cart_csf);
     }
     void setUI(){
         BindView();
