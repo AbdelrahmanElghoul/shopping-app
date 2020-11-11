@@ -1,6 +1,5 @@
 package com.example.shoppingapp_customer.fragments
 
-import android.content.Context
 import android.content.res.TypedArray
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,17 +8,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.bumptech.glide.Glide
 import com.example.shoppingapp.Item
 import com.example.shoppingapp.R
 import com.example.shoppingapp.util.Firebase
-import com.example.shoppingapp.util.UpdateUI
 import com.example.shoppingapp_customer.adapters.SearchItemAdapter
 import com.example.shoppingapp_customer.util.SpacesItemDecoration
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.customer.fragment_checkout_screen.*
 import kotlinx.android.synthetic.customer.fragment_items_screen.*
 import kotlinx.android.synthetic.customer.fragment_items_screen.img_back_isf
 import timber.log.Timber
@@ -86,8 +81,8 @@ class ItemsScreen : Fragment() {
         img_item_isf.setImageResource(categoryList.second?.getResourceId(index,R.drawable.error)!!)
 
         layout_progressbar_isf.visibility-View.VISIBLE
-        searchItemAdapter= SearchItemAdapter(context as Context)
-        searchItemAdapter = SearchItemAdapter(context as Context)
+        searchItemAdapter= SearchItemAdapter(requireContext())
+
         rv_items_isf.setHasFixedSize(false)
         rv_items_isf.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         rv_items_isf.addItemDecoration(SpacesItemDecoration(0))

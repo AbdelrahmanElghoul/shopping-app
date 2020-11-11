@@ -9,11 +9,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.core.util.Pair
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppingapp.R
 import com.example.shoppingapp_customer.adapters.CategoryAdapter.CategoryViewHolder
+import com.google.android.material.card.MaterialCardView
 
 
 class CategoryAdapter(val context: Context) : RecyclerView.Adapter<CategoryViewHolder>() {
@@ -22,7 +24,8 @@ class CategoryAdapter(val context: Context) : RecyclerView.Adapter<CategoryViewH
             context.resources.obtainTypedArray(R.array.category_icon))
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-        val inflater = LayoutInflater.from(this.context).inflate(R.layout.category_layout, parent, false)
+        val inflater = LayoutInflater.from(this.context)
+                .inflate(R.layout.category_card_layout, parent, false)
         return CategoryViewHolder(inflater)
     }
 
@@ -49,7 +52,7 @@ class CategoryAdapter(val context: Context) : RecyclerView.Adapter<CategoryViewH
         return categoryList.first?.size!!
     }
 
-    class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class RoundCategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var categoryImg: ImageView
         var categoryName: TextView
         var category_layout: LinearLayout
@@ -58,6 +61,18 @@ class CategoryAdapter(val context: Context) : RecyclerView.Adapter<CategoryViewH
             categoryImg = itemView.findViewById(R.id.category_img)
             categoryName = itemView.findViewById(R.id.category_txt)
             category_layout = itemView.findViewById(R.id.category_layout)
+        }
+    }
+
+    class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var categoryImg: ImageView
+        var categoryName: TextView
+        var category_layout: MaterialCardView
+
+        init {
+            categoryImg = itemView.findViewById(R.id.img_category_ccl)
+            categoryName = itemView.findViewById(R.id.txt_category_ccl)
+            category_layout = itemView.findViewById(R.id.card_category_ccl)
         }
     }
 

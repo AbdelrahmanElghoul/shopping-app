@@ -8,11 +8,13 @@ import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.example.shoppingapp.Item
 import com.example.shoppingapp.R
+import com.example.shoppingapp.User
 import com.example.shoppingapp.util.Firebase
 import com.example.shoppingapp_vendor.register.RegisterActivity
 import com.google.firebase.auth.FirebaseAuth
 
 import timber.log.Timber
+import timber.log.Timber.e
 
 
 class SplashScreen : AppCompatActivity() {
@@ -29,7 +31,8 @@ class SplashScreen : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed({
 
-            val intent = if (Firebase.getUid(this)==null)
+            e(User.getId(this))
+            val intent = if (User.getId(this)==null)
                 Intent(this, RegisterActivity::class.java)
             else
                 (Intent(this, MainVendorActivity::class.java))

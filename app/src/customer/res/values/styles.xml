@@ -4,7 +4,7 @@
         <item name="elevation">@dimen/_5sdp</item>
         <item name="android:scaleType">fitCenter</item>
         <item name="android:layout_marginTop">@dimen/low_margin_padding</item>
-        <item name="android:layout_marginHorizontal">@dimen/average_margin_padding</item>
+
         <item name="contentDescription">"offer"</item>
         <item name="android:src">@drawable/offer_banner</item>
         <item name="android:background">@color/white</item>

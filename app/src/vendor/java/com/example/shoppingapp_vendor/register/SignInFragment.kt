@@ -55,31 +55,10 @@ private lateinit  var gso:GoogleSignInOptions
         btn_log_in_fsi.setOnClickListener {
             logInEmailPassword()
         }
-        btn_google_login_fsi.setOnClickListener{
-            logInGoogle()
-        }
+
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RequestCode.GOOGLE_SIGN_IN.getValue  && resultCode== Activity.RESULT_OK) {
-            try {
-                val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-                // Google Sign In was successful, authenticate with Firebase
-                val account = task.getResult(ApiException::class.java)!!
-                Timber.tag("FirebaseAuth").d("firebaseAuthWithGoogle: ${account.idToken}")
-                Firebase.logInWithGoogle(fragment = this@SignInFragment, token=account.idToken!!,type=Firebase.Users.VENDOR.Key,intent=Intent(context, MainVendorActivity::class.java))
-            }
-            catch (e:Exception) {
-                // Google Sign In failed, update UI appropriately
-//                Log.w(TAG, "Google sign in failed", e)
-                // ...
-                Timber.tag("Firebase").e(e)
-            }
-        }
-        Timber.d("request code  = $requestCode\nresult code = $resultCode")
-        }
+
     private fun areAllViewsValid(): Boolean {
         resetViews()
         var isValid = true
@@ -113,7 +92,7 @@ private lateinit  var gso:GoogleSignInOptions
 
         Firebase.login(
                 fragment=this,
-                email=txt_sign_in_email_fsi.text.toString(),
+                formattedEmail= txt_sign_in_email_fsi.text.toString(),
                 password=txt_sign_in_password_fsi.text.toString(),
                 type=Firebase.Users.VENDOR.Key,
                 intent=Intent(context, MainVendorActivity::class.java))

@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/low_margin_padding"
     android:gravity="center"
-    android:transitionName="@string/CATEGORY_Layout_TRANSITION_TAG"
+
     android:id="@+id/category_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">

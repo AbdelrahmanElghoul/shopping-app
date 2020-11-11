@@ -9,6 +9,7 @@
     <color name="app_bar_color">@color/background</color>
 
     <color name="background">#F8F8FF</color>
+    <color name="item_screen_background">#DFDFE4</color>
     <color name="background_darker">#646480</color>
     <color name="default_card_color">#FFF</color>
 
@@ -21,6 +22,8 @@
     <color name="text_error_color">#B71C1C</color>
     <color name="app_icon_color">#1f89e5</color>
     <color name="app_icon_color_lite">#BC1F89E5</color>
+
+    <color name="in_cart_color">#6C8C6E</color>
 
     <!--154C63-->
     <color name="btn_color">#1f89e5</color>

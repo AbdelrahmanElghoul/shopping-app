@@ -57,6 +57,7 @@
     <string name="logout">Log out</string>
     <string name="add_item">Add item</string>
     <string name="add_to_cart">Add to cart</string>
+    <string name="in_cart">added to cart</string>
     <string name="already_have_an_account">already have an account</string>
 
 </resources>

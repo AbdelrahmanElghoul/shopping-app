@@ -15,8 +15,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.shoppingapp.Item
 import com.example.shoppingapp.R
+import com.example.shoppingapp.User
+import com.example.shoppingapp.adapter.ItemsAdapter
 import com.example.shoppingapp.util.Firebase
-import com.example.shoppingapp_vendor.adapter.ItemsAdapter
+
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -43,7 +45,7 @@ class MainVendorActivity : AppCompatActivity() {
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference(Firebase.Items.ITEMS.Key)
                 .orderByChild(Firebase.Items.ITEM_VENDOR_ID.Key)
-                .equalTo(Firebase.getUid(this))
+                .equalTo(User.getId(this))
         val postListener = object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 progress_bar_amv.visibility = View.GONE

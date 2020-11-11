@@ -3,7 +3,7 @@ package com.example.shoppingapp
 import android.os.Parcel
 import android.os.Parcelable
 
-class Item() : Parcelable {
+open class Item() : Parcelable {
 
     lateinit var id:String
     lateinit var name: String

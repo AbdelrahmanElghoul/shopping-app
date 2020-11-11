@@ -2,18 +2,14 @@ package com.example.shoppingapp_customer
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.example.shoppingapp.R
 import com.example.shoppingapp.User
 import com.example.shoppingapp.util.Firebase
 import com.example.shoppingapp_customer.navigation.NavigationActivity
 import com.example.shoppingapp_customer.register.RegisterActivity
-import com.google.firebase.auth.FirebaseAuth
 import timber.log.Timber
-import timber.log.Timber.d
-import timber.log.Timber.tag
+import timber.log.Timber.e
 
 
 class SplashScreen : AppCompatActivity() {
@@ -25,15 +21,18 @@ class SplashScreen : AppCompatActivity() {
         Timber.plant(Timber.DebugTree())
 
 //        Firebase.logout(this)
+        e("${User.getId(this)}")
+            if (User.getId(this) == null) {
+//                Handler(Looper.getMainLooper()).postDelayed({
+                    startActivity(Intent(this, RegisterActivity::class.java))
+                    finish()
+//                }, 1500)
+            }
+            else {
+                Firebase.loadCart(this,intent=(Intent(this, NavigationActivity::class.java)))
+            }
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            val intent = if (User.getId(this)==null)
-                Intent(this, RegisterActivity::class.java)
-            else
-                (Intent(this, NavigationActivity::class.java))
 
-            startActivity(intent)
-            finish()
-        }, 1500)
+
     }
 }

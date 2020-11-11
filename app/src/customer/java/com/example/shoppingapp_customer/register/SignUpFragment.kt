@@ -44,13 +44,12 @@ class SignUpFragment : Fragment(),OpenFragment,UpdateUI {
         if (!areAllViewsValid()) return
         progress_bar_fsu.visibility = View.VISIBLE
 
-        User.name= txt_sign_up_name_fsu.text.toString()
-        User.email = txt_sign_up_email_fsu.text.toString()
-        User.phone = txt_sign_up_phone_fsu.text.toString()
-
-        val userMap=User.toMap()
+        val userMap=HashMap<String,String>()
+        userMap[Firebase.Users.USER_NAME.Key]= txt_sign_up_name_fsu.text.toString()
+        userMap[Firebase.Users.USER_EMAIL.Key]= txt_sign_up_email_fsu.text.toString()
+        userMap[Firebase.Users.USER_PHONE.Key]= txt_sign_up_phone_fsu.text.toString()
         userMap[Firebase.Users.USER_PASSWORD.Key] = txt_sign_up_password_fsu.text.toString()
-//        if(imgUri!=null) userMap[Firebase.Users.USER_ICON.Key]=imgUri.toString()
+
        val intent = Intent(context, NavigationActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NO_HISTORY
         Firebase.register(

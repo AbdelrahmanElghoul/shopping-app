@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.shoppingapp.R
+import com.example.shoppingapp.User
 import com.example.shoppingapp.util.Firebase
 import com.example.shoppingapp.util.RequestCode
 import com.example.shoppingapp.util.UpdateUI
@@ -100,7 +101,7 @@ class VendorActivity : AppCompatActivity(),UpdateUI {
         itemMap[Firebase.Items.ITEMS_CATEGORY.Key] = spinner_category_va.selectedItemPosition.toString()
         itemMap[Firebase.Items.ITEM_DESCRIPTION.Key] = txt_item_description_va.text?.trim().toString()
         itemMap[Firebase.Items.ITEM_MANUFACTURE.Key] = txt_manufacture_va.text?.trim().toString()
-        itemMap[Firebase.Items.ITEM_VENDOR_ID.Key] = Firebase.getUid(this).toString()
+        itemMap[Firebase.Items.ITEM_VENDOR_ID.Key] = User.getId(this).toString()
 
         database.getReference(type)
                 .child(key)

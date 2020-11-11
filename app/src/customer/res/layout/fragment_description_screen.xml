@@ -73,6 +73,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/average_margin_padding"
         app:layout_constraintTop_toBottomOf="@id/view_dsf"
         android:layout_weight="5"
         >
@@ -107,7 +108,7 @@
                 app:layout_constraintTop_toBottomOf="@id/txt_price_dsf"
                 android:text="quantity"
                 style="@style/Text"
-                android:id="@+id/txt_stock_dsf"
+                android:id="@+id/txt_quantity_dsf"
                 />
 
             <TextView
@@ -118,7 +119,7 @@
                 android:padding="@dimen/low_margin_padding"
                 android:text="@string/description"
                 android:layout_marginTop="@dimen/average_margin_padding"
-                app:layout_constraintTop_toBottomOf="@id/txt_stock_dsf"
+                app:layout_constraintTop_toBottomOf="@id/txt_quantity_dsf"
                 app:layout_constraintStart_toStartOf="parent"
                 android:id="@+id/txt_description_header_dsf"
                 />
