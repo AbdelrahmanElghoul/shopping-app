@@ -19,8 +19,8 @@ import timber.log.Timber
 
 
 class SignUpFragment : Fragment(),OpenFragment,UpdateUI {
-    private var imgUri: Uri?=null
 
+    private var imgUri: Uri?=null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_sign_up, container, false)
     }
@@ -86,6 +86,10 @@ class SignUpFragment : Fragment(),OpenFragment,UpdateUI {
             isValid=false
             layout_sign_up_name_txt_fsu.error=getString(R.string.empty_field_error_msg)
         }
+        if(txt_sign_up_phone_fsu.text.isNullOrEmpty()){
+            isValid=false
+            layout_sign_up_phone_txt_fsu.error=getString(R.string.empty_field_error_msg)
+        }
         if(txt_sign_up_password_fsu.text.isNullOrEmpty()){
             isValid=false
             layout_sign_up_password_txt_fsu.error=getString(R.string.empty_field_error_msg)
@@ -93,7 +97,6 @@ class SignUpFragment : Fragment(),OpenFragment,UpdateUI {
             isValid=false
             layout_sign_up_password_txt_fsu.error="password mst be more than 6 digits"
         }
-
         if(txt_sign_up_email_fsu.text.isNullOrEmpty()){
             isValid=false
             layout_sign_up_email_txt_fsu.error=getString(R.string.empty_field_error_msg)
@@ -116,6 +119,5 @@ class SignUpFragment : Fragment(),OpenFragment,UpdateUI {
         txt_error_fsu.text=text
         txt_error_fsu.visibility=View.VISIBLE
     }
-
 
 }

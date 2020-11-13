@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background"
-    tools:context="com.example.shoppingapp_customer.fragments.CheckoutScreen">
+    tools:context="com.example.shoppingapp_customer.fragments.LocationScreen">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -17,13 +17,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/actionbar_txt"
         app:layout_constraintBottom_toBottomOf="@id/actionbar_txt"
-        android:id="@+id/img_back_isf"/>
+        android:id="@+id/img_back_cksf"/>
 
     <TextView
         android:layout_width="0dp"
         android:paddingStart="@dimen/average_margin_padding"
         android:layout_height="?actionBarSize"
-        app:layout_constraintStart_toEndOf="@id/img_back_isf"
+        app:layout_constraintStart_toEndOf="@id/img_back_cksf"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@color/white"
         android:id="@+id/actionbar_txt"
@@ -51,9 +51,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/home"
+                android:text="Deliever to"
                 android:id="@+id/txt_home_cksf"
                 style="@style/header_Text"
+                android:textSize="@dimen/small_text_size"
                 android:textColor="@color/btn_color"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -65,20 +66,20 @@
                 android:layout_height="wrap_content"
                 android:text="@string/home"
                 style="@style/Text"
-                android:textSize="@dimen/small_text_size"
+                android:textSize="@dimen/_12ssp"
                 android:id="@+id/txt_address"
                 android:textColor="@color/btn_color"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/txt_contine_cksf"
+                app:layout_constraintEnd_toStartOf="@id/txt_skip_cksf"
 
                 />
             <TextView
                 android:layout_width="wrap_content"
-                android:id="@+id/txt_contine_cksf"
+                android:id="@+id/txt_skip_cksf"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:text="continue"
+                android:text="skip"
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 app:layout_constraintTop_toTopOf="parent"
@@ -92,7 +93,6 @@
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
-
 
     <TextView
         android:layout_width="match_parent"
@@ -125,6 +125,7 @@
         android:layout_width="@dimen/average_icon_width_height"
         android:layout_height="@dimen/average_icon_width_height"
         android:src="@drawable/get_location_img"
+        app:tint="@color/app_icon_color"
         android:id="@+id/get_location_img"
         app:layout_constraintBottom_toBottomOf="@id/map"
         app:layout_constraintEnd_toEndOf="@id/map"

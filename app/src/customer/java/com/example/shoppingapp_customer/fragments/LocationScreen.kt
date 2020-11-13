@@ -16,14 +16,16 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.shoppingapp.R
 import com.example.shoppingapp.util.Permissions
 import com.example.shoppingapp.util.UpdateUI
 import com.example.shoppingapp_customer.util.Map
 import com.here.sdk.core.GeoCoordinates
 import com.here.sdk.mapviewlite.MapViewLite
+import kotlinx.android.synthetic.customer.fragment_location_screen.*
 
-class CheckoutScreen : Fragment(), UpdateUI {
+class LocationScreen : Fragment(), UpdateUI {
     private var txt_location_change: TextView? = null
     var imgLocate: ImageView? = null
     private var txt_address: TextView? = null
@@ -34,7 +36,7 @@ class CheckoutScreen : Fragment(), UpdateUI {
     var geoCoordinates: GeoCoordinates? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Map.setMapCredentials(context)
-        return inflater.inflate(R.layout.fragment_checkout_screen, container, false)
+        return inflater.inflate(R.layout.fragment_location_screen, container, false)
     }
 
     fun BindView() {
@@ -67,6 +69,11 @@ class CheckoutScreen : Fragment(), UpdateUI {
             override fun onProviderEnabled(provider: String) {}
             override fun onProviderDisabled(provider: String) {}
         }
+        img_back_cksf.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
+//        txt_skip_cksf.setOnClickListener {  it.findNavController().navigate(R.id.action_locationScreen_to_shippingFragment) }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {

@@ -32,7 +32,7 @@ class HomeScreen : Fragment() {
         }
         setUI()
         img_cart_hsf.setOnClickListener {
-            it.findNavController().navigate(R.id.action_homeScreen_to_cartScreen2)
+            it.findNavController().navigate(R.id.action_homeScreen_to_cartScreen)
         }
     }
 

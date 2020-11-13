@@ -6,20 +6,6 @@
     app:startDestination="@id/homeScreen">
 
     <fragment
-        android:id="@+id/cartScreen2"
-        android:name="com.example.shoppingapp_customer.fragments.CartScreen"
-        android:label="fragment_cart_screen"
-        tools:layout="@layout/fragment_cart_screen" >
-        <action
-            android:id="@+id/action_cartScreen_to_checkoutScreen"
-            app:destination="@id/checkoutScreen2" />
-    </fragment>
-    <fragment
-        android:id="@+id/checkoutScreen2"
-        android:name="com.example.shoppingapp_customer.fragments.CheckoutScreen"
-        android:label="fragment_checkout_screen"
-        tools:layout="@layout/fragment_checkout_screen" />
-    <fragment
         android:id="@+id/descriptionScreen"
         android:name="com.example.shoppingapp_customer.fragments.DescriptionScreen"
         android:label="fragment_description_screen"
@@ -39,8 +25,8 @@
                 />
         </action>
         <action
-            android:id="@+id/action_homeScreen_to_cartScreen2"
-            app:destination="@id/cartScreen2" />
+            android:id="@+id/action_homeScreen_to_cartScreen"
+            app:destination="@id/cartScreen" />
     </fragment>
     <fragment
         android:id="@+id/itemsScreen"
@@ -56,5 +42,19 @@
                 />
         </action>
 
+    </fragment>
+    <fragment
+        android:id="@+id/locationScreen"
+        android:name="com.example.shoppingapp_customer.fragments.LocationScreen"
+        android:label="fragment_location_screen"
+        tools:layout="@layout/fragment_location_screen" />
+    <fragment
+        android:id="@+id/cartScreen"
+        android:name="com.example.shoppingapp_customer.fragments.CartScreen"
+        android:label="fragment_cart_screen"
+        tools:layout="@layout/fragment_cart_screen" >
+        <action
+            android:id="@+id/action_cartScreen_to_locationScreen"
+            app:destination="@id/locationScreen" />
     </fragment>
 </navigation>

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -40,9 +41,10 @@ class SearchItemAdapter(val context: Context,var itemList:MutableList<Item> = mu
         Timber.tag("color").d(color.toString())
 
         val inCart=Cart.alreadyExist(itemList[position].id)
-        if(inCart){
+        if(inCart>=0){
            view(holder)
         }
+
         holder.layout.setOnClickListener {
             val bundle= Bundle()
             bundle.putParcelable(context.getString(R.string.PASS_CLASS_KEY),itemList[position])
@@ -58,9 +60,20 @@ class SearchItemAdapter(val context: Context,var itemList:MutableList<Item> = mu
         holder.txtName.text=itemList[position].name
 
         holder.layoutAddToCart.setOnClickListener {
-            if(inCart)return@setOnClickListener
-            Firebase.addToCart(context, CartItem(itemList[position]))
-            view(holder)
+            when {
+                Cart.alreadyExist(itemList[position].id)>=0 -> {
+                    return@setOnClickListener
+                }
+                itemList[position].stock.toInt()==0 -> {
+                    Toast.makeText(context,"No items in stock\ntry again later", Toast.LENGTH_LONG).show()
+                }
+                else -> {
+                    Firebase.addToCart(context, CartItem(itemList[position]))
+                    itemList[position].stock = (itemList[position].stock.toInt() - 1).toString()
+                    view(holder)
+                }
+            }
+
         }
 
     }

@@ -31,10 +31,7 @@ class CategoryAdapter(val context: Context) : RecyclerView.Adapter<CategoryViewH
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         holder.category_layout.setOnClickListener {
-//            val intent = Intent(context, MainActivity2::class.java)
-//            intent.putExtra(context.getString(R.string.FRAGMENT_NAME_TAG), ItemsScreen::class.java.simpleName)
-//            intent.putExtra(context.getString(R.string.SELECTED_CATEGORY_TAG), position)
-//            context.startActivity(intent)
+
 
             val bundle= Bundle()
             bundle.putInt(context.getString(R.string.SELECTED_CATEGORY_TAG),position)

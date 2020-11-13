@@ -77,6 +77,13 @@
         <item name="boxCornerRadiusBottomEnd">@dimen/_50sdp</item>
     </style>
 
+    <style name="round_corner_input_layout" parent="text_input_layout">
+        <item name="boxCornerRadiusBottomStart">@dimen/_5sdp</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/_5sdp</item>
+        <item name="boxCornerRadiusTopStart">@dimen/_5sdp</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/_5sdp</item>
+    </style>
+
 <style name="fab" >
     <item name="backgroundTint">@color/colorAccent</item>
     <item name="hoveredFocusedTranslationZ">@dimen/_11sdp</item>

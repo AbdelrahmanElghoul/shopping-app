@@ -7,28 +7,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.shoppingapp_customer.fragments.ItemsScreen">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:scaleType="fitCenter"
-        android:padding="@dimen/average_margin_padding"
-        app:layout_constraintTop_toTopOf="@id/layout_search_isf"
-        app:layout_constraintBottom_toBottomOf="@id/layout_search_isf"
-        app:layout_constraintStart_toStartOf="parent"
-        android:src="@drawable/back_img"
-        android:id="@+id/img_back_isf"/>
-
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/img_back_isf"
         android:id="@+id/layout_search_isf"
         android:gravity="center"
-        android:layout_marginVertical="@dimen/low_margin_padding"
-        android:paddingHorizontal="@dimen/average_margin_padding"
-        android:background="@drawable/round_frame"
-        android:backgroundTint="@color/white"
+
+        android:background="@color/white"
         android:layout_height="?android:actionBarSize">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:paddingHorizontal="@dimen/average_margin_padding"
+            app:layout_constraintTop_toTopOf="@id/layout_search_isf"
+            app:layout_constraintBottom_toBottomOf="@id/layout_search_isf"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/back_img"
+            android:id="@+id/img_back_isf"/>
 
         <ImageView
             android:id="@+id/img_item_isf"
@@ -39,10 +36,13 @@
             android:src="@drawable/default_img" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:text="name"
-            style="@style/Text"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/low_margin_padding"
+            style="@style/header_Text"
+            android:layout_weight="1"
             android:id="@+id/txt_item_name_isf"
             />
     </LinearLayout>

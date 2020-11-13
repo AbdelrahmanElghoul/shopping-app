@@ -84,8 +84,7 @@ abstract class Firebase {
             this.uri = uri
             this.intent = intent
             this.fragment = fragment
-
-
+            val tag="fb_register"
             val key=(userMap[Firebase.Users.USER_EMAIL.Key] as String).replace('.','-')
             userMap.remove(Firebase.Users.USER_EMAIL.Key)
             val database = FirebaseDatabase.getInstance()
@@ -103,6 +102,7 @@ abstract class Firebase {
                                     User.setId(fragment.requireContext(), key)
                                     if (type == Firebase.Users.CUSTOMER.Key) {
                                         val cartId=ref.push().key.toString()
+                                        tag("$tag cartID").d(cartId)
                                         Cart.setCartId(fragment.requireContext(), cartId)
                                         val cart = mapOf(cartId to Firebase.Carts.NOT_DELIVERED.Key)
                                         ref.child(key).child(Firebase.Users.USER_CART_ID.Key).setValue(cart)//add cart Id to user
@@ -140,6 +140,7 @@ abstract class Firebase {
 
         fun login(fragment: Fragment, formattedEmail:String, password: String, type: String, intent: Intent){
             val email=formattedEmail.replace('.','-')
+            val tag="fb_login"
             val database = FirebaseDatabase.getInstance()
 
            val myRef = database.getReference(type).child(email)
@@ -156,10 +157,11 @@ abstract class Firebase {
                         }
                         password -> {
                             User.setId(context = fragment.requireContext(), value = email)
-                            Cart.setCartId(fragment.requireContext(),snapshot.child(Firebase.Users.USER_CART_ID.Key).key.toString())
-
-                            fragment.startActivity(intent)
-                            fragment.activity?.finish()
+                            snapshot.child(Firebase.Users.USER_CART_ID.Key).children.forEach {
+                                if(it.value==Firebase.Carts.NOT_DELIVERED.Key)
+                                    Cart.setCartId(fragment.requireContext(),it.key.toString())
+                            }
+                            loadCart(fragment.requireContext(),intent)
                         }
                         else -> {
                             val errorMsg = "email/password is incorrect"
@@ -177,8 +179,11 @@ abstract class Firebase {
             })
 
         }
-
         fun addToCart(context: Context,cart: CartItem) {
+            if(cart.stock.toInt()<=0) {
+                Toast.makeText(context, "no item  in Stock", Toast.LENGTH_LONG).show()
+                return
+            }
             val tag="fb_addToCart"
             tag("$tag cartId").d("${Cart.getCartId(context)}")
             FirebaseDatabase.getInstance().getReference(Firebase.Carts.CART.Key)
@@ -186,15 +191,15 @@ abstract class Firebase {
                     .child(cart.id)
                     .setValue(cart.quantity).addOnCompleteListener {
                         if (it.isSuccessful) {
-                           Cart.addToCart(cart)
-
+                            updateStock(context,cart)
+                            Cart.addToCart(cart)
+                            Cart.updateStock(context,Cart.cartList.size-1,remove=true)
                         } else
                             Toast.makeText(context,
                                     "something went wrong adding item to cart\nplease try again later",
                                     Toast.LENGTH_LONG).show()
                     }
         }
-
         fun loadCart(context: Context,intent: Intent){
             val tag="fb_cart"
             val key=Cart.getCartId(context) as String
@@ -217,7 +222,8 @@ abstract class Firebase {
                             }
 
                             override fun onCancelled(error: DatabaseError) {
-                                TODO("Not yet implemented")
+                               e("$error")
+                                Toast.makeText(context,error.message,Toast.LENGTH_LONG).show()
                             }
 
                         })
@@ -232,6 +238,30 @@ abstract class Firebase {
                 }
             })
 
+        }
+        fun updateCart(context: Context,item: CartItem){
+            val database = FirebaseDatabase.getInstance()
+            val itemRef = database
+                    .getReference(Firebase.Carts.CART.Key)
+                    .child(Cart.getCartId(context) as String)
+                    .child(item.id).setValue(item.quantity)
+        }
+        fun updateStock(context: Context,item:CartItem) {
+
+            val database = FirebaseDatabase.getInstance()
+            val itemRef = database
+                    .getReference(Firebase.Items.ITEMS.Key)
+                    .child(item.id)
+                    .child(Firebase.Items.ITEM_STOCK.Key).setValue(item.stock)
+        }
+        fun removeItemFromCart(context: Context,index:Int) {
+            Cart.updateStock(context,index,false)
+            val database = FirebaseDatabase.getInstance()
+            val itemRef = database
+                    .getReference(Firebase.Carts.CART.Key)
+                    .child(Cart.getCartId(context) as String)
+                    .child(Cart.cartList[index].id).removeValue()
+            Cart.cartList.removeAt(index)
         }
     }
 
