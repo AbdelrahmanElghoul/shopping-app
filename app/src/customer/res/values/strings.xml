@@ -1,5 +1,5 @@
 <resources>
 
-    <string name="PASS_CLASS_KEY">pass_class</string>
+    <string name="PASS_ITEM_ID_KEY">pass_id</string>
 
 </resources>

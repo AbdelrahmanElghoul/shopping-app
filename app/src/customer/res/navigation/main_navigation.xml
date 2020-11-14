@@ -37,8 +37,8 @@
             android:id="@+id/action_itemsScreen_to_descriptionScreen"
             app:destination="@id/descriptionScreen" >
             <argument
-                android:name="@string/SELECTED_CATEGORY_TAG"
-                app:argType="com.example.shoppingapp.Item"
+                android:name="@string/PASS_ITEM_ID_KEY"
+                app:argType="string"
                 />
         </action>
 

@@ -8,6 +8,7 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import com.example.shoppingapp.R
 import com.example.shoppingapp.util.Permissions
 import com.example.shoppingapp.util.UpdateUI
@@ -26,9 +26,8 @@ import com.here.sdk.mapviewlite.MapViewLite
 import kotlinx.android.synthetic.customer.fragment_location_screen.*
 
 class LocationScreen : Fragment(), UpdateUI {
-    private var txt_location_change: TextView? = null
+
     var imgLocate: ImageView? = null
-    private var txt_address: TextView? = null
     var mapView: MapViewLite? = null
     var map: Map? = null
     var locationManager: LocationManager? = null
@@ -42,8 +41,7 @@ class LocationScreen : Fragment(), UpdateUI {
     fun BindView() {
 //        txt_location_change = view!!.findViewById(R.id.location_change_txt)
         imgLocate = requireView().findViewById(R.id.get_location_img)
-        txt_address = requireView().findViewById(R.id.txt_address)
-        mapView = requireView().findViewById(R.id.map)
+        mapView = requireView().findViewById(R.id.map_lsf)
     }
 
     @SuppressLint("MissingPermission")
@@ -69,7 +67,7 @@ class LocationScreen : Fragment(), UpdateUI {
             override fun onProviderEnabled(provider: String) {}
             override fun onProviderDisabled(provider: String) {}
         }
-        img_back_cksf.setOnClickListener {
+        img_back_lsf.setOnClickListener {
             requireActivity().onBackPressed()
         }
 
@@ -109,8 +107,6 @@ class LocationScreen : Fragment(), UpdateUI {
     }
 
     override fun update(address: String) {
-        var address = address
-        address = address.replace(", ", ",\n")
-        txt_address!!.text = address
+        et_search_lsf.setText(address)
     }
 }

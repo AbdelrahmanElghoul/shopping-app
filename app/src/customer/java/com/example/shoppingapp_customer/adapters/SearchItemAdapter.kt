@@ -13,22 +13,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.shoppingapp.*
 import com.example.shoppingapp.util.Firebase
 import com.example.shoppingapp_customer.adapters.SearchItemAdapter.SearchItemViewHolder
-import kotlinx.android.synthetic.main.fragment_sign_up.*
 import timber.log.Timber
+import timber.log.Timber.tag
 import java.util.*
 
-class SearchItemAdapter(val context: Context,var itemList:MutableList<Item> = mutableListOf<Item>()) : RecyclerView.Adapter<SearchItemViewHolder>() {
-
-
-    private var rnd = Random()
-    private var maxValue = 180
-    fun addItem(item: Item) {
-        itemList.add(item)
-    }
+class SearchItemAdapter(val context: Context,var itemList:MutableList<Item>) : RecyclerView.Adapter<SearchItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchItemViewHolder {
         val layoutInflater = LayoutInflater.from(context)
@@ -37,50 +29,53 @@ class SearchItemAdapter(val context: Context,var itemList:MutableList<Item> = mu
     }
 
     override fun onBindViewHolder(holder: SearchItemViewHolder, position: Int) {
-        val color = Color.argb(130, rnd.nextInt(maxValue), rnd.nextInt(maxValue), rnd.nextInt(maxValue))
-        Timber.tag("color").d(color.toString())
-
-        val inCart=Cart.alreadyExist(itemList[position].id)
-        if(inCart>=0){
-           view(holder)
-        }
-
+        holder.txtPrice.text=itemList[position].price+" $"
+        holder.txtName.text=itemList[position].name
         holder.layout.setOnClickListener {
             val bundle= Bundle()
-            bundle.putParcelable(context.getString(R.string.PASS_CLASS_KEY),itemList[position])
+            bundle.putString(context.getString(R.string.PASS_ITEM_ID_KEY),itemList[position].id)
             it.findNavController().navigate(R.id.action_itemsScreen_to_descriptionScreen,bundle)
         }
-
         Glide.with(context)
                 .load(itemList[position].icon)
                 .error(R.drawable.error)
                 .into(holder.img)
 
-        holder.txtPrice.text=itemList[position].price+" $"
-        holder.txtName.text=itemList[position].name
+        view(holder,(Cart.getIndex(itemList[position].id)>=0))
 
         holder.layoutAddToCart.setOnClickListener {
             when {
-                Cart.alreadyExist(itemList[position].id)>=0 -> {
-                    return@setOnClickListener
+                (Cart.getIndex(itemList[position].id)>=0) -> {
+                    Firebase.removeItemFromCart(context,CartItem(itemList[position]))
+                    view(holder,false)
+                    tag("SearchAdapter").d("removeFromCart")
+                    notifyDataSetChanged()
                 }
                 itemList[position].stock.toInt()==0 -> {
                     Toast.makeText(context,"No items in stock\ntry again later", Toast.LENGTH_LONG).show()
+                    tag("SearchAdapter").d("empty")
                 }
                 else -> {
+                    tag("SearchAdapter").d("addToCart")
                     Firebase.addToCart(context, CartItem(itemList[position]))
-                    itemList[position].stock = (itemList[position].stock.toInt() - 1).toString()
-                    view(holder)
+                    view(holder,true)
+                    notifyDataSetChanged()
                 }
             }
-
         }
 
     }
-    fun view(holder: SearchItemViewHolder){
-        holder.cartImg.setImageResource(R.drawable.img_check)
-        holder.txtAddToCart.text=context.getString(R.string.in_cart)
-        holder.layoutAddToCart.setBackgroundColor(context.getColor(R.color.in_cart_color))
+
+    fun view(holder: SearchItemViewHolder,inCart:Boolean){
+        if(inCart){
+            holder.cartImg.setImageResource(R.drawable.img_check)
+            holder.txtAddToCart.text = context.getString(R.string.in_cart)
+            holder.layoutAddToCart.setBackgroundColor(context.getColor(R.color.in_cart_color))
+        }else{
+            holder.cartImg.setImageResource(R.drawable.img_add_to_cart)
+            holder.txtAddToCart.text = context.getString(R.string.add_to_cart)
+            holder.layoutAddToCart.setBackgroundColor(context.getColor(R.color.btn_color))
+        }
     }
 
     override fun getItemCount(): Int {

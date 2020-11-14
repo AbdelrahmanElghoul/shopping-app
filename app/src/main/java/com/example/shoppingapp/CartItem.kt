@@ -1,7 +1,7 @@
 package com.example.shoppingapp
 
 class CartItem: Item {
-    
+
     constructor()
     constructor(item: Item){
         this.id=item.id

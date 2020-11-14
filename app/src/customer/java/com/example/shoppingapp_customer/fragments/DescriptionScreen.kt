@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.os.Bundle
+
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat.getColor
@@ -17,41 +18,62 @@ import com.example.shoppingapp.CartItem
 import com.example.shoppingapp.Item
 import com.example.shoppingapp.R
 import com.example.shoppingapp.util.Firebase
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.customer.fragment_description_screen.*
 import kotlinx.android.synthetic.customer.fragment_description_screen.img_item_dsf
+import timber.log.Timber.d
 
 
 class DescriptionScreen : Fragment() {
-    lateinit var item: Item
 
+    var item= Item()
+    lateinit var myRef:DatabaseReference
+    private lateinit var listener:ValueEventListener
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v = inflater.inflate(R.layout.fragment_description_screen, container, false)
 //        color = requireArguments().getInt(getString(R.string.COLOR_TAG))
-        item=requireArguments().getParcelable(getString(R.string.PASS_CLASS_KEY))!!
+        item.id=requireArguments().getString(getString(R.string.PASS_ITEM_ID_KEY))!!
+        d("item id = ${item.id}")
         return v
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUI()
+
+        val database = FirebaseDatabase.getInstance()
+        myRef =database.getReference(Firebase.Items.ITEMS.Key).child(item.id)
+        listener=object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val tmpID=item.id
+                d("child change $snapshot")
+                item=snapshot.getValue(Item::class.java)!!
+                item.id=tmpID
+                setUI()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        }
+        myRef.addValueEventListener(listener)
+
         img_back_dsf.setOnClickListener {
            requireActivity().onBackPressed()
        }
         fab_add_to_cart_dsf.setOnClickListener {
-            val index=Cart.alreadyExist(item.id)
+            val index=Cart.getIndex(item.id)
             when {
-                index>=0 -> {
-                    Firebase.removeItemFromCart(requireContext(),index)
-                    item.stock = (item.stock.toInt() + 1).toString()
+                index>=0 -> {//remove from cart
+                    Firebase.removeItemFromCart(requireContext(), CartItem(item))
                     inCartUI(false)
                 }
                 item.stock.toInt()==0 -> {
                     Toast.makeText(requireContext(),"No items in stock\ntry again later",Toast.LENGTH_LONG).show()
                     return@setOnClickListener
                 }
-                else -> {
+                else -> {//add to cart
                     Firebase.addToCart(requireContext(), CartItem(item))
-                    item.stock = (item.stock.toInt() - 1).toString()
                     inCartUI(true)
                 }
             }
@@ -63,7 +85,8 @@ class DescriptionScreen : Fragment() {
                 txt_quantity_dsf.text = "${item.stock} in stock"
                 fab_add_to_cart_dsf.backgroundTintList = ColorStateList.valueOf(getColor(requireContext(), R.color.in_cart_color))
                 fab_add_to_cart_dsf.setImageResource(R.drawable.img_check)
-            }else{
+            }
+            else{
                 txt_quantity_dsf.text="${item.stock} in stock"
                 fab_add_to_cart_dsf.backgroundTintList = ColorStateList.valueOf(getColor(requireContext(), R.color.colorAccent))
                 fab_add_to_cart_dsf.setImageResource(R.drawable.img_add_to_cart)
@@ -71,11 +94,7 @@ class DescriptionScreen : Fragment() {
                         fab_add_to_cart_dsf,
                         ColorStateList.valueOf(Color.WHITE)
                 )
-
-
             }
-
-
     }
 
     fun setUI() {
@@ -89,11 +108,16 @@ class DescriptionScreen : Fragment() {
                 .error(R.drawable.default_img)
                 .into(img_item_dsf)
 
-        val inCart= Cart.alreadyExist(item.id)
+        val inCart= Cart.getIndex(item.id)
         if(inCart>=0) inCartUI(true)
 //        Drawable unwrappedDrawable = AppCompatResources.getDrawable(getContext(), R.drawable.semi_circle_view);
 //        Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
 //        DrawableCompat.setTint(wrappedDrawable, color);
 //        layout_description_dsf.background.setTint(color)
+    }
+
+    override fun onDetach() {
+        myRef.removeEventListener(listener)
+        super.onDetach()
     }
 }

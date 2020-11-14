@@ -45,7 +45,7 @@ abstract class Firebase {
                     addImageUrlToDatabase(iconKey = iconKey, url = task.result.toString())
                 } else {
                     val it = task.exception
-                    Timber.e(it)
+                    e(it)
                     val ui = this.fragment as UpdateUI
                     ui.update(it.toString())
                     Toast.makeText(this.fragment.context, "error occurred\n$it.message", Toast.LENGTH_SHORT).show()
@@ -58,7 +58,7 @@ abstract class Firebase {
                     .child(User.getId(fragment.requireContext())!!)
                     .child(iconKey)
                     .setValue(url).addOnFailureListener {
-                        Timber.e(it)
+                        e(it)
                         val ui = fragment.activity as UpdateUI
                         ui.update(it.toString())
                         Toast.makeText(fragment.context, "error occurred\n$it.message", Toast.LENGTH_SHORT).show()
@@ -116,7 +116,7 @@ abstract class Firebase {
 
                                 }
                                 .addOnFailureListener {
-                                    Timber.e(it)
+                                    e(it)
                                     val ui = fragment as UpdateUI
                                     ui.update(it.toString())
                                     Toast.makeText(fragment.context, "log in failed.\n${it}", Toast.LENGTH_SHORT).show()
@@ -140,7 +140,7 @@ abstract class Firebase {
 
         fun login(fragment: Fragment, formattedEmail:String, password: String, type: String, intent: Intent){
             val email=formattedEmail.replace('.','-')
-            val tag="fb_login"
+
             val database = FirebaseDatabase.getInstance()
 
            val myRef = database.getReference(type).child(email)
@@ -157,11 +157,14 @@ abstract class Firebase {
                         }
                         password -> {
                             User.setId(context = fragment.requireContext(), value = email)
-                            snapshot.child(Firebase.Users.USER_CART_ID.Key).children.forEach {
+                            if(type==Firebase.Users.CUSTOMER.Key)
+                             snapshot.child(Firebase.Users.USER_CART_ID.Key).children.forEach {
                                 if(it.value==Firebase.Carts.NOT_DELIVERED.Key)
                                     Cart.setCartId(fragment.requireContext(),it.key.toString())
                             }
-                            loadCart(fragment.requireContext(),intent)
+
+                            fragment.startActivity(intent)
+                            fragment.activity?.finish()
                         }
                         else -> {
                             val errorMsg = "email/password is incorrect"
@@ -179,89 +182,74 @@ abstract class Firebase {
             })
 
         }
-        fun addToCart(context: Context,cart: CartItem) {
-            if(cart.stock.toInt()<=0) {
+
+        fun addToCart(context: Context,item: CartItem) {
+            if(item.stock.toInt() ==0) {
                 Toast.makeText(context, "no item  in Stock", Toast.LENGTH_LONG).show()
                 return
             }
+
+            item.stock= (item.stock.toInt() -1).toString()
+            tag("stock Count --").d("${item.stock}")
             val tag="fb_addToCart"
             tag("$tag cartId").d("${Cart.getCartId(context)}")
             FirebaseDatabase.getInstance().getReference(Firebase.Carts.CART.Key)
                     .child(Cart.getCartId(context) as String)
-                    .child(cart.id)
-                    .setValue(cart.quantity).addOnCompleteListener {
+                    .child(item.id)
+                    .setValue(item.quantity).addOnCompleteListener {
                         if (it.isSuccessful) {
-                            updateStock(context,cart)
-                            Cart.addToCart(cart)
-                            Cart.updateStock(context,Cart.cartList.size-1,remove=true)
+                            updateStock(context, item)
+                            tag("stock Count").d("updated")
+//                            Cart.addToCart(item)
+//                            Cart.updateStock(context,Cart.cartList.size-1,remove=true)
                         } else
                             Toast.makeText(context,
                                     "something went wrong adding item to cart\nplease try again later",
                                     Toast.LENGTH_LONG).show()
                     }
         }
-        fun loadCart(context: Context,intent: Intent){
-            val tag="fb_cart"
-            val key=Cart.getCartId(context) as String
-            val database = FirebaseDatabase.getInstance()
-            val myRef = database.getReference(Firebase.Carts.CART.Key).child(key)
-            myRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    tag("$tag snapshot").d("$snapshot")
-                    snapshot.children.forEach {
-                        tag("$tag snap key").d("${it.key}")
-                        val snap = database.getReference(Firebase.Items.ITEMS.Key).child(it.key.toString())
+        fun removeItemFromCart(context: Context,item: CartItem) {
+//            Cart.updateStock(context,index,false)
+            item.stock=(item.stock.toInt()+1).toString()
+            tag("stock Count ++").d("${item.stock}")
 
-                        snap.addListenerForSingleValueEvent(object : ValueEventListener {
-                            override fun onDataChange(itemSnapShot: DataSnapshot) {
-                                val cart=itemSnapShot.getValue(CartItem::class.java)
-                                cart?.id=it.key.toString()
-                                cart?.quantity=it.value.toString().toInt()
-                                Cart.addToCart(cart!!)
-                                tag("$tag sub item").d("${itemSnapShot.child("name").value}")
-                            }
-
-                            override fun onCancelled(error: DatabaseError) {
-                               e("$error")
-                                Toast.makeText(context,error.message,Toast.LENGTH_LONG).show()
-                            }
-
-                        })
-                        tag("$tag snap value").d("${it.value}")
-                    }
-                    context.startActivity(intent)
-                    (context as Activity).finish()
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    tag("$key error").e("${error}")
-                }
-            })
-
-        }
-        fun updateCart(context: Context,item: CartItem){
-            val database = FirebaseDatabase.getInstance()
-            val itemRef = database
+            FirebaseDatabase.getInstance()
                     .getReference(Firebase.Carts.CART.Key)
                     .child(Cart.getCartId(context) as String)
-                    .child(item.id).setValue(item.quantity)
-        }
-        fun updateStock(context: Context,item:CartItem) {
+                    .child(item.id).removeValue().addOnCompleteListener {
+                        if(it.isSuccessful) {
+                            updateStock(context, item)
+                            tag("stock Count").d("updated")
+                        }
+                        else
+                            Toast.makeText(context,it.exception.toString(),Toast.LENGTH_LONG).show()
+                    }
 
-            val database = FirebaseDatabase.getInstance()
-            val itemRef = database
+        }
+
+        fun updateCart(context: Context,item: CartItem){
+            FirebaseDatabase.getInstance()
+                    .getReference(Firebase.Carts.CART.Key)
+                    .child(Cart.getCartId(context) as String)
+                    .child(item.id).setValue(item.quantity).addOnCompleteListener {
+                        if(it.isSuccessful) {
+                            updateStock(context, item)
+                            tag("stock Count").d("updated")
+                        }
+                        else
+                            Toast.makeText(context,it.exception.toString(),Toast.LENGTH_LONG).show()
+                    }
+        }
+
+       private fun updateStock(context: Context,item:CartItem) {
+           FirebaseDatabase.getInstance()
                     .getReference(Firebase.Items.ITEMS.Key)
                     .child(item.id)
                     .child(Firebase.Items.ITEM_STOCK.Key).setValue(item.stock)
-        }
-        fun removeItemFromCart(context: Context,index:Int) {
-            Cart.updateStock(context,index,false)
-            val database = FirebaseDatabase.getInstance()
-            val itemRef = database
-                    .getReference(Firebase.Carts.CART.Key)
-                    .child(Cart.getCartId(context) as String)
-                    .child(Cart.cartList[index].id).removeValue()
-            Cart.cartList.removeAt(index)
+                   .addOnCompleteListener {
+                        if(!it.isSuccessful)
+                            Toast.makeText(context,it.exception.toString(),Toast.LENGTH_LONG).show()
+                    }
         }
     }
 

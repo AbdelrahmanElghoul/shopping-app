@@ -14,6 +14,7 @@ import com.example.shoppingapp.R
 import com.example.shoppingapp.util.Firebase
 import com.example.shoppingapp.util.UpdateUI
 import com.example.shoppingapp_customer.adapters.CartAdapter.CartViewHolder
+import timber.log.Timber.tag
 
 class CartAdapter(val fragment: Fragment) : RecyclerView.Adapter<CartViewHolder>() {
 
@@ -37,21 +38,21 @@ class CartAdapter(val fragment: Fragment) : RecyclerView.Adapter<CartViewHolder>
                 Toast.makeText(fragment.requireContext(),"no more items in stock",Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
-            Cart.updateStock(fragment.requireContext() ,position,remove=true)
+            tag("CartAdapter").d(Cart.cartList[position].stock)
             Cart.cartList[position].quantity++
+            Cart.cartList[position].stock=(Cart.cartList[position].stock.toInt()-1).toString()
             Firebase.updateCart(fragment.requireContext(),Cart.cartList[position])
-//            item.stock= (item.stock.toInt()-1).toString()
             update.update(null)
 
         }
         holder.imgDec.setOnClickListener{
             if(Cart.cartList[position].quantity ==1) {
-                Firebase.removeItemFromCart(fragment.requireContext(),position)
+                Firebase.removeItemFromCart(fragment.requireContext(),Cart.cartList[position])
                 update.update(null)
                 return@setOnClickListener
             }
-            Cart.updateStock(fragment.requireContext() ,position,remove=false)
             Cart.cartList[position].quantity--
+            Cart.cartList[position].stock=(Cart.cartList[position].stock.toInt()+1).toString()
             Firebase.updateCart(fragment.requireContext(),Cart.cartList[position])
             update.update(null)
         }

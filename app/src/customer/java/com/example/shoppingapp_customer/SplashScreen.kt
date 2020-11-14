@@ -2,6 +2,8 @@ package com.example.shoppingapp_customer
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.example.shoppingapp.R
 import com.example.shoppingapp.User
@@ -20,19 +22,17 @@ class SplashScreen : AppCompatActivity() {
         setContentView(R.layout.activity_splash_screen)
         Timber.plant(Timber.DebugTree())
 
-//        Firebase.logout(this)
-        e("${User.getId(this)}")
+        Handler(Looper.getMainLooper()).postDelayed({
             if (User.getId(this) == null) {
-//                Handler(Looper.getMainLooper()).postDelayed({
-                    startActivity(Intent(this, RegisterActivity::class.java))
-                    finish()
-//                }, 1500)
-            }
-            else {
-                Firebase.loadCart(this,intent=(Intent(this, NavigationActivity::class.java)))
+                startActivity(Intent(this, RegisterActivity::class.java))
+                finish()
+            } else {
+//                Firebase.loadCart(this, intent = (Intent(this, NavigationActivity::class.java)))
+                startActivity(Intent(this, NavigationActivity::class.java))
+                finish()
             }
 
-
+        }, 1500)
 
     }
 }
