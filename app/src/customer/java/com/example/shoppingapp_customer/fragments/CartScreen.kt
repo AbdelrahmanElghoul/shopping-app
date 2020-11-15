@@ -49,6 +49,14 @@ class CartScreen : Fragment(),UpdateUI,CartListener {
              val tag="fb_cart"
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 tag("$tag add").d("${snapshot.value}")
+                val cart=snapshot.getValue(CartItem::class.java)
+                cart?.id=snapshot.key!!
+                val index=Cart.getIndex(cart?.id!!)
+                if(index>=0){
+                    Cart.updateCart(cart)
+                    update("onChange")
+                    tag("$tag update").d("notified ${cart.stock}")
+                }
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
