@@ -18,6 +18,7 @@ import com.example.shoppingapp_customer.adapters.CartAdapter
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.customer.activity_navigation.*
 import kotlinx.android.synthetic.customer.fragment_cart_screen.*
+import timber.log.Timber.e
 import timber.log.Timber.tag
 
 class CartScreen : Fragment(),UpdateUI,CartListener {
@@ -30,18 +31,20 @@ class CartScreen : Fragment(),UpdateUI,CartListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        e("onViewCreated")
         super.onViewCreated(view, savedInstanceState)
         setUI()
         txt_proceed_checkout_csf.setOnClickListener {
+            if(Cart.count==0) return@setOnClickListener
             it.findNavController().navigate(R.id.action_cartScreen_to_locationScreen)
         }
         img_back_csf.setOnClickListener {
             requireActivity().onBackPressed()
         }
 
-        val ref=FirebaseDatabase.getInstance()
+        ref=FirebaseDatabase.getInstance()
                 .getReference(Firebase.Items.ITEMS.Key)
-
+        Cart.listen(this)
          childEventListener=object :ChildEventListener{
              val tag="fb_cart"
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
@@ -56,7 +59,7 @@ class CartScreen : Fragment(),UpdateUI,CartListener {
                 val index=Cart.getIndex(cart?.id!!)
                 if(index>=0){
                     Cart.updateCart(cart)
-                    update(null)
+                    update("onChange")
                     tag("$tag update").d("notified ${cart.stock}")
                 }
 
@@ -74,13 +77,13 @@ class CartScreen : Fragment(),UpdateUI,CartListener {
                 Toast.makeText(requireContext(),error.message,Toast.LENGTH_LONG).show()
             }
         }
-        ref.addChildEventListener(childEventListener)
+         ref.addChildEventListener(childEventListener)
     }
 
     private fun setUI() {
 
         cartAdapter = CartAdapter(this)
-        Cart.listen(this)
+
         rv_cart_csf.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         rv_cart_csf.setHasFixedSize(false)
         rv_cart_csf.adapter = cartAdapter
@@ -90,27 +93,24 @@ class CartScreen : Fragment(),UpdateUI,CartListener {
             Cart.total=(it.price.toFloat()*it.quantity)+Cart.total
             Cart.count=Cart.count+(it.quantity)
         }
-        update(null)
+        update("setUI")
     }
 
     override fun update(text: String?) {
-        tag("update").d("called")
+        tag("update").d("$text")
         cartAdapter.notifyDataSetChanged()
         txt_item_count_csf.text=Cart.count.toString()
         txt_total_price_csf.text="${Cart.total} $"
     }
 
     override fun notifyChange() {
-       update(null)
+       update("notifyChange")
     }
 
     override fun onDestroyView() {
+        e("onDestroy")
+
         Cart.removeListener()
-        /**
-         * crash on back
-         * adapter not update stock
-         *
-         * */
         ref.removeEventListener(childEventListener)
         super.onDestroyView()
     }

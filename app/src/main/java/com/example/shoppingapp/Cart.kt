@@ -56,10 +56,16 @@ class Cart {
         }
         fun updateCart(item:CartItem){
             val index=getIndex(item.id)
-            tag("$tag updateCart").d("$index")
-            if (item.quantity > 1 && index>=0) {
+            tag("$tag updateCart index").d("$index")
+            tag("$tag updateCart1").d("quantity=${item.quantity} stock = ${index}")
+            if (item.quantity >1 && index>=0) {
+                tag("$tag updateCart").d("quantity=${item.quantity} stock = ${item.stock}")
                 cartList[index].quantity=item.quantity
                 notifyUpdate()
+            }
+            else if(index>=0) {
+                item.quantity= cartList[index].quantity
+                cartList[index]=item
             }
         }
         fun removeFromCart(id: String) {

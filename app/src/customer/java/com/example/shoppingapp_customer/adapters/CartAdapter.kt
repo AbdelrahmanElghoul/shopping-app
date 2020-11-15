@@ -34,6 +34,7 @@ class CartAdapter(val fragment: Fragment) : RecyclerView.Adapter<CartViewHolder>
         holder.txtQantity.text=Cart.cartList[position].quantity.toString()
 
         holder.imgInc.setOnClickListener{
+
             if(Cart.cartList[position].stock.toInt()==0) {
                 Toast.makeText(fragment.requireContext(),"no more items in stock",Toast.LENGTH_LONG).show()
                 return@setOnClickListener
@@ -42,19 +43,17 @@ class CartAdapter(val fragment: Fragment) : RecyclerView.Adapter<CartViewHolder>
             Cart.cartList[position].quantity++
             Cart.cartList[position].stock=(Cart.cartList[position].stock.toInt()-1).toString()
             Firebase.updateCart(fragment.requireContext(),Cart.cartList[position])
-            update.update(null)
 
         }
         holder.imgDec.setOnClickListener{
             if(Cart.cartList[position].quantity ==1) {
                 Firebase.removeItemFromCart(fragment.requireContext(),Cart.cartList[position])
-                update.update(null)
                 return@setOnClickListener
             }
             Cart.cartList[position].quantity--
             Cart.cartList[position].stock=(Cart.cartList[position].stock.toInt()+1).toString()
             Firebase.updateCart(fragment.requireContext(),Cart.cartList[position])
-            update.update(null)
+
         }
     }
 
@@ -82,4 +81,5 @@ class CartAdapter(val fragment: Fragment) : RecyclerView.Adapter<CartViewHolder>
            imgInc = itemView.findViewById(R.id.img_increment_cidl)
        }
     }
+
 }
