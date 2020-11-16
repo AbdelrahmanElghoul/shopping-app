@@ -70,7 +70,6 @@
         <action
             android:id="@+id/action_cartScreen_to_locationScreen"
             app:enterAnim="@anim/slide_l2r"
-            
             app:destination="@id/locationScreen" />
     </fragment>
 </navigation>

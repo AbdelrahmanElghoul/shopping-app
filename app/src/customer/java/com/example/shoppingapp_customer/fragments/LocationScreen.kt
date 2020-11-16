@@ -64,7 +64,7 @@ open class LocationScreen : Fragment(), UpdateUI, MapNotifier {
             proceed()
         }
         map_lsf.gestures.tapListener = TapListener {
-                val geoCoordinates = map_lsf.camera.viewToGeoCoordinates(it);
+                val geoCoordinates = map_lsf.camera.viewToGeoCoordinates(it)
                 map.markLocation(geoCoordinates)
         }
         et_search_lsf.onItemClickListener=listener
@@ -130,7 +130,10 @@ open class LocationScreen : Fragment(), UpdateUI, MapNotifier {
         txtPrice.text= Cart.total.toString()
 
         btnConfirm.setOnClickListener {
-           Firebase.makePurchase(this, et_search_lsf.text.toString(),R.id.action_cartScreen_to_locationScreen)
+            map_lsf.visibility=View.INVISIBLE
+           Firebase.makePurchase(this, et_search_lsf.text.toString(),R.id.action_locationScreen_to_homeScreen)
+            dialog.dismiss()
+
         }
         btnCancel.setOnClickListener { dialog.dismiss() }
         dialog.show()
