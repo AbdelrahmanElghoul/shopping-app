@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
+import com.example.shoppingapp.Cart
 import com.example.shoppingapp.R
 import com.example.shoppingapp.User
 import com.example.shoppingapp.util.Firebase
@@ -26,7 +27,7 @@ class SplashScreen : AppCompatActivity() {
 //        Firebase.logout(this)
         Handler(Looper.getMainLooper()).postDelayed({
             tag("UserID").e("${User.getId(this)}")
-            if (User.getId(this) == null) {
+            if (User.getId(this) == null ||Cart.getCartId(this)==null) {
                 startActivity(Intent(this, RegisterActivity::class.java))
                 finish()
             } else {

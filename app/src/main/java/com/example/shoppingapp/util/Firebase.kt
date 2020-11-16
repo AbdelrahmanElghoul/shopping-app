@@ -6,19 +6,19 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import com.example.shoppingapp.*
+import com.example.shoppingapp.Cart
+import com.example.shoppingapp.CartItem
+import com.example.shoppingapp.R
+import com.example.shoppingapp.User
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import timber.log.Timber
 import timber.log.Timber.e
 import timber.log.Timber.tag
-import kotlin.collections.HashMap
 import kotlin.system.exitProcess
 
 
@@ -87,8 +87,8 @@ abstract class Firebase {
             this.intent = intent
             this.fragment = fragment
             val tag="fb_register"
-            val key=(userMap[Firebase.Users.USER_EMAIL.Key] as String).replace('.','-')
-            userMap.remove(Firebase.Users.USER_EMAIL.Key)
+            val key=(userMap[Users.USER_EMAIL.Key] as String).replace('.','-')
+            userMap.remove(Users.USER_EMAIL.Key)
             val database = FirebaseDatabase.getInstance()
             val myRef = database.getReference(type)
                     .child(key)
@@ -97,20 +97,20 @@ abstract class Firebase {
 
             myRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.child(Firebase.Users.USER_PASSWORD.Key).value == null) {
+                    if (snapshot.child(Users.USER_PASSWORD.Key).value == null) {
                         ref.child(key)
                                 .setValue(userMap)
                                 .addOnSuccessListener {
                                     User.setId(fragment.requireContext(), key)
-                                    if (type == Firebase.Users.CUSTOMER.Key) {
+                                    if (type == Users.CUSTOMER.Key) {
                                         val cartId=ref.push().key.toString()
                                         tag("$tag cartID").d(cartId)
                                         Cart.setCartId(fragment.requireContext(), cartId)
-                                        val cart = mapOf(cartId to Firebase.Carts.NOT_DELIVERED.Key)
-                                        ref.child(key).child(Firebase.Users.USER_CART_ID.Key).setValue(cart)//add cart Id to user
+                                        val cart = mapOf(cartId to Carts.NOT_DELIVERED.Key)
+                                        ref.child(key).child(Users.USER_CART_ID.Key).setValue(cart)//add cart Id to user
                                     }
                                     if (uri != null)
-                                        addImageToStorage(iconKey = Firebase.Users.USER_ICON.Key)
+                                        addImageToStorage(iconKey = Users.USER_ICON.Key)
                                     else {
                                         fragment.startActivity(intent)
                                         fragment.activity?.finish()
@@ -134,7 +134,7 @@ abstract class Firebase {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Timber.tag("login value listener cancelled").d("${error}")
+                    tag("login value listener cancelled").d("$error")
                 }
             })
 
@@ -149,7 +149,7 @@ abstract class Firebase {
 
             myRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    when (snapshot.child(Firebase.Users.USER_PASSWORD.Key).value) {
+                    when (snapshot.child(Users.USER_PASSWORD.Key).value) {
                         null -> {
                             val errorMsg = "email not found"
                             Toast.makeText(fragment.context, errorMsg,
@@ -159,11 +159,17 @@ abstract class Firebase {
                         }
                         password -> {
                             User.setId(context = fragment.requireContext(), value = email)
-                            if(type==Firebase.Users.CUSTOMER.Key)
-                             snapshot.child(Firebase.Users.USER_CART_ID.Key).children.forEach {
-                                if(it.value==Firebase.Carts.NOT_DELIVERED.Key)
-                                    Cart.setCartId(fragment.requireContext(),it.key.toString())
-                            }
+                            tag("type hCartId").e(type)
+                            if (type == Users.CUSTOMER.Key)
+                                snapshot.child(Users.USER_CART_ID.Key).children.forEach {
+                                    tag("snap CartId").e("$it")
+                                    if (it.value.toString() == Carts.NOT_DELIVERED.Key) {
+                                        tag("CartId").e( it.key.toString())
+                                        Cart.setCartId(fragment.requireContext(), it.key.toString())
+                                    }
+                                    tag("CartId").e( it.value.toString())
+                                    tag("CartId").e( Carts.NOT_DELIVERED.Key)
+                                }
 
                             fragment.startActivity(intent)
                             fragment.activity?.finish()
@@ -179,7 +185,7 @@ abstract class Firebase {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Timber.tag("login value listener cancelled").d("${error}")
+                    tag("login value listener cancelled").d("$error")
                 }
             })
 
@@ -192,10 +198,10 @@ abstract class Firebase {
             }
 
             item.stock= (item.stock.toInt() -1).toString()
-            tag("stock Count --").d("${item.stock}")
+            tag("stock Count --").d(item.stock)
             val tag="fb_addToCart"
             tag("$tag cartId").d("${Cart.getCartId(context)}")
-            FirebaseDatabase.getInstance().getReference(Firebase.Carts.CART.Key)
+            FirebaseDatabase.getInstance().getReference(Carts.CART.Key)
                     .child(Cart.getCartId(context) as String)
                     .child(item.id)
                     .setValue(item.quantity).addOnCompleteListener {
@@ -213,10 +219,10 @@ abstract class Firebase {
         fun removeItemFromCart(context: Context,item: CartItem) {
 //            Cart.updateStock(context,index,false)
             item.stock=(item.stock.toInt()+1).toString()
-            tag("stock Count ++").d("${item.stock}")
+            tag("stock Count ++").d(item.stock)
 
             FirebaseDatabase.getInstance()
-                    .getReference(Firebase.Carts.CART.Key)
+                    .getReference(Carts.CART.Key)
                     .child(Cart.getCartId(context) as String)
                     .child(item.id).removeValue().addOnCompleteListener {
                         if(it.isSuccessful) {
@@ -231,7 +237,7 @@ abstract class Firebase {
 
         fun updateCart(context: Context,item: CartItem){
             FirebaseDatabase.getInstance()
-                    .getReference(Firebase.Carts.CART.Key)
+                    .getReference(Carts.CART.Key)
                     .child(Cart.getCartId(context) as String)
                     .child(item.id).setValue(item.quantity).addOnCompleteListener {
                         if(it.isSuccessful) {
@@ -245,9 +251,9 @@ abstract class Firebase {
 
        private fun updateStock(context: Context,item:CartItem) {
            FirebaseDatabase.getInstance()
-                    .getReference(Firebase.Items.ITEMS.Key)
+                    .getReference(Items.ITEMS.Key)
                     .child(item.id)
-                    .child(Firebase.Items.ITEM_STOCK.Key).setValue(item.stock)
+                    .child(Items.ITEM_STOCK.Key).setValue(item.stock)
                    .addOnCompleteListener {
                         if(!it.isSuccessful)
                             Toast.makeText(context,it.exception.toString(),Toast.LENGTH_LONG).show()
@@ -256,9 +262,9 @@ abstract class Firebase {
 
         fun makePurchase(fragment: Fragment,address:String,navigationID:Int  ) {
             val ref = FirebaseDatabase.getInstance()
-                    .getReference(Firebase.Users.CUSTOMER.Key)
+                    .getReference(Users.CUSTOMER.Key)
                     .child(User.getId(fragment.requireContext()) as String)
-                    .child(Firebase.Users.USER_CART_ID.Key)
+                    .child(Users.USER_CART_ID.Key)
 
             ref.child(Cart.getCartId(fragment.requireContext()) as String)
                     .setValue(address)
@@ -268,7 +274,7 @@ abstract class Firebase {
                             Cart.setCartId(fragment.requireContext(),key)
                             tag("new key").e(key)
                           ref.child(key)
-                                    .setValue(Firebase.Carts.NOT_DELIVERED).addOnCompleteListener {
+                                    .setValue(Carts.NOT_DELIVERED.Key).addOnCompleteListener {
                                       if(it.isSuccessful){
                                           Toast.makeText(fragment.requireContext(),"Order made successfully",Toast.LENGTH_LONG).show()
                                           fragment.findNavController().navigate(navigationID)
@@ -280,7 +286,7 @@ abstract class Firebase {
                     }
 
         }
-    }
+    } 
 
     enum class Items(val Key: String){
         ITEMS("Items"),
