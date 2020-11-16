@@ -3,9 +3,7 @@ package com.example.shoppingapp
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import com.example.shoppingapp.util.CartListener
-import com.example.shoppingapp.util.OpenFragment
+import com.example.shoppingapp.util.CartNotifier
 import timber.log.Timber.tag
 
 class Cart {
@@ -36,7 +34,7 @@ class Cart {
         fun notifyUpdate(){
             tag("$tag notifier1").d("check")
             if(listenerContext!=null){
-                val notifier=(listenerContext) as CartListener
+                val notifier=(listenerContext) as CartNotifier
                 notifier.notifyChange()
             }
             tag("$tag notifier2").d("check")

@@ -8,59 +8,82 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContextCompat
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.shoppingapp.R
+import com.example.shoppingapp.util.MapNotifier
 import com.example.shoppingapp.util.Permissions
 import com.example.shoppingapp.util.UpdateUI
 import com.example.shoppingapp_customer.util.Map
 import com.here.sdk.core.GeoCoordinates
-import com.here.sdk.mapviewlite.MapViewLite
+import com.here.sdk.gestures.TapListener
+import com.here.sdk.search.Place
 import kotlinx.android.synthetic.customer.fragment_location_screen.*
+import timber.log.Timber.e
 
-class LocationScreen : Fragment(), UpdateUI {
 
-    var imgLocate: ImageView? = null
-    var mapView: MapViewLite? = null
-    var map: Map? = null
-    var locationManager: LocationManager? = null
-    var locationListener: LocationListener? = null
-    var geoCoordinates: GeoCoordinates? = null
+open class LocationScreen : Fragment(), UpdateUI, MapNotifier {
+    lateinit var map: Map
+    lateinit var adapter:ArrayAdapter<String>
+    private lateinit var locationManager: LocationManager
+    private lateinit var locationListener: LocationListener
+    lateinit var geoCoordinates: GeoCoordinates
+    var searchResult: List<Place?>? =null
+    lateinit var listener:AdapterView.OnItemClickListener
+    private val list= mutableListOf<String?>()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Map.setMapCredentials(context)
+        Map.setMapCredentials(requireContext())
         return inflater.inflate(R.layout.fragment_location_screen, container, false)
     }
 
-    fun BindView() {
-//        txt_location_change = view!!.findViewById(R.id.location_change_txt)
-        imgLocate = requireView().findViewById(R.id.get_location_img)
-        mapView = requireView().findViewById(R.id.map_lsf)
-    }
-
-    @SuppressLint("MissingPermission")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        BindView()
-        mapView!!.onCreate(savedInstanceState)
-        map = Map(context, mapView, this)
-        map!!.loadMapScene()
-        imgLocate!!.setOnClickListener {
-            requestPermission1()
+        map_lsf.onCreate(savedInstanceState)
+
+        map = Map(requireContext(), map_lsf, this)
+        map.loadMapScene()
+
+        adapter=ArrayAdapter<String>(requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                list)
+        et_search_lsf.setAdapter(adapter)
+
+        listener= AdapterView.OnItemClickListener { _, _, position, _ ->
+               map.cameraToAddress(searchResult!![position]?.geoCoordinates!!)
+            //val selectedGeo
+//            map.markLocation(selectedGeo)
+        }
+
+
+        map_lsf.gestures.tapListener = TapListener {
+                val geoCoordinates = map_lsf.camera.viewToGeoCoordinates(it);
+                map.markLocation(geoCoordinates)
+        }
+        et_search_lsf.onItemClickListener=listener
+
+        img_locate_lsf.setOnClickListener {
+//            requestPermission1()
             locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            locationManager!!.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 500f, locationListener!!)
-            locationManager!!.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 500f, locationListener!!)
+
+            if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                        Permissions.REQUEST_LOCATION.get)
+            }else
+                getLocation()
         }
         locationListener = object : LocationListener {
             override fun onLocationChanged(location: Location) {
                 geoCoordinates = GeoCoordinates(location.latitude, location.longitude)
-                map!!.getAddressForCoordinates(geoCoordinates)
+                map.getCurrentLocation(geoCoordinates)
             }
 
             override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
@@ -70,43 +93,67 @@ class LocationScreen : Fragment(), UpdateUI {
         img_back_lsf.setOnClickListener {
             requireActivity().onBackPressed()
         }
+        img_search_lsf.setOnClickListener {
+            val geo=GeoCoordinates(25.5870306, 30.3655002)
+            val text=et_search_lsf.text.toString()
+            if(text.isBlank()) return@setOnClickListener
+            map.searchLocation(text, geo)
+        }
 
-//        txt_skip_cksf.setOnClickListener {  it.findNavController().navigate(R.id.action_locationScreen_to_shippingFragment) }
+    }
+
+    @SuppressLint("MissingPermission")
+    fun getLocation(){
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                10000,
+                500f,
+                locationListener)
+
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+                10000,
+                500f,
+                locationListener)
+
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == Permissions.REQUEST_LOCATION.get) {
+        e("request permission")
+        if ((requestCode == Permissions.REQUEST_LOCATION.get)) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(context, "All good", Toast.LENGTH_SHORT).show()
+                e("permission granted")
+                getLocation()
             }
+            else
+                e("permission denied")
         }
-    }
-
-    private fun requestPermission1() {
-        if (ContextCompat.checkSelfPermission(requireContext(),
-                        Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(requireContext(),
-                        Manifest.permission.ACCESS_COARSE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    Permissions.REQUEST_LOCATION.get)
-            return
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        mapView!!.onResume()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mapView!!.onDestroy()
     }
 
     override fun update(address: String) {
         et_search_lsf.setText(address)
+    }
+
+    override fun notifyChange(places: List<Place?>?) {
+        searchResult=places
+        list.clear()
+        searchResult?.forEach{ it ->
+            list.add(it?.title)
+        }
+        adapter=ArrayAdapter<String>(requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                list)
+
+        et_search_lsf.setAdapter(adapter)
+        adapter.notifyDataSetChanged()
+    }
+
+    override fun onDestroy() {
+        map_lsf.onDestroy()
+        super.onDestroy()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        map_lsf.onResume()
     }
 }

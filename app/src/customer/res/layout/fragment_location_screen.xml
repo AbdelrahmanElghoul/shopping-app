@@ -46,11 +46,13 @@
     app:layout_constraintEnd_toEndOf="@id/map_lsf"
     android:id="@+id/layout_search_location_lsf"
     android:layout_height="wrap_content">
-    <EditText
+    <AutoCompleteTextView
         android:layout_width="0dp"
         android:layout_weight="1"
         android:inputType="text"
+        android:dropDownAnchor="@id/layout_search_location_lsf"
         android:hint="enter location"
+        android:completionThreshold="1"
         android:textSize="@dimen/_12ssp"
         android:id="@+id/et_search_lsf"
         android:layout_height="wrap_content"
@@ -58,7 +60,7 @@
         />
     <ImageView
         android:layout_width="wrap_content"
-        android:id="@+id/img_search_lsg"
+        android:id="@+id/img_search_lsf"
         android:paddingHorizontal="@dimen/average_margin_padding"
         android:layout_height="match_parent"
         android:src="@drawable/search_img"/>
@@ -86,7 +88,7 @@
         android:background="@drawable/round_background"
         android:elevation="@dimen/_2sdp"
         android:clickable="true"
-        android:id="@+id/get_location_img"
+        android:id="@+id/img_locate_lsf"
         app:layout_constraintBottom_toBottomOf="@id/map_lsf"
         app:layout_constraintEnd_toEndOf="@id/map_lsf"
         android:layout_margin="@dimen/high_margin_padding"

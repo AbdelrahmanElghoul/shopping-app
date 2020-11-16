@@ -1,5 +1,6 @@
 package com.example.shoppingapp_customer.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,17 +12,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shoppingapp.Cart
 import com.example.shoppingapp.CartItem
 import com.example.shoppingapp.R
-import com.example.shoppingapp.util.CartListener
+import com.example.shoppingapp.util.CartNotifier
 import com.example.shoppingapp.util.Firebase
 import com.example.shoppingapp.util.UpdateUI
 import com.example.shoppingapp_customer.adapters.CartAdapter
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.customer.activity_navigation.*
 import kotlinx.android.synthetic.customer.fragment_cart_screen.*
 import timber.log.Timber.e
 import timber.log.Timber.tag
 
-class CartScreen : Fragment(),UpdateUI,CartListener {
+class CartScreen : Fragment(),UpdateUI,CartNotifier {
 
     lateinit var ref:DatabaseReference
     private lateinit var cartAdapter: CartAdapter
@@ -122,5 +122,7 @@ class CartScreen : Fragment(),UpdateUI,CartListener {
         ref.removeEventListener(childEventListener)
         super.onDestroyView()
     }
+
+
 
 }

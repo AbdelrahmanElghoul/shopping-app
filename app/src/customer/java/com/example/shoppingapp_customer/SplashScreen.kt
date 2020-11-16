@@ -12,6 +12,7 @@ import com.example.shoppingapp_customer.navigation.NavigationActivity
 import com.example.shoppingapp_customer.register.RegisterActivity
 import timber.log.Timber
 import timber.log.Timber.e
+import timber.log.Timber.tag
 
 
 class SplashScreen : AppCompatActivity() {
@@ -23,6 +24,7 @@ class SplashScreen : AppCompatActivity() {
         Timber.plant(Timber.DebugTree())
 
         Handler(Looper.getMainLooper()).postDelayed({
+            tag("UserID").e("${User.getId(this)}")
             if (User.getId(this) == null) {
                 startActivity(Intent(this, RegisterActivity::class.java))
                 finish()
