@@ -10,6 +10,7 @@
         android:name="com.example.shoppingapp_customer.fragments.DescriptionScreen"
         android:label="fragment_description_screen"
         tools:layout="@layout/fragment_description_screen" />
+
     <fragment
         android:id="@+id/homeScreen"
         android:name="com.example.shoppingapp_customer.fragments.HomeScreen"
@@ -17,7 +18,10 @@
         tools:layout="@layout/fragment_home_screen" >
         <action
             android:id="@+id/action_homeScreen_to_itemsScreen"
-            app:destination="@id/itemsScreen" >
+            app:destination="@id/itemsScreen"
+            app:enterAnim="@anim/slide_l2r"
+            
+            >
             <argument
                 android:name="@string/SELECTED_CATEGORY_TAG"
                 app:argType="integer"
@@ -26,6 +30,8 @@
         </action>
         <action
             android:id="@+id/action_homeScreen_to_cartScreen"
+            app:enterAnim="@anim/slide_l2r"
+            
             app:destination="@id/cartScreen" />
     </fragment>
     <fragment
@@ -35,6 +41,8 @@
         tools:layout="@layout/fragment_items_screen" >
         <action
             android:id="@+id/action_itemsScreen_to_descriptionScreen"
+            app:enterAnim="@anim/slide_l2r"
+            
             app:destination="@id/descriptionScreen" >
             <argument
                 android:name="@string/PASS_ITEM_ID_KEY"
@@ -50,6 +58,8 @@
         tools:layout="@layout/fragment_location_screen" >
         <action
             android:id="@+id/action_locationScreen_to_homeScreen"
+            app:enterAnim="@anim/slide_l2r"
+            
             app:destination="@id/homeScreen" />
     </fragment>
     <fragment
@@ -59,6 +69,8 @@
         tools:layout="@layout/fragment_cart_screen" >
         <action
             android:id="@+id/action_cartScreen_to_locationScreen"
+            app:enterAnim="@anim/slide_l2r"
+            
             app:destination="@id/locationScreen" />
     </fragment>
 </navigation>

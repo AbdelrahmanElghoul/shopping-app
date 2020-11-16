@@ -6,9 +6,6 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <item name="android:fragmentSharedElementReturnTransition">@transition/custom_shared_element_transition</item>
-        <item name="android:fragmentSharedElementEnterTransition">@transition/custom_shared_element_transition</item>
-
         <!-- make app always portrait-->
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowContentTransitions">true</item>

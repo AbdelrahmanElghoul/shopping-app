@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/layout_ckdl"
+    android:paddingHorizontal="@dimen/average_margin_padding"
+    android:paddingTop="@dimen/average_margin_padding"
+    android:paddingBottom="@dimen/high_margin_padding"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/semi_circle_view"
+    android:backgroundTint="@color/white"
+    android:elevation="@dimen/default_elevation"
+    android:layout_margin="@dimen/low_margin_padding">
+
+    <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/total_item"
+                android:layout_marginTop="@dimen/low_margin_padding"
+                android:textColor="@color/btn_color"
+                android:id="@+id/txt_total_item_ckdl_"
+                style="@style/Text"
+                app:layout_constraintTop_toBottomOf="@id/txt_total_price_ckdl_"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+    <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2"
+                style="@style/Text"
+                android:id="@+id/txt_item_count_ckdl"
+                app:layout_constraintTop_toTopOf="@id/txt_total_item_ckdl_"
+                app:layout_constraintTop_toBottomOf="@id/txt_total_item_ckdl_"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+    <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/total_price"
+                style="@style/Text"
+                android:layout_marginTop="@dimen/average_margin_padding"
+                android:textColor="@color/btn_color"
+                android:id="@+id/txt_total_price_ckdl_"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_address_ckdl"
+                />
+
+    <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="$ 500"
+                style="@style/Text"
+                android:id="@+id/txt_total_price_ckdl"
+                app:layout_constraintTop_toTopOf="@id/txt_total_price_ckdl_"
+                app:layout_constraintBottom_toBottomOf="@id/txt_total_price_ckdl_"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+    <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:text="Shipping to"
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/txt_shipping_to_ckdl_"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/btn_color"
+                style="@style/Text"
+                android:layout_height="wrap_content"/>
+
+    <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_shipping_to_ckdl_"
+                android:text="Address"
+                android:id="@+id/txt_address_ckdl"
+                android:layout_marginTop="@dimen/low_margin_padding"
+                style="@style/Text"
+                android:layout_height="wrap_content"/>
+
+    <TextView
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/txt_item_count_ckdl"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="cancel"
+                android:id="@+id/txt_cancel_ckdl"
+                android:layout_marginTop="@dimen/extra_margin_padding"
+                android:background="@drawable/semi_circle_view"
+                android:paddingVertical="@dimen/low_margin_padding"
+                android:paddingHorizontal="@dimen/average_margin_padding"
+                android:textSize="@dimen/small_text_size"
+                android:backgroundTint="@color/btn_color"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toStartOf="@id/guideline_ckdl"
+                />
+    <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/txt_cancel_ckdl"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="confirm"
+                android:id="@+id/txt_confirm_ckdl"
+                android:background="@drawable/semi_circle_view"
+                android:paddingVertical="@dimen/low_margin_padding"
+                android:paddingHorizontal="@dimen/average_margin_padding"
+                android:textSize="@dimen/small_text_size"
+                android:backgroundTint="@color/btn_color"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toEndOf="@id/guideline_ckdl"
+                />
+    <androidx.constraintlayout.widget.Guideline
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintGuide_percent="0.5"
+                android:orientation="vertical"
+                android:id="@+id/guideline_ckdl"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

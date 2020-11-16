@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shoppingapp.Item
 import com.example.shoppingapp.User
 import com.example.shoppingapp.util.Firebase
-import com.example.shoppingapp.adapter.ItemsAdapter
 import kotlinx.android.synthetic.customer.fragment_home_screen.*
 
 class HomeScreen : Fragment() {
