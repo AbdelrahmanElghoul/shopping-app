@@ -17,10 +17,12 @@ class NavigationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_navigation)
 
+        val cartID=Cart.getCartId(this) as String
+        tag("key").e(cartID)
         val tag="fb_Navigation"
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference(Firebase.Carts.CART.Key)
-                .child(Cart.getCartId(this) as String)
+                .child(cartID)
 
         myRef.addChildEventListener(object:ChildEventListener{
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {

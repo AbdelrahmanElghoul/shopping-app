@@ -10,7 +10,6 @@
         <item name="android:background">@color/white</item>
     </style>
 
-
     <style name="round_card_view" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSizeTopRight">0dp</item>
@@ -19,4 +18,8 @@
         <item name="cornerSizeBottomLeft">@dimen/_25sdp</item>
     </style>
 
+    <style name="CustomDialogTheme" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 </resources>

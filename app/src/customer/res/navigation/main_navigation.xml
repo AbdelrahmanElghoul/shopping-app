@@ -47,7 +47,11 @@
         android:id="@+id/locationScreen"
         android:name="com.example.shoppingapp_customer.fragments.LocationScreen"
         android:label="fragment_location_screen"
-        tools:layout="@layout/fragment_location_screen" />
+        tools:layout="@layout/fragment_location_screen" >
+        <action
+            android:id="@+id/action_locationScreen_to_homeScreen"
+            app:destination="@id/homeScreen" />
+    </fragment>
     <fragment
         android:id="@+id/cartScreen"
         android:name="com.example.shoppingapp_customer.fragments.CartScreen"

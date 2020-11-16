@@ -6,6 +6,8 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.shoppingapp.*
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -250,6 +252,33 @@ abstract class Firebase {
                         if(!it.isSuccessful)
                             Toast.makeText(context,it.exception.toString(),Toast.LENGTH_LONG).show()
                     }
+        }
+
+        fun makePurchase(fragment: Fragment,address:String  ) {
+            val ref = FirebaseDatabase.getInstance()
+                    .getReference(Firebase.Users.CUSTOMER.Key)
+                    .child(User.getId(fragment.requireContext()) as String)
+                    .child(Firebase.Users.USER_CART_ID.Key)
+
+            ref.child(Cart.getCartId(fragment.requireContext()) as String)
+                    .setValue(address)
+                    .addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            val key=ref.push().key.toString()
+                            Cart.setCartId(fragment.requireContext(),key)
+                            tag("new key").e(key)
+                          ref.child(key)
+                                    .setValue(Firebase.Carts.NOT_DELIVERED).addOnCompleteListener {
+                                      if(it.isSuccessful){
+                                          Toast.makeText(fragment.requireContext(),"Order made successfully",Toast.LENGTH_LONG).show()
+                                          fragment.findNavController().navigate(R.id.action_cartScreen_to_locationScreen)
+                                      }
+                                  }
+
+                        } else
+                            Toast.makeText(fragment.requireContext(), it.exception.toString(), Toast.LENGTH_LONG).show()
+                    }
+
         }
     }
 

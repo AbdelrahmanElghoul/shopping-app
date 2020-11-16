@@ -22,7 +22,12 @@ import timber.log.Timber.*
 class Map(private val context: Context, private val mapView: MapViewLite, fragment: Fragment) {
     private lateinit var searchEngine: SearchEngine
     var reverseGeocodingOptions: SearchOptions? = null
+    val defaultGeoCoordinates=GeoCoordinates(25.5870306, 30.3655002)
     var mapOverlay: MapOverlay<View>? = null
+    set(value) {
+        if (mapOverlay != null) mapView.removeMapOverlay(mapOverlay!!)
+        field = value
+    }
     var updateUI: UpdateUI = fragment as UpdateUI
     private var mapNotifier = fragment as MapNotifier
     var zoomlvl = 14.0
@@ -36,8 +41,8 @@ class Map(private val context: Context, private val mapView: MapViewLite, fragme
         mapView.setWatermarkPosition(WatermarkPlacement.BOTTOM_CENTER, 0)
         mapView.mapScene.loadScene(MapStyle.NORMAL_DAY) {
             if (it == null) {
-               val geo=GeoCoordinates(25.5870306, 30.3655002)
-                mapView.camera.target = GeoCoordinates(52.530932, 13.384915)
+
+                mapView.camera.target = defaultGeoCoordinates
                 mapView.camera.zoomLevel = zoomlvl
             } else {
                 e("Loading map failed: mapError:  $it")
@@ -47,13 +52,15 @@ class Map(private val context: Context, private val mapView: MapViewLite, fragme
 
     fun searchLocation(queryString: String, geoCoordinates: GeoCoordinates){
         val tag="Search location"
+
         val query = TextQuery(queryString, geoCoordinates)
         val maxItems = 100
         val options = SearchOptions(LanguageCode.AR_SA, maxItems)
         var error=false
         searchEngine.search(query, options) { searchError: SearchError?, list: List<Place>? ->
             if (searchError != null) {
-                tag(tag).e("$searchError")
+                tag(tag).e("${searchError.value}")
+                Toast.makeText(context,"No Result found try different keywords",Toast.LENGTH_LONG).show()
                 error=true
                 return@search
             }
@@ -65,8 +72,6 @@ class Map(private val context: Context, private val mapView: MapViewLite, fragme
     }
     fun getCurrentLocation(geoCoordinates: GeoCoordinates) {
         e("geoX ${geoCoordinates.latitude} geoY ${geoCoordinates.longitude}")
-        if (mapOverlay != null) mapView.removeMapOverlay(mapOverlay!!)
-
         d(geoCoordinates.toString())
         val maxItems = 1
         reverseGeocodingOptions = SearchOptions(LanguageCode.AR_SA, maxItems)
@@ -94,8 +99,7 @@ class Map(private val context: Context, private val mapView: MapViewLite, fragme
         }
     }
     fun cameraToAddress(geoCoordinates: GeoCoordinates) {
-        if (mapOverlay != null) mapView.removeAllViews()
-        d(geoCoordinates.toString())
+                d(geoCoordinates.toString())
         val maxItems = 1
         reverseGeocodingOptions = SearchOptions(LanguageCode.AR_SA, maxItems)
         searchEngine.search(geoCoordinates, reverseGeocodingOptions!!) { searchError: SearchError?, list: List<Place>? ->
@@ -113,7 +117,6 @@ class Map(private val context: Context, private val mapView: MapViewLite, fragme
     }
 
     fun markLocation(geoCoordinates: GeoCoordinates){
-        if (mapOverlay != null) mapView.removeMapOverlay(mapOverlay!!)
         val imageView = ImageView(context)
         imageView.setColorFilter(context.getColor(R.color.btn_color), PorterDuff.Mode.SRC_ATOP)
         imageView.setImageResource(R.drawable.locate_img)

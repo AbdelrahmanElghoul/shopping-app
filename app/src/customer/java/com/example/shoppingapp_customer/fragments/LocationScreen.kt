@@ -13,9 +13,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import com.example.shoppingapp.Cart
 import com.example.shoppingapp.R
+import com.example.shoppingapp.util.Firebase
 import com.example.shoppingapp.util.MapNotifier
 import com.example.shoppingapp.util.Permissions
 import com.example.shoppingapp.util.UpdateUI
@@ -23,6 +26,7 @@ import com.example.shoppingapp_customer.util.Map
 import com.here.sdk.core.GeoCoordinates
 import com.here.sdk.gestures.TapListener
 import com.here.sdk.search.Place
+import kotlinx.android.synthetic.customer.checkout_dialog_layout.view.*
 import kotlinx.android.synthetic.customer.fragment_location_screen.*
 import timber.log.Timber.e
 
@@ -44,7 +48,6 @@ open class LocationScreen : Fragment(), UpdateUI, MapNotifier {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         map_lsf.onCreate(savedInstanceState)
-
         map = Map(requireContext(), map_lsf, this)
         map.loadMapScene()
 
@@ -54,12 +57,12 @@ open class LocationScreen : Fragment(), UpdateUI, MapNotifier {
         et_search_lsf.setAdapter(adapter)
 
         listener= AdapterView.OnItemClickListener { _, _, position, _ ->
-               map.cameraToAddress(searchResult!![position]?.geoCoordinates!!)
-            //val selectedGeo
-//            map.markLocation(selectedGeo)
+            map.cameraToAddress(searchResult!![position]?.geoCoordinates!!)
+            map.markLocation(searchResult!![position]?.geoCoordinates!!)
         }
-
-
+        txt_proceed_lsf.setOnClickListener{
+            proceed()
+        }
         map_lsf.gestures.tapListener = TapListener {
                 val geoCoordinates = map_lsf.camera.viewToGeoCoordinates(it);
                 map.markLocation(geoCoordinates)
@@ -102,7 +105,40 @@ open class LocationScreen : Fragment(), UpdateUI, MapNotifier {
 
     }
 
-    @SuppressLint("MissingPermission")
+    private fun proceed(){
+        if(et_search_lsf.text.isNullOrBlank()) return
+        purchaseDialog()
+    }
+    private fun purchaseDialog() {
+
+        val factory = LayoutInflater.from(requireContext())
+        val alertDialog = AlertDialog.Builder(requireContext(),R.style.CustomDialogTheme)
+        val layoutView: View = factory.inflate(R.layout.checkout_dialog_layout, null)
+        val btnConfirm = layoutView.txt_confirm_ckdl
+        val btnCancel = layoutView.txt_cancel_ckdl
+
+        val txtAddress = layoutView.txt_address_ckdl
+        val txtPrice = layoutView.txt_total_price_ckdl
+        val txtCount = layoutView.txt_item_count_ckdl
+
+        alertDialog.setView(layoutView)
+                .setCancelable(false)
+        val dialog = alertDialog.create()
+
+        txtAddress.text=et_search_lsf.text.toString()
+        txtCount.text= Cart.count.toString()
+        txtPrice.text= Cart.total.toString()
+
+        btnConfirm.setOnClickListener {
+           Firebase.makePurchase(this, et_search_lsf.text.toString())
+        }
+        btnCancel.setOnClickListener { dialog.dismiss() }
+        dialog.show()
+
+}
+
+
+@SuppressLint("MissingPermission")
     fun getLocation(){
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 10000,
@@ -129,8 +165,8 @@ open class LocationScreen : Fragment(), UpdateUI, MapNotifier {
         }
     }
 
-    override fun update(address: String) {
-        et_search_lsf.setText(address)
+    override fun update(text: String?) {
+        et_search_lsf.setText(text)
     }
 
     override fun notifyChange(places: List<Place?>?) {
@@ -147,13 +183,12 @@ open class LocationScreen : Fragment(), UpdateUI, MapNotifier {
         adapter.notifyDataSetChanged()
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
+        super.onDestroyView()
         map_lsf.onDestroy()
-        super.onDestroy()
     }
 
-    override fun onResume() {
-        super.onResume()
-        map_lsf.onResume()
-    }
+
+
+
 }

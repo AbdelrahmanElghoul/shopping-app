@@ -3,8 +3,8 @@
     <solid android:color="@color/app_icon_color" />
 
 
-    <corners android:bottomRightRadius="50dp"
-        android:bottomLeftRadius="50dp"
-        android:topRightRadius="0dp"
-        android:topLeftRadius="0dp"/>
+    <corners android:bottomRightRadius="10dp"
+        android:bottomLeftRadius="10dp"
+        android:topRightRadius="10dp"
+        android:topLeftRadius="10dp"/>
 </shape>

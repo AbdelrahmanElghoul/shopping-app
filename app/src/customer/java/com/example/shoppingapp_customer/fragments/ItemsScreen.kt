@@ -50,7 +50,7 @@ class ItemsScreen : Fragment() {
                 val item=snapshot.getValue(Item::class.java)
                 item?.id=snapshot.key.toString()
                 layout_progressbar_isf.visibility=View.GONE
-                itemList.forEachIndexed{index,mItem->
+                itemList.forEachIndexed{ _, mItem->
                     if(mItem.id==item?.id) {
                        return
                     }

@@ -23,6 +23,7 @@ class SplashScreen : AppCompatActivity() {
         setContentView(R.layout.activity_splash_screen)
         Timber.plant(Timber.DebugTree())
 
+//        Firebase.logout(this)
         Handler(Looper.getMainLooper()).postDelayed({
             tag("UserID").e("${User.getId(this)}")
             if (User.getId(this) == null) {
