@@ -130,7 +130,7 @@ open class LocationScreen : Fragment(), UpdateUI, MapNotifier {
         txtPrice.text= Cart.total.toString()
 
         btnConfirm.setOnClickListener {
-           Firebase.makePurchase(this, et_search_lsf.text.toString())
+           Firebase.makePurchase(this, et_search_lsf.text.toString(),R.id.action_cartScreen_to_locationScreen)
         }
         btnCancel.setOnClickListener { dialog.dismiss() }
         dialog.show()
@@ -187,8 +187,6 @@ open class LocationScreen : Fragment(), UpdateUI, MapNotifier {
         super.onDestroyView()
         map_lsf.onDestroy()
     }
-
-
 
 
 }

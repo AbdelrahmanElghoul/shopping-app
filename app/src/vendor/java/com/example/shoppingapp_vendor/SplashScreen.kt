@@ -11,7 +11,7 @@ import com.example.shoppingapp.R
 import com.example.shoppingapp.User
 import com.example.shoppingapp.util.Firebase
 import com.example.shoppingapp_vendor.register.RegisterActivity
-import com.google.firebase.auth.FirebaseAuth
+
 
 import timber.log.Timber
 import timber.log.Timber.e

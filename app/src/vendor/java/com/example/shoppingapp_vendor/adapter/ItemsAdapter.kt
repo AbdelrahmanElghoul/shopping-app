@@ -1,6 +1,8 @@
-package com.example.shoppingapp.adapter
+package com.example.shoppingapp_vendor.adapter
 
 import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.shoppingapp.Item
 import com.example.shoppingapp.R
+import com.example.shoppingapp_vendor.VendorActivity
 
 class ItemsAdapter(val context: Context,val itemList:List<Item>) : RecyclerView.Adapter<ItemsAdapter.ItemsViewHolder>() {
 
@@ -41,6 +44,14 @@ class ItemsAdapter(val context: Context,val itemList:List<Item>) : RecyclerView.
 //                .apply(RequestOptions.circleCropTransform())
                 .error(R.drawable.default_img)
                 .into(holder.imgIcon)
+        holder.layoutCard.setOnClickListener {
+            val intent= Intent(context,VendorActivity::class.java)
+            val bundle=Bundle()
+            bundle.putParcelable(context.getString(R.string.class_id),itemList[position])
+            intent.putExtras(bundle)
+            context.startActivity(intent)
+        }
+
     }
 
     override fun getItemCount(): Int {

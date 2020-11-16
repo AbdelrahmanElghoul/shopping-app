@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.shoppingapp.Item
 import com.example.shoppingapp.R
 import com.example.shoppingapp.User
 import com.example.shoppingapp.util.Firebase
@@ -33,10 +34,12 @@ class VendorActivity : AppCompatActivity(),UpdateUI {
     private lateinit var database:FirebaseDatabase
     private lateinit var type:String
     private lateinit var key:String
-
+    var item:Item?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vendor)
+        item=intent.getParcelableExtra<Item>(getString(R.string.class_id))
+
         initialiseData()
 
         btn_add_item.setOnClickListener { btnAdd() }
@@ -67,7 +70,26 @@ class VendorActivity : AppCompatActivity(),UpdateUI {
         adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, categoryList.first)
         spinner_category_va.adapter = adapter
 
+        if(item!=null) bindItem()
+
     }
+    private fun bindItem() {
+        key=item?.id!!
+        txt_item_name_va.setText(item?.name)
+        txt_item_price_va.setText(item?.price)
+        txt_item_stock_va.setText(item?.stock)
+        spinner_category_va.setSelection(item?.categoryId?.toInt()!!)
+        txt_item_description_va.setText(item?.description)
+        txt_manufacture_va.setText(item?.manufacture)
+
+        Glide.with(this)
+                .load(item?.icon)
+                .error(R.drawable.default_img)
+                .into(img2_item_icon_va)
+
+        btn_add_item.text="update"
+    }
+
     private fun validateViews(): Boolean {
         var isValid = true
         if (txt_item_description_va.text.isNullOrEmpty()) {
@@ -94,21 +116,24 @@ class VendorActivity : AppCompatActivity(),UpdateUI {
         if (!validateViews()) return
         progress_bar_va.visibility=View.VISIBLE
         val itemMap = HashMap<String, String>()
+
         itemMap[Firebase.Items.ITEM_NAME.Key] = txt_item_name_va.text?.trim().toString()
         itemMap[Firebase.Items.ITEM_PRICE.Key] = txt_item_price_va.text?.trim().toString()
-//        if (itemUri != null) itemMap[Firebase.Items.ITEM_IMG_URL.Key] = itemUri.toString()
+
         itemMap[Firebase.Items.ITEM_STOCK.Key] = txt_item_stock_va.text?.trim().toString()
         itemMap[Firebase.Items.ITEMS_CATEGORY.Key] = spinner_category_va.selectedItemPosition.toString()
         itemMap[Firebase.Items.ITEM_DESCRIPTION.Key] = txt_item_description_va.text?.trim().toString()
         itemMap[Firebase.Items.ITEM_MANUFACTURE.Key] = txt_manufacture_va.text?.trim().toString()
         itemMap[Firebase.Items.ITEM_VENDOR_ID.Key] = User.getId(this).toString()
 
+        if (item?.icon  != null) itemMap[Firebase.Items.ITEM_IMG_URL.Key] = item?.icon!!
         database.getReference(type)
                 .child(key)
                 .setValue(itemMap)
                 .addOnSuccessListener {
                     //item added
-                    if (itemUri != null) {
+                    if (itemUri != null)
+                    {
                         //adding img to storage
                         val mStorageRef = FirebaseStorage.getInstance().reference
                         val ref: StorageReference = mStorageRef.child("${type}/${key}.jpg")
@@ -134,6 +159,8 @@ class VendorActivity : AppCompatActivity(),UpdateUI {
                             } else error(task.exception!!)
                         }
                     }
+                    else
+                        super.onBackPressed()
                 }
                 .addOnFailureListener {error(it)}
     }

@@ -254,7 +254,7 @@ abstract class Firebase {
                     }
         }
 
-        fun makePurchase(fragment: Fragment,address:String  ) {
+        fun makePurchase(fragment: Fragment,address:String,navigationID:Int  ) {
             val ref = FirebaseDatabase.getInstance()
                     .getReference(Firebase.Users.CUSTOMER.Key)
                     .child(User.getId(fragment.requireContext()) as String)
@@ -271,7 +271,7 @@ abstract class Firebase {
                                     .setValue(Firebase.Carts.NOT_DELIVERED).addOnCompleteListener {
                                       if(it.isSuccessful){
                                           Toast.makeText(fragment.requireContext(),"Order made successfully",Toast.LENGTH_LONG).show()
-                                          fragment.findNavController().navigate(R.id.action_cartScreen_to_locationScreen)
+                                          fragment.findNavController().navigate(navigationID)
                                       }
                                   }
 

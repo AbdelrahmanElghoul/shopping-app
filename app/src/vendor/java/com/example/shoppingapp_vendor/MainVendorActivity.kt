@@ -16,10 +16,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.shoppingapp.Item
 import com.example.shoppingapp.R
 import com.example.shoppingapp.User
-import com.example.shoppingapp.adapter.ItemsAdapter
+import com.example.shoppingapp_vendor.adapter.ItemsAdapter
 import com.example.shoppingapp.util.Firebase
 
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

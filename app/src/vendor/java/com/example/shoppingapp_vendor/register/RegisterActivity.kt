@@ -1,9 +1,15 @@
 package com.example.shoppingapp_vendor.register
 
+import android.Manifest
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import com.example.shoppingapp.R
 import com.example.shoppingapp.util.OpenFragment
+import com.example.shoppingapp.util.Permissions
+import timber.log.Timber
 
 class RegisterActivity : AppCompatActivity(),OpenFragment {
     override fun onCreate(savedInstanceState: Bundle?) {
