@@ -2,6 +2,7 @@ package com.example.shoppingapp_customer.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.ActionBar
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
@@ -112,8 +113,13 @@ open class LocationScreen : Fragment(), UpdateUI, MapNotifier {
     private fun purchaseDialog() {
 
         val factory = LayoutInflater.from(requireContext())
-        val alertDialog = AlertDialog.Builder(requireContext(),R.style.CustomDialogTheme)
+        val alertDialog = AlertDialog.Builder(requireContext(), R.style.CustomDialogTheme)
         val layoutView: View = factory.inflate(R.layout.checkout_dialog_layout, null)
+
+        layoutView.layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+        )
         val btnConfirm = layoutView.txt_confirm_ckdl
         val btnCancel = layoutView.txt_cancel_ckdl
 
@@ -124,6 +130,7 @@ open class LocationScreen : Fragment(), UpdateUI, MapNotifier {
         alertDialog.setView(layoutView)
                 .setCancelable(false)
         val dialog = alertDialog.create()
+
 
         txtAddress.text=et_search_lsf.text.toString()
         txtCount.text= Cart.count.toString()
@@ -137,11 +144,14 @@ open class LocationScreen : Fragment(), UpdateUI, MapNotifier {
         }
         btnCancel.setOnClickListener { dialog.dismiss() }
         dialog.show()
-
+        dialog.window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        
 }
 
-
-@SuppressLint("MissingPermission")
+    @SuppressLint("MissingPermission")
     fun getLocation(){
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 10000,
@@ -190,6 +200,5 @@ open class LocationScreen : Fragment(), UpdateUI, MapNotifier {
         super.onDestroyView()
         map_lsf.onDestroy()
     }
-
 
 }
