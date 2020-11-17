@@ -13,9 +13,15 @@
         android:id="@+id/appbar_va"
         android:gravity="center"
         android:layout_height="?actionBarSize"
-        android:layout_marginBottom="@dimen/average_margin_padding"
-        android:paddingStart="@dimen/high_margin_padding">
+        android:layout_marginBottom="@dimen/low_margin_padding"
+        >
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/back_img"
+            android:paddingHorizontal="@dimen/average_margin_padding"
+            android:id="@+id/img_back_va"/>
         <TextView
             style="@style/header_Text"
             android:layout_width="0dp"

@@ -47,7 +47,9 @@ class VendorActivity : AppCompatActivity(),UpdateUI {
         img2_item_icon_va.setOnClickListener {
           getImageFromGallery()
         }
-
+        img_back_va.setOnClickListener {
+            onBackPressed()
+        }
         spinner_category_va?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 Glide.with(this@VendorActivity)
