@@ -87,7 +87,9 @@ open class LocationScreen : Fragment(), UpdateUI, MapNotifier {
         locationListener = object : LocationListener {
             override fun onLocationChanged(location: Location) {
                 geoCoordinates = GeoCoordinates(location.latitude, location.longitude)
-                map.getCurrentLocation(geoCoordinates)
+//                map.getCurrentLocation(geoCoordinates)
+//                map.cameraToAddress(geoCoordinates)
+                map.markLocation(geoCoordinates)
             }
 
             override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}

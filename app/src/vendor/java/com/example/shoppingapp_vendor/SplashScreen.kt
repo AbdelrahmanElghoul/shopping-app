@@ -32,10 +32,12 @@ class SplashScreen : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
 
             e(User.getId(this))
-            val intent = if (User.getId(this)==null)
+            val intent = if (User.getId(this) == null)
                 Intent(this, RegisterActivity::class.java)
-            else
+            else {
                 (Intent(this, MainVendorActivity::class.java))
+            }
+//            if(User.getId(this)!=null) Firebase.logout(this)
             startActivity(intent)
             finish()
         }, 1500)

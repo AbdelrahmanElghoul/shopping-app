@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.TransitionDrawable
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +26,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.vendor.activity_main_vendor.*
 import timber.log.Timber
+import timber.log.Timber.e
 
 
 class MainVendorActivity : AppCompatActivity() {
@@ -33,8 +35,8 @@ class MainVendorActivity : AppCompatActivity() {
     var itemList = mutableListOf<Item>()
     private var isFABOpen = false
     private lateinit var transitionDrawable: TransitionDrawable
-    private val fabHandler = Handler()
-    private val progressbarHandler = Handler()
+    private val fabHandler = Handler(Looper.getMainLooper())
+    private val progressbarHandler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -136,6 +138,7 @@ class MainVendorActivity : AppCompatActivity() {
                 progress_bar_amv.visibility=View.GONE
                 Toast.makeText(this,"no Item to display",Toast.LENGTH_LONG).show()
             }
+          e("handler")
         },15000)
         transitionDrawable = TransitionDrawable(arrayOf(
                 bitmapDrawableFromVector(this, R.drawable.more_img),
@@ -153,6 +156,10 @@ class MainVendorActivity : AppCompatActivity() {
         rv_items_amv.adapter = itemAdapter
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        e("onRestart")
+    }
     private fun showFABMenu() {
         isFABOpen = true
         layout_fab_add_item_amv.animate().translationY(-resources.getDimension(R.dimen.standard_55)).alpha(1f)
@@ -185,8 +192,14 @@ class MainVendorActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
-        super.onStop()
+        e("onStop")
         progressbarHandler.removeCallbacksAndMessages(null)
+        super.onStop()
+    }
+
+    override fun onPause() {
+        e("onPause")
+        super.onPause()
     }
 
 }

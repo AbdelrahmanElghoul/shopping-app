@@ -230,21 +230,21 @@
         style="@style/TextError"
         app:layout_constraintBottom_toBottomOf="parent"
         />
-  <LinearLayout
-    android:layout_width="match_parent"
-    android:gravity="center"
-    android:visibility="gone"
-      android:elevation="@dimen/_10sdp"
-    android:id="@+id/progress_bar_va"
-    android:background="@color/unselectedIcon"
-    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:elevation="@dimen/_10sdp"
+        android:id="@+id/progress_bar_va"
+        android:background="@color/unselectedIcon"
+        android:layout_height="match_parent">
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminateTint="@color/red"
-        android:backgroundTint="@color/dark_filter"
-        />
-</LinearLayout>
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/red"
+            android:backgroundTint="@color/dark_filter"
+            />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

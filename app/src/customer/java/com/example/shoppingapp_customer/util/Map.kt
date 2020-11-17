@@ -73,7 +73,7 @@ class Map(private val context: Context, private val mapView: MapViewLite, fragme
     fun getCurrentLocation(geoCoordinates: GeoCoordinates) {
         e("geoX ${geoCoordinates.latitude} geoY ${geoCoordinates.longitude}")
         d(geoCoordinates.toString())
-        val maxItems = 1
+        val maxItems = 30
         reverseGeocodingOptions = SearchOptions(LanguageCode.AR_SA, maxItems)
         searchEngine.search(geoCoordinates, reverseGeocodingOptions!!) { searchError: SearchError?, list: List<Place>? ->
             if (searchError != null) {
@@ -92,6 +92,7 @@ class Map(private val context: Context, private val mapView: MapViewLite, fragme
 //            cameraAnimator.moveTo(geoCoordinates, 14);
 
             mapView.camera.target = geoCoordinates
+            mapView.camera.target = geoCoordinates
 
             // If error is null, list is guaranteed to be not empty.
             updateUI.update(list!![0].address.addressText)
@@ -109,7 +110,7 @@ class Map(private val context: Context, private val mapView: MapViewLite, fragme
             }
 
             mapView.camera.target = geoCoordinates
-            mapView.camera.zoomLevel = 15.0
+            mapView.camera.zoomLevel = zoomlvl
 
             updateUI.update(list!![0].address.addressText)
             tag("Reverse address").d(list[0].address.addressText)
@@ -123,7 +124,7 @@ class Map(private val context: Context, private val mapView: MapViewLite, fragme
         mapOverlay = MapOverlay(imageView, geoCoordinates)
         mapView.addMapOverlay(mapOverlay!!)
 
-        getCurrentLocation(geoCoordinates)
+        cameraToAddress(geoCoordinates)
     }
 
     companion object {

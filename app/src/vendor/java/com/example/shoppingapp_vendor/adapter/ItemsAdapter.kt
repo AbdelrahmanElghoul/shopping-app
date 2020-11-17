@@ -1,5 +1,6 @@
 package com.example.shoppingapp_vendor.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -50,6 +51,7 @@ class ItemsAdapter(val context: Context,val itemList:List<Item>) : RecyclerView.
             bundle.putParcelable(context.getString(R.string.class_id),itemList[position])
             intent.putExtras(bundle)
             context.startActivity(intent)
+            (context as Activity).finish()
         }
 
     }

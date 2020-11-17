@@ -79,7 +79,6 @@ abstract class Firebase {
             exitProcess(0)
         }
 
-
         fun register(fragment: Fragment, userMap: HashMap<String, String>, uri: Uri?, type: String, intent: Intent) {
             this.type = type
             this.uri = uri

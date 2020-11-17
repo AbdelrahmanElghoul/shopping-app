@@ -35,10 +35,11 @@ class VendorActivity : AppCompatActivity(),UpdateUI {
     private lateinit var type:String
     private lateinit var key:String
     var item:Item?=null
+    val tag="fb_va"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vendor)
-        item=intent.getParcelableExtra<Item>(getString(R.string.class_id))
+        item=intent.getParcelableExtra(getString(R.string.class_id))
 
         initialiseData()
 
@@ -84,7 +85,7 @@ class VendorActivity : AppCompatActivity(),UpdateUI {
         txt_item_description_va.setText(item?.description)
         txt_manufacture_va.setText(item?.manufacture)
 
-        Glide.with(this)
+        Glide.with(this@VendorActivity)
                 .load(item?.icon)
                 .error(R.drawable.default_img)
                 .into(img2_item_icon_va)
@@ -126,7 +127,7 @@ class VendorActivity : AppCompatActivity(),UpdateUI {
         itemMap[Firebase.Items.ITEMS_CATEGORY.Key] = spinner_category_va.selectedItemPosition.toString()
         itemMap[Firebase.Items.ITEM_DESCRIPTION.Key] = txt_item_description_va.text?.trim().toString()
         itemMap[Firebase.Items.ITEM_MANUFACTURE.Key] = txt_manufacture_va.text?.trim().toString()
-        itemMap[Firebase.Items.ITEM_VENDOR_ID.Key] = User.getId(this).toString()
+        itemMap[Firebase.Items.ITEM_VENDOR_ID.Key] = User.getId(this@VendorActivity).toString()
 
         if (item?.icon  != null) itemMap[Firebase.Items.ITEM_IMG_URL.Key] = item?.icon!!
         database.getReference(type)
@@ -134,39 +135,45 @@ class VendorActivity : AppCompatActivity(),UpdateUI {
                 .setValue(itemMap)
                 .addOnSuccessListener {
                     //item added
-                    if (itemUri != null)
-                    {
+                    if (itemUri != null){
                         //adding img to storage
                         val mStorageRef = FirebaseStorage.getInstance().reference
                         val ref: StorageReference = mStorageRef.child("${type}/${key}.jpg")
-
                         ref.putFile(itemUri!!).continueWithTask { task ->
                             if (!task.isSuccessful) {
                                 task.exception?.let {
+                                    tag("$tag throw").e(it)
                                     throw it
                                 }
                             }
                             ref.downloadUrl
-                        }.addOnCompleteListener { task ->
+                        }
+                                .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
+                                tag("$tag img uploaded").e("successful")
                                 //adding img url to database
                                 FirebaseDatabase.getInstance()
                                         .getReference(type)
                                         .child(key)
                                         .child(Firebase.Items.ITEM_IMG_URL.Key)
-                                        .setValue(task.result.toString()).addOnFailureListener { error(it) }
+                                        .setValue(task.result.toString())
                                         .addOnSuccessListener {
-                                            super.onBackPressed()
+                                            tag("$tag img url").e("task.result.toString()")
+                                            onBackPressed()
                                         }
-                            } else error(task.exception!!)
+                            }
+                            else error("task.exception")
                         }
                     }
-                    else
-                        super.onBackPressed()
+                    else {
+                        e("else")
+                        onBackPressed()
+                    }
                 }
                 .addOnFailureListener {error(it)}
     }
     private fun getImageFromGallery() {
+        tag("activity").e("${callingActivity}")
         val intent = Intent()
         intent.action = Intent.ACTION_GET_CONTENT
         intent.type = "image/*"
@@ -175,6 +182,7 @@ class VendorActivity : AppCompatActivity(),UpdateUI {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        tag("activity").e("${callingActivity}")
         if (requestCode == RequestCode.GET_IMAGE_RESULT.getValue && resultCode == RESULT_OK && data != null) {
             itemUri = data.data
             Glide.with(this)
@@ -191,14 +199,16 @@ class VendorActivity : AppCompatActivity(),UpdateUI {
     }
 
     private fun error(it: Exception){
-        Timber.e(it)
+        e(it)
         update(it.toString())
         Toast.makeText(this, "error occurred\n$it.message", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onStop() {
-        super.onStop()
-        e("onStop")
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity(Intent(this,MainVendorActivity::class.java))
+        finish()
     }
 }
 
